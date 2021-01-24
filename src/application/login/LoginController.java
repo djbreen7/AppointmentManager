@@ -1,6 +1,5 @@
 package application.login;
 
-import application.BaseSceneController;
 import implementations.UserDaoImpl;
 import interfaces.UserDao;
 import javafx.event.ActionEvent;
@@ -8,10 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import managers.SceneManager;
 import managers.UserManager;
 
-public class LoginController extends BaseSceneController {
+public class LoginController {
     private UserDao userDao = new UserDaoImpl();
+    private SceneManager sceneManager = SceneManager.getInstance();
 
     @FXML
     private TextField userNameField;
@@ -32,7 +33,7 @@ public class LoginController extends BaseSceneController {
 
         if (isSuccess) {
             userManager.setCurrentUser(user);
-            goToScene(MAIN_PATH);
+            sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
         }
     }
 }
