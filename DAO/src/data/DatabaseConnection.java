@@ -11,25 +11,22 @@ public class DatabaseConnection {
     private static final String password="53688996744";
     private static final String driver="com.mysql.cj.jdbc.Driver";
 
-    static Connection conn;
+    public static Connection connection;
 
     public static void makeConnection()
     {
         try {
             Class.forName(driver);
-            conn=(Connection) DriverManager.getConnection(DB_URL,username,password);
+            connection = DriverManager.getConnection(DB_URL,username,password);
             System.out.println("Connection Successful");
-
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void closeConnection() {
         try {
-            conn.close();
+            connection.close();
             System.out.println("Connection Closed");
         } catch (Exception e) {
             System.out.println(e.getMessage());

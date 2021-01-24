@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class User extends BaseEntity {
     private int userId;
