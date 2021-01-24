@@ -1,9 +1,9 @@
 package implementations;
 
+import calendar.CalendarUtils;
 import data.DatabaseConnection;
 import interfaces.UserDao;
 import model.User;
-import utilities.CalendarUtils;
 
 import java.util.List;
 
