@@ -9,7 +9,6 @@ public class AppointmentsController {
     private UserManager userManager;
 
     public void initialize() {
-        System.out.println("Initializing...");
         appointmentDao = new AppointmentDaoImpl();
         userManager = UserManager.getInstance();
 

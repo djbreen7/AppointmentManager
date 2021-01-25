@@ -43,6 +43,5 @@ public class SidebarController {
     void handleCustomersBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
         setActiveButton(customersBtn.getText());
-
     }
 }
