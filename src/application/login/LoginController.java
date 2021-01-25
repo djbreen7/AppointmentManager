@@ -11,8 +11,13 @@ import managers.SceneManager;
 import managers.UserManager;
 
 public class LoginController {
-    private UserDao userDao = new UserDaoImpl();
-    private SceneManager sceneManager = SceneManager.getInstance();
+    private UserDao userDao;
+    private SceneManager sceneManager;
+
+    public void initialize() {
+        userDao = new UserDaoImpl();
+        sceneManager = SceneManager.getInstance();
+    }
 
     @FXML
     private TextField userNameField;

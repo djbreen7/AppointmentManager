@@ -15,17 +15,15 @@ public class SidebarController {
     public void initialize() {
         buttons = Arrays.asList(appointmentsBtn, customersBtn);
         appointmentsBtn.getStyleClass().add("active");
-
     }
 
     private void setActiveButton(String activeButtonText) {
         buttons.forEach(button -> {
-            if (button.getText().equals(activeButtonText)) {
-                button.getStyleClass().add("active");
-                System.out.print(button.getStyleClass());
+            if (!button.getText().equals(activeButtonText)) {
+                button.getStyleClass().remove("active");
                 return;
             }
-            button.getStyleClass().remove("active");
+            button.getStyleClass().add("active");
         });
     };
 
