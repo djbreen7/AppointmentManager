@@ -7,7 +7,15 @@ public class User extends BaseEntity {
     private String userName;
     private String password;
 
-    public User(int userId, String userName, String password, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdatedBy) {
+    public User(
+        int userId,
+        String userName,
+        String password,
+        Calendar createDate,
+        String createdBy,
+        Calendar lastUpdate,
+        String lastUpdatedBy
+    ) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.userId = userId;
         this.userName = userName;

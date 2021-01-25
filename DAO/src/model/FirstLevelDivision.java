@@ -7,8 +7,17 @@ public class FirstLevelDivision extends BaseEntity {
     int countryId;
     String division;
 
-    public FirstLevelDivision(int divisionId, int countryId, String division, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdatedBy) {
+    public FirstLevelDivision(
+            int divisionId,
+            int countryId,
+            String division,
+            Calendar createDate,
+            String createdBy,
+            Calendar lastUpdate,
+            String lastUpdatedBy
+    ) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
+
         this.divisionId = divisionId;
         this.countryId = countryId;
         this.division = division;

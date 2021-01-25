@@ -11,16 +11,16 @@ public class Customer extends BaseEntity {
     private String phone;
 
     public Customer(
-            int customerId,
-            int divisionId,
-            String customerName,
-            String address,
-            String postalCode,
-            String phone,
-            Calendar createDate,
-            String createdBy,
-            Calendar lastUpdate,
-            String lastUpdatedBy
+        int customerId,
+        int divisionId,
+        String customerName,
+        String address,
+        String postalCode,
+        String phone,
+        Calendar createDate,
+        String createdBy,
+        Calendar lastUpdate,
+        String lastUpdatedBy
     ) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
 
