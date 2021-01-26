@@ -40,7 +40,7 @@ public class LoginController {
             userManager.setCurrentUser(user);
             sceneManager.setScreenSize();
             sceneManager.setupBorderPane();
-            sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE, 2);
+            sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
         }
     }
 }

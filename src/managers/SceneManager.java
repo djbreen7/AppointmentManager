@@ -12,15 +12,17 @@ public class SceneManager {
     public static final String APPOINTMENTS_SCENE = "../application/appointments/appointments.fxml";
 
     public static final String CUSTOMERS_SCENE = "../application/customers/customers.fxml";
-    public static final String CUSTOMER_UPSERT_SCENE = "";
+    public static final String CUSTOMER_UPSERT_SCENE = "../application/customers/customers-upsert.fxml";
 
     private static SceneManager instance = null;
+    private DataManager dataManager;
     private Stage window;
     private Parent sidebar;
     private BorderPane borderPane;
-    private int dataId;
 
-    private SceneManager() { }
+    private SceneManager() {
+        dataManager = DataManager.getInstance();
+    }
 
     public static SceneManager getInstance() {
         if (instance == null) {
@@ -49,7 +51,7 @@ public class SceneManager {
 
     public void goToScene(String fxml, int id) {
         try {
-            this.setDataId(id);
+            dataManager.setDataId(id);
             
             Parent main = FXMLLoader.load(getClass().getResource(fxml));
 
@@ -79,16 +81,6 @@ public class SceneManager {
     public void setScreenSize() {
         window.setWidth(960);
         window.setHeight(540);
-    }
-
-    public int getAndClearDataId() {
-        var result = dataId;
-        this.dataId = -1;
-        return result;
-    }
-
-    public void setDataId(int id) {
-        this.dataId = id;
     }
 
     private void setWindow(Stage window) {

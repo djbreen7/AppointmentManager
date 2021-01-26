@@ -36,6 +36,8 @@ public class CustomerDaoImpl implements CustomerDao {
 
             while (result.next()) {
                 var customer = buildCustomerResult(result, false);
+                customer.setDivision(buildDivisionResult(result, false));
+                customer.getDivision().setCountry(buildCountryResult(result, false));
                 customers.add(customer);
             }
         } catch (Exception e) {
@@ -48,7 +50,24 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public Customer getCustomer(int customerId) {
-        String query = String.format("SELECT * FROM customers WHERE Customer_ID = %s", customerId);
+        String query = String.format(
+                "SELECT c.Customer_ID " +
+                        ",c.Customer_Name " +
+                        ",c.Address " +
+                        ",c.Postal_Code " +
+                        ",c.Phone " +
+                        ",c.Create_Date " +
+                        ",c.Created_By " +
+                        ",c.Last_Update " +
+                        ",c.Last_Updated_By " +
+                        ",d.Division_ID " +
+                        ",d.Division " +
+                        ",ctry.Country_ID " +
+                        ",ctry.Country " +
+                        "FROM customers c " +
+                        "JOIN first_level_divisions d ON d.Division_ID = c.Division_ID " +
+                        "JOIN countries ctry ON ctry.Country_ID = d.Country_ID " +
+                        "WHERE Customer_ID = %s;", customerId);
         Customer customer = null;
         try {
             DatabaseConnection.makeConnection();
@@ -56,7 +75,9 @@ public class CustomerDaoImpl implements CustomerDao {
             var result = statement.executeQuery(query);
 
             while (result.next()) {
-                customer = buildCustomerResult(result, false);
+                customer = buildCustomerResult(result, true);
+                customer.setDivision(buildDivisionResult(result, false));
+                customer.getDivision().setCountry(buildCountryResult(result, false));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -88,12 +109,10 @@ public class CustomerDaoImpl implements CustomerDao {
         var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
         var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
 
-        FirstLevelDivision firstLevelDivision = buildDivisionResult(result, false);
-
         return new Customer(
                 customerId,
                 divisionId,
-                firstLevelDivision,
+                null,
                 name,
                 address,
                 postalCode,
@@ -114,12 +133,10 @@ public class CustomerDaoImpl implements CustomerDao {
         var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
         var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
 
-        Country country = buildCountryResult(result, false);
-
         return new FirstLevelDivision(
                 divisionId,
                 countryId,
-                country,
+                null,
                 division,
                 createDate,
                 createdBy,

@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import managers.SceneManager;
-import managers.UserManager;
 import model.Customer;
 
 import java.io.IOException;
@@ -19,13 +18,11 @@ import java.util.Optional;
 
 public class CustomersController {
     private CustomerDao customerDao;
-    private UserManager userManager;
     private SceneManager sceneManager;
     private ObservableList<Customer> customers;
 
     public void initialize() {
         customerDao = new CustomerDaoImpl();
-        userManager = UserManager.getInstance();
         sceneManager = SceneManager.getInstance();
         customers = FXCollections.observableList(customerDao.getAllCustomers());
 
