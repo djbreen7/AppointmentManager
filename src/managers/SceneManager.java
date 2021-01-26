@@ -10,12 +10,15 @@ public class SceneManager {
     public static final String SIDEBAR = "../application/sidebar/sidebar.fxml";
     public static final String LOGIN_SCENE = "../application/login/login.fxml";
     public static final String APPOINTMENTS_SCENE = "../application/appointments/appointments.fxml";
+
     public static final String CUSTOMERS_SCENE = "../application/customers/customers.fxml";
+    public static final String CUSTOMER_UPSERT_SCENE = "";
 
     private static SceneManager instance = null;
     private Stage window;
     private Parent sidebar;
     private BorderPane borderPane;
+    private int dataId;
 
     private SceneManager() { }
 
@@ -41,10 +44,17 @@ public class SceneManager {
     }
 
     public void goToScene(String fxml) {
+        goToScene(fxml, -1);
+    }
+
+    public void goToScene(String fxml, int id) {
         try {
+            this.setDataId(id);
+            
             Parent main = FXMLLoader.load(getClass().getResource(fxml));
 
             borderPane.setCenter(main);
+            window.centerOnScreen();
         } catch (Exception e) {
             System.out.print("An error occurred while attempting to initialize scenes" + System.lineSeparator() + e.getMessage());
         }
@@ -64,11 +74,19 @@ public class SceneManager {
         } catch (Exception e) {
             System.out.println("An Error occurred when attempting to change scenes");
         }
-
     }
 
-    public void setFullScreen() {
-        window.setMaximized(true);
+    public void setScreenSize() {
+        window.setWidth(960);
+        window.setHeight(540);
+    }
+
+    public int getDataId() {
+        return dataId;
+    }
+
+    public void setDataId(int id) {
+        this.dataId = id;
     }
 
     private void setWindow(Stage window) {

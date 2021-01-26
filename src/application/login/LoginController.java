@@ -38,9 +38,9 @@ public class LoginController {
 
         if (isSuccess) {
             userManager.setCurrentUser(user);
+            sceneManager.setScreenSize();
             sceneManager.setupBorderPane();
             sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
-            sceneManager.setFullScreen();
         }
     }
 }

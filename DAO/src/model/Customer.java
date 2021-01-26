@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 public class Customer extends BaseEntity {
     private int customerId;
-    private int divisionId;
-    private String customerName;
+    private int divisionId;    private FirstLevelDivision division;
+    private String name;
     private String address;
     private String postalCode;
     private String phone;
@@ -13,7 +13,8 @@ public class Customer extends BaseEntity {
     public Customer(
         int customerId,
         int divisionId,
-        String customerName,
+        FirstLevelDivision division,
+        String name,
         String address,
         String postalCode,
         String phone,
@@ -26,7 +27,8 @@ public class Customer extends BaseEntity {
 
         this.customerId = customerId;
         this.divisionId = divisionId;
-        this.customerName = customerName;
+        this.division = division;
+        this.name = name;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
@@ -48,12 +50,18 @@ public class Customer extends BaseEntity {
         this.divisionId = divisionId;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public FirstLevelDivision getDivision() {
+        return division;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setDivision(FirstLevelDivision division) {
+        this.division = division;
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {

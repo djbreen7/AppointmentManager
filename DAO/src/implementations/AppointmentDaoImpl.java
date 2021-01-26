@@ -33,7 +33,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @Override
     public Appointment getAppointment(int appointmentId) {
-        String query = String.format("SELECT * FROM appointments");
+        String query = String.format("SELECT * FROM appointments WHERE Appointment_ID = %s", appointmentId);
         Appointment appointment = null;
         try {
             DatabaseConnection.makeConnection();
@@ -77,7 +77,8 @@ public class AppointmentDaoImpl implements AppointmentDao {
         var lastUpdate = CalendarUtils.toCalendar(result.getDate("Last_Update"));
         var lastUpdatedBy = result.getString("Last_Updated_By");
 
-        return new Appointment(appointmentId,
+        return new Appointment(
+                appointmentId,
                 customerId,
                 userId,
                 contactId,
@@ -90,6 +91,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 createDate,
                 createdBy,
                 lastUpdate,
-                lastUpdatedBy);
+                lastUpdatedBy
+        );
     }
 }

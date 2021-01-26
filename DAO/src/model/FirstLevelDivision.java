@@ -3,13 +3,15 @@ package model;
 import java.util.Calendar;
 
 public class FirstLevelDivision extends BaseEntity {
-    int divisionId;
-    int countryId;
-    String division;
+    private int divisionId;
+    private int countryId;
+    private Country country;
+    private String division;
 
     public FirstLevelDivision(
             int divisionId,
             int countryId,
+            Country country,
             String division,
             Calendar createDate,
             String createdBy,
@@ -20,6 +22,7 @@ public class FirstLevelDivision extends BaseEntity {
 
         this.divisionId = divisionId;
         this.countryId = countryId;
+        this.country = country;
         this.division = division;
     }
 
@@ -45,5 +48,13 @@ public class FirstLevelDivision extends BaseEntity {
 
     public void setDivision(String division) {
         this.division = division;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }
