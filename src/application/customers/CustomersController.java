@@ -1,6 +1,5 @@
 package application.customers;
 
-import application.ReceivesDataController;
 import implementations.CustomerDaoImpl;
 import interfaces.CustomerDao;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,7 +17,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-public class CustomersController implements ReceivesDataController {
+public class CustomersController {
     private CustomerDao customerDao;
     private UserManager userManager;
     private SceneManager sceneManager;
@@ -32,13 +31,6 @@ public class CustomersController implements ReceivesDataController {
 
         configureCustomersTable();
         customersTable.setItems(customers);
-
-        System.out.println(customers.get(0).getName());
-    }
-
-    @Override
-    public void initData(int id) {
-        System.out.println(id);
     }
 
     @FXML

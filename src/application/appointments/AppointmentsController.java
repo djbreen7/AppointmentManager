@@ -1,26 +1,25 @@
 package application.appointments;
 
-import application.ReceivesDataController;
 import implementations.AppointmentDaoImpl;
 import interfaces.AppointmentDao;
+import managers.SceneManager;
 import managers.UserManager;
 import model.Appointment;
 
 import java.util.List;
 
-public class AppointmentsController implements ReceivesDataController {
+public class AppointmentsController {
     private AppointmentDao appointmentDao;
     private UserManager userManager;
+    private SceneManager sceneManager;
     private List<Appointment> appointments;
 
     public void initialize() {
         appointmentDao = new AppointmentDaoImpl();
         userManager = UserManager.getInstance();
+        sceneManager = sceneManager.getInstance();
         appointments = appointmentDao.getAllAppointments();
-    }
 
-    @Override
-    public void initData(int id) {
-
+        System.out.println(sceneManager.getAndClearDataId());
     }
 }

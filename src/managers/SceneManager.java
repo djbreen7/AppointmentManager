@@ -81,8 +81,10 @@ public class SceneManager {
         window.setHeight(540);
     }
 
-    public int getDataId() {
-        return dataId;
+    public int getAndClearDataId() {
+        var result = dataId;
+        this.dataId = -1;
+        return result;
     }
 
     public void setDataId(int id) {
