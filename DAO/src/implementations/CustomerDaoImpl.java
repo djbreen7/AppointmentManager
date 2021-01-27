@@ -1,17 +1,19 @@
 package implementations;
 
-import calendar.CalendarUtils;
 import data.DatabaseConnection;
 import interfaces.CustomerDao;
-import model.Country;
 import model.Customer;
-import model.FirstLevelDivision;
+import utilities.ResultSetBuilder;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDaoImpl implements CustomerDao {
+    private ResultSetBuilder resultSetBuilder;
+
+    public CustomerDaoImpl() {
+        resultSetBuilder = new ResultSetBuilder();
+    }
 
     @Override
     public List<Customer> getAllCustomers() {
@@ -32,12 +34,12 @@ public class CustomerDaoImpl implements CustomerDao {
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
-            var result = statement.executeQuery(query);
+            var resultSet = statement.executeQuery(query);
 
-            while (result.next()) {
-                var customer = buildCustomerResult(result, false);
-                customer.setDivision(buildDivisionResult(result, false));
-                customer.getDivision().setCountry(buildCountryResult(result, false));
+            while (resultSet.next()) {
+                var customer = resultSetBuilder.buildCustomerResult(resultSet, false);
+                customer.setDivision(resultSetBuilder.buildDivisionResult(resultSet, false));
+                customer.getDivision().setCountry(resultSetBuilder.buildCountryResult(resultSet, false));
                 customers.add(customer);
             }
         } catch (Exception e) {
@@ -47,6 +49,7 @@ public class CustomerDaoImpl implements CustomerDao {
             return customers;
         }
     }
+
 
     @Override
     public Customer getCustomer(int customerId) {
@@ -72,12 +75,12 @@ public class CustomerDaoImpl implements CustomerDao {
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
-            var result = statement.executeQuery(query);
+            var resultSet = statement.executeQuery(query);
 
-            while (result.next()) {
-                customer = buildCustomerResult(result, true);
-                customer.setDivision(buildDivisionResult(result, false));
-                customer.getDivision().setCountry(buildCountryResult(result, false));
+            while (resultSet.next()) {
+                customer = resultSetBuilder.buildCustomerResult(resultSet, true);
+                customer.setDivision(resultSetBuilder.buildDivisionResult(resultSet, false));
+                customer.getDivision().setCountry(resultSetBuilder.buildCountryResult(resultSet, false));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -95,71 +98,5 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public void deleteCustomer(int customerId) {
 
-    }
-
-    private Customer buildCustomerResult(ResultSet result, boolean includeAuditing) throws Exception {
-        var customerId = result.getInt("Customer_ID");
-        var divisionId = result.getInt("Division_ID");
-        var name = result.getString("Customer_Name");
-        var address = result.getString("Address");
-        var postalCode = result.getString("Postal_Code");
-        var phone = result.getString("Phone");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
-        var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
-        var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
-
-        return new Customer(
-                customerId,
-                divisionId,
-                null,
-                name,
-                address,
-                postalCode,
-                phone,
-                createDate,
-                createdBy,
-                lastUpdate,
-                lastUpdatedBy
-        );
-    }
-
-    private FirstLevelDivision buildDivisionResult(ResultSet result, boolean includeAuditing) throws Exception {
-        var divisionId = result.getInt("Division_ID");
-        var countryId = result.getInt("Country_ID");
-        var division = result.getString("Division");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
-        var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
-        var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
-
-        return new FirstLevelDivision(
-                divisionId,
-                countryId,
-                null,
-                division,
-                createDate,
-                createdBy,
-                lastUpdate,
-                lastUpdatedBy
-        );
-    }
-
-    private Country buildCountryResult(ResultSet result, boolean includeAuditing) throws Exception {
-        var countryId = result.getInt("Country_ID");
-        var country = result.getString("Country");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
-        var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
-        var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
-
-        return new Country(
-                countryId,
-                country,
-                createDate,
-                createdBy,
-                lastUpdate,
-                lastUpdatedBy
-        );
     }
 }

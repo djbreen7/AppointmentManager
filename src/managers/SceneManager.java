@@ -52,8 +52,9 @@ public class SceneManager {
     public void goToScene(String fxml, int id) {
         try {
             dataManager.setDataId(id);
-            
-            Parent main = FXMLLoader.load(getClass().getResource(fxml));
+            var cls = getClass();
+            var resource = cls.getResource(fxml);
+            Parent main = FXMLLoader.load(resource);
 
             borderPane.setCenter(main);
             window.centerOnScreen();
