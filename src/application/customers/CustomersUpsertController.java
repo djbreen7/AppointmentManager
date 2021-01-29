@@ -1,11 +1,11 @@
 package application.customers;
 
+import dao.CountryDao;
+import dao.CustomerDao;
+import dao.FirstLevelDivisionDao;
 import implementations.CountryDaoImpl;
 import implementations.CustomerDaoImpl;
 import implementations.FirstLevelDivisionDaoImpl;
-import interfaces.CountryDao;
-import interfaces.CustomerDao;
-import interfaces.FirstLevelDivisionDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,8 +20,7 @@ import managers.SceneManager;
 import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
-
-import java.util.stream.Collectors;
+import utilities.Lambdas;
 
 public class CustomersUpsertController {
     private CustomerDao customerDao;
@@ -39,22 +38,35 @@ public class CustomersUpsertController {
         divisionDao = new FirstLevelDivisionDaoImpl();
         sceneManager = SceneManager.getInstance();
         dataManager = DataManager.getInstance();
-
-        customer = customerDao.getCustomer(dataManager.getAndClearDataId());
+        customer = initializeCustomer();
         countries = FXCollections.observableList(countryDao.getAllCountries());
         divisions = FXCollections.observableList(divisionDao.getAllDivisions());
 
-        setupForm(customer);
+        setupForm();
     }
 
-    public void setupForm(Customer customer) {
-        customerIdTextField.setText(Integer.toString(customer.getCustomerId()));
-        nameTextField.setText(customer.getName());
-        addressTextField.setText(customer.getAddress());
-        postalCodeTextField.setText(customer.getPostalCode());
-        phoneTextField.setText(customer.getPhone());
+    private Customer initializeCustomer() {
+        var customerId = dataManager.getAndClearDataId();
 
-        countryComboBox.setItems(countries);
+        if (customerId == -1) {
+            return new Customer(-1, -1, null, null, null, null, null, null, null, null, null);
+        }
+
+        return customerDao.getCustomer(customerId);
+    }
+
+    private void setupComboBoxes() {
+        divisionComboBox.setConverter(new StringConverter<FirstLevelDivision>() {
+            @Override
+            public String toString(FirstLevelDivision division) {
+                return division.getDivision();
+            }
+            @Override
+            public FirstLevelDivision fromString(final String string) {
+                return divisionComboBox.getItems().stream().filter(x -> x.getDivision().equals(string)).findFirst().orElse(null);
+            }
+        });
+
         countryComboBox.setConverter(new StringConverter<Country>() {
             @Override
             public String toString(Country country) {
@@ -65,13 +77,27 @@ public class CustomersUpsertController {
                 return countryComboBox.getItems().stream().filter(x -> x.getCountry().equals(string)).findFirst().orElse(null);
             }
         });
+    }
 
-        var divisions = this.divisions.stream()
-                .filter(x -> x.getCountryId() == customer.getDivision().getCountryId())
-                .map(FirstLevelDivision::getDivision)
-                .collect(Collectors.toList());
-        var list = FXCollections.observableArrayList(divisions);
-        divisionComboBox.getItems().addAll(list);
+    private void setupForm() {
+        customerIdTextField.setText(Integer.toString(customer.getCustomerId()));
+        nameTextField.setText(customer.getName());
+        addressTextField.setText(customer.getAddress());
+        postalCodeTextField.setText(customer.getPostalCode());
+        phoneTextField.setText(customer.getPhone());
+
+        setupComboBoxes();
+        countryComboBox.setItems(countries);
+        divisionComboBox.setItems(divisions);
+
+        if (customer.getCustomerId() == -1) {
+            countryComboBox.setValue((Country) Lambdas.getCountryByName(countries, "USA")); //TODO
+            divisionComboBox.setValue(null);
+            return;
+        }
+
+        countryComboBox.setValue(customer.getDivision().getCountry());
+        divisionComboBox.setValue(customer.getDivision());
     }
 
     @FXML
@@ -105,7 +131,7 @@ public class CustomersUpsertController {
     private TextField postalCodeTextField;
 
     @FXML
-    private ComboBox<String> divisionComboBox;
+    private ComboBox<FirstLevelDivision> divisionComboBox;
 
     @FXML
     private Label divisionLabel;

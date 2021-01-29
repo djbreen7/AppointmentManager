@@ -1,22 +1,26 @@
 package application.appointments;
 
 import implementations.AppointmentDaoImpl;
-import interfaces.AppointmentDao;
+import dao.AppointmentDao;
+import javafx.fxml.Initializable;
 import managers.DataManager;
 import managers.SceneManager;
 import managers.UserManager;
 import model.Appointment;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class AppointmentsController {
+public class AppointmentsController implements Initializable {
     private AppointmentDao appointmentDao;
     private UserManager userManager;
     private SceneManager sceneManager;
     private DataManager dataManager;
     private List<Appointment> appointments;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
         userManager = UserManager.getInstance();
         sceneManager = SceneManager.getInstance();

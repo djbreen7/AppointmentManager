@@ -1,8 +1,8 @@
 package implementations;
 
-import calendar.CalendarUtils;
+import utilities.CalendarUtils;
 import data.DatabaseConnection;
-import interfaces.AppointmentDao;
+import dao.AppointmentDao;
 import model.Appointment;
 
 import java.sql.ResultSet;

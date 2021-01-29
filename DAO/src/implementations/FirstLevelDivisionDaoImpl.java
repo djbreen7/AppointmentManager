@@ -1,7 +1,7 @@
 package implementations;
 
 import data.DatabaseConnection;
-import interfaces.FirstLevelDivisionDao;
+import dao.FirstLevelDivisionDao;
 import model.FirstLevelDivision;
 import utilities.ResultSetBuilder;
 

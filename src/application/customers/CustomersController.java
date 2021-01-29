@@ -1,7 +1,7 @@
 package application.customers;
 
 import implementations.CustomerDaoImpl;
-import interfaces.CustomerDao;
+import dao.CustomerDao;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

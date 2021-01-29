@@ -1,7 +1,7 @@
 package implementations;
 
 import data.DatabaseConnection;
-import interfaces.CustomerDao;
+import dao.CustomerDao;
 import model.Customer;
 import utilities.ResultSetBuilder;
 

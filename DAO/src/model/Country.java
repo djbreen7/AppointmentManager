@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public class Country extends BaseEntity{
+public class Country extends BaseEntity implements NamedItem {
     private int countryId;
     private String country;
 
@@ -32,7 +32,14 @@ public class Country extends BaseEntity{
         return country;
     }
 
+    @Override
+    public String getName() {
+        return getCountry();
+    }
+
     public void setCountry(String country) {
         this.country = country;
     }
+
+
 }

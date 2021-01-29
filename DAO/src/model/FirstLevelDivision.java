@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public class FirstLevelDivision extends BaseEntity {
+public class FirstLevelDivision extends BaseEntity implements NamedItem {
     private int divisionId;
     private int countryId;
     private Country country;
@@ -44,6 +44,11 @@ public class FirstLevelDivision extends BaseEntity {
 
     public String getDivision() {
         return division;
+    }
+
+    @Override
+    public String getName() {
+        return getDivision();
     }
 
     public void setDivision(String division) {

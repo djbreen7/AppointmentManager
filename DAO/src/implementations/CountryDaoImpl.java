@@ -1,7 +1,7 @@
 package implementations;
 
 import data.DatabaseConnection;
-import interfaces.CountryDao;
+import dao.CountryDao;
 import model.Country;
 import utilities.ResultSetBuilder;
 
