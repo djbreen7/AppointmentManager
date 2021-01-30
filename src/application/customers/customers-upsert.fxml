@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.customers.CustomersUpsertController">
+<AnchorPane prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.customers.CustomersUpsertController">
     <children>
         <Button fx:id="saveBtn" layoutX="716.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleSaveBtnAction" style="-fx-background-color: #007bff;" text="Save" textFill="WHITE" />
         <Button fx:id="cancelBtn" layoutX="650.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleCancelBtnAction" text="Cancel" />
@@ -23,6 +23,6 @@
         <Label fx:id="divisionLabel" layoutX="283.0" layoutY="201.0" text="Division" />
         <ComboBox fx:id="divisionComboBox" layoutX="340.0" layoutY="197.0" prefHeight="25.0" prefWidth="166.0" />
         <Label fx:id="countryLabel" layoutX="532.0" layoutY="201.0" text="Country" />
-        <ComboBox fx:id="countryComboBox" layoutX="591.0" layoutY="197.0" prefHeight="25.0" prefWidth="166.0" />
+        <ComboBox fx:id="countryComboBox" layoutX="591.0" layoutY="197.0" onAction="#handleCountryComboAction" prefHeight="25.0" prefWidth="166.0" />
     </children>
 </AnchorPane>

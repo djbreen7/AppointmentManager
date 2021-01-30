@@ -59,7 +59,10 @@ public class CustomersUpsertController {
         divisionComboBox.setConverter(new StringConverter<FirstLevelDivision>() {
             @Override
             public String toString(FirstLevelDivision division) {
-                return division.getDivision();
+                if (division != null)
+                    return division.getDivision();
+
+                return null;
             }
             @Override
             public FirstLevelDivision fromString(final String string) {
@@ -81,13 +84,13 @@ public class CustomersUpsertController {
 
     private void setComboBoxValues() {
         var isNewCustomer = customer.getCustomerId() == -1;
-        Country activeCountry = isNewCustomer
+        var activeCountry = isNewCustomer
                 ? Lambdas.getCountryByName(countries, "U.S")
                 : customer.getDivision().getCountry();
-        FirstLevelDivision activeDivision = isNewCustomer
-                ? Lambdas.getDivisionByName(divisions, "Alabama")
+        var activeDivision = isNewCustomer
+                ? null
                 : customer.getDivision();
-        ObservableList<FirstLevelDivision> activeDivisions = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions ,activeCountry.getCountryId()));
+        var activeDivisions = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions, activeCountry.getCountryId()));
 
         countryComboBox.setItems(countries);
         divisionComboBox.setItems(activeDivisions);
@@ -161,12 +164,29 @@ public class CustomersUpsertController {
     private ComboBox<Country> countryComboBox;
 
     @FXML
-    void handleCancelBtnAction(ActionEvent event) {
+    private void handleCountryComboAction(ActionEvent event) {
+        var newCountry = countryComboBox.getValue();
+        var result = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions, newCountry.getCountryId()));
+
+        divisionComboBox.setItems(result);
+        divisionComboBox.setValue(null);
+    }
+    @FXML
+    private void handleCancelBtnAction(ActionEvent event) {
         sceneManager.goToScene(SceneManager.CUSTOMERS_SCENE);
     }
 
     @FXML
-    void handleSaveBtnAction(ActionEvent event) {
-        System.out.println("handleSaveBtnAction");
+    private void handleSaveBtnAction(ActionEvent event) {
+        customer.setCustomerId(Integer.parseInt(customerIdTextField.getText()));
+        customer.setName(nameTextField.getText());
+        customer.setPhone(phoneTextField.getText());
+        customer.setAddress(addressTextField.getText());
+        customer.setPostalCode(postalCodeTextField.getText());
+        customer.setDivisionId(divisionComboBox.getValue().getDivisionId());
+
+        customerDao.upsertCustomer(customer);
+
+        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 }
