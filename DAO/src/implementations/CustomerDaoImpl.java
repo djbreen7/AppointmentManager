@@ -27,13 +27,15 @@ public class CustomerDaoImpl implements CustomerDao {
     public void addCustomer(Customer customer) {
         String query = String.format(
             "INSERT INTO customers " +
-            "(Customer_Name, Phone, Address, Postal_Code, Division_ID) " +
-            "VALUES ('%s', '%s', '%s', '%s', %s)",
+            "(Customer_Name, Phone, Address, Postal_Code, Division_ID, Created_By, Last_Updated_By) " +
+            "VALUES ('%s', '%s', '%s', '%s', %s, '%s', '%s')",
                 customer.getName(),
                 customer.getPhone(),
                 customer.getAddress(),
                 customer.getPostalCode(),
-                customer.getDivisionId()
+                customer.getDivisionId(),
+                customer.getCreatedBy(),
+                customer.getLastUpdatedBy()
         );
         try {
             DatabaseConnection.makeConnection();
@@ -54,13 +56,15 @@ public class CustomerDaoImpl implements CustomerDao {
                 "Phone = '%s', " +
                 "Address = '%s', " +
                 "Postal_Code = '%s', " +
-                "Division_ID = %s " +
+                "Division_ID = %s, " +
+                "Last_Updated_By = '%s' " +
                 "WHERE Customer_ID = %s",
                 customer.getName(),
                 customer.getPhone(),
                 customer.getAddress(),
                 customer.getPostalCode(),
                 customer.getDivisionId(),
+                customer.getLastUpdatedBy(),
                 customer.getCustomerId()
         );
         try {

@@ -34,6 +34,7 @@
              </Label>
             <PasswordField fx:id="passwordField" layoutX="169.0" layoutY="129.0" prefHeight="25.0" prefWidth="268.0" />
             <Label fx:id="errorLabel" layoutX="217.0" layoutY="35.0" text="Error Logging In" textFill="RED" visible="false" />
+            <Label fx:id="timeZoneLabel" alignment="CENTER" layoutX="2.0" layoutY="222.0" style="-fx-min-width: 500px;" />
          </children></AnchorPane>
    </children>
 </GridPane>

@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 public class SceneManager {
     public static final String SIDEBAR = "../application/sidebar/sidebar.fxml";
     public static final String LOGIN_SCENE = "../application/login/login.fxml";
+
     public static final String APPOINTMENTS_SCENE = "../application/appointments/appointments.fxml";
+    public static final String APPOINTMENT_SCHEDULE_SCENE = "../application/appointments/appointment-schedule.fxml";
 
     public static final String CUSTOMERS_SCENE = "../application/customers/customers.fxml";
     public static final String CUSTOMER_UPSERT_SCENE = "../application/customers/customers-upsert.fxml";

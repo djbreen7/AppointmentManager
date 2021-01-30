@@ -9,15 +9,15 @@ public class ActivityLogger {
     private final Logger logger = Logger.getLogger("ActivityLog");
 
     private FileHandler fh;
-    private StringJoiner filePath;
+    private StringJoiner sj;
 
     public ActivityLogger() {
         try {
-            filePath = new StringJoiner("/");
-            filePath.add(System.getProperty("user.dir"));
-            filePath.add("login_activity.txt");
+            sj = new StringJoiner("/");
+            sj.add(System.getProperty("user.dir"));
+            sj.add("login_activity.txt");
 
-            fh = new FileHandler(filePath.toString());
+            fh = new FileHandler(sj.toString());
             fh.setFormatter(new SimpleFormatter());
 
             logger.setUseParentHandlers(false);
@@ -28,10 +28,10 @@ public class ActivityLogger {
     }
 
     public void info(String userName, String message) {
-        var log = new StringJoiner(" ");
-        log.add(userName);
-        log.add(message);
+        var sj = new StringJoiner(" ");
+        sj.add(userName);
+        sj.add(message);
 
-        logger.info(log.toString());
+        logger.info(sj.toString());
     }
 }

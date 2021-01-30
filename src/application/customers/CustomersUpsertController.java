@@ -10,13 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import managers.DataManager;
 import managers.SceneManager;
+import managers.UserManager;
 import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
@@ -28,6 +28,7 @@ public class CustomersUpsertController {
     private FirstLevelDivisionDao divisionDao;
     private SceneManager sceneManager;
     private DataManager dataManager;
+    private UserManager userManager;
     private Customer customer;
     private ObservableList<Country> countries;
     private ObservableList<FirstLevelDivision> divisions;
@@ -38,6 +39,7 @@ public class CustomersUpsertController {
         divisionDao = new FirstLevelDivisionDaoImpl();
         sceneManager = SceneManager.getInstance();
         dataManager = DataManager.getInstance();
+        userManager = UserManager.getInstance();
         customer = initializeCustomer();
         countries = FXCollections.observableList(countryDao.getAllCountries());
         divisions = FXCollections.observableList(divisionDao.getAllDivisions());
@@ -116,31 +118,16 @@ public class CustomersUpsertController {
     }
 
     @FXML
-    private Button saveBtn;
-
-    @FXML
-    private Button deleteDtn;
-
-    @FXML
     private Label customerIdLabel;
 
     @FXML
     private TextField customerIdTextField;
 
     @FXML
-    private Label nameLabel;
-
-    @FXML
     private TextField nameTextField;
 
     @FXML
-    private Label addressLabel;
-
-    @FXML
     private TextField addressTextField;
-
-    @FXML
-    private Label postalCodeLabel;
 
     @FXML
     private TextField postalCodeTextField;
@@ -149,19 +136,15 @@ public class CustomersUpsertController {
     private ComboBox<FirstLevelDivision> divisionComboBox;
 
     @FXML
-    private Label divisionLabel;
-
-    @FXML
-    private Label phoneLabel;
-
-    @FXML
     private TextField phoneTextField;
 
     @FXML
-    private Label countryLabel;
+    private ComboBox<Country> countryComboBox;
 
     @FXML
-    private ComboBox<Country> countryComboBox;
+    private void handleScheduleAppointmentBtnAction(ActionEvent event) {
+        sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customer.getCustomerId());
+    }
 
     @FXML
     private void handleCountryComboAction(ActionEvent event) {
@@ -171,9 +154,10 @@ public class CustomersUpsertController {
         divisionComboBox.setItems(result);
         divisionComboBox.setValue(null);
     }
+
     @FXML
     private void handleCancelBtnAction(ActionEvent event) {
-        sceneManager.goToScene(SceneManager.CUSTOMERS_SCENE);
+        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
     @FXML
@@ -184,6 +168,10 @@ public class CustomersUpsertController {
         customer.setAddress(addressTextField.getText());
         customer.setPostalCode(postalCodeTextField.getText());
         customer.setDivisionId(divisionComboBox.getValue().getDivisionId());
+        customer.setLastUpdatedBy(userManager.getCurrentUser().getUserName());
+
+        if (customer.getCustomerId() == -1)
+            customer.setCreatedBy(userManager.getCurrentUser().getUserName());
 
         customerDao.upsertCustomer(customer);
 

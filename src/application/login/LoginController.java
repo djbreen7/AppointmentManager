@@ -12,6 +12,9 @@ import logger.ActivityLogger;
 import managers.SceneManager;
 import managers.UserManager;
 
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
+
 public class LoginController {
     private UserDao userDao;
     private SceneManager sceneManager;
@@ -21,6 +24,17 @@ public class LoginController {
         userDao = new UserDaoImpl();
         logger = new ActivityLogger();
         sceneManager = SceneManager.getInstance();
+
+        setTimezone();
+    }
+
+    private void setTimezone() {
+        var zdt = ZonedDateTime.now();
+        var timeZone = TimeZone.getTimeZone(zdt.getZone());
+        var sb = new StringBuilder(zdt.getZone().toString());
+        sb.append(" (").append(timeZone.getDisplayName()).append(")");
+
+        timeZoneLabel.setText(sb.toString());
     }
 
     @FXML
@@ -34,6 +48,9 @@ public class LoginController {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private Label timeZoneLabel;
 
     @FXML
     private void handleLoginBtnAction(ActionEvent event) {
