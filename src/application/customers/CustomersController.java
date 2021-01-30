@@ -61,6 +61,9 @@ public class CustomersController {
     private Button deleteCustomerBtn;
 
     @FXML
+    private Button addCustomerBtn;
+
+    @FXML
     void handleDeleteCustomerBtnAction(ActionEvent event) {
         var index = customersTable.getSelectionModel().getFocusedIndex();
         var customer = customersTable.getItems().get(index);
@@ -83,6 +86,10 @@ public class CustomersController {
         var customerId = customersTable.getItems().get(index).getCustomerId();
 
         sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE, customerId);
+    }
+
+    public void handleAddCustomerBtnAction(ActionEvent event) {
+        sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE);
     }
 
     private void configureCustomersTable() {

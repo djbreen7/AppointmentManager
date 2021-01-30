@@ -55,7 +55,7 @@ public class CustomersUpsertController {
         return customerDao.getCustomer(customerId);
     }
 
-    private void setupComboBoxes() {
+    private void configureComboBoxes() {
         divisionComboBox.setConverter(new StringConverter<FirstLevelDivision>() {
             @Override
             public String toString(FirstLevelDivision division) {
@@ -79,25 +79,37 @@ public class CustomersUpsertController {
         });
     }
 
+    private void setComboBoxValues() {
+        var isNewCustomer = customer.getCustomerId() == -1;
+        Country activeCountry = isNewCustomer
+                ? Lambdas.getCountryByName(countries, "U.S")
+                : customer.getDivision().getCountry();
+        FirstLevelDivision activeDivision = isNewCustomer
+                ? Lambdas.getDivisionByName(divisions, "Alabama")
+                : customer.getDivision();
+        ObservableList<FirstLevelDivision> activeDivisions = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions ,activeCountry.getCountryId()));
+
+        countryComboBox.setItems(countries);
+        divisionComboBox.setItems(activeDivisions);
+        countryComboBox.setValue(activeCountry);
+        divisionComboBox.setValue(activeDivision);
+    }
+
     private void setupForm() {
         customerIdTextField.setText(Integer.toString(customer.getCustomerId()));
+
         nameTextField.setText(customer.getName());
         addressTextField.setText(customer.getAddress());
         postalCodeTextField.setText(customer.getPostalCode());
         phoneTextField.setText(customer.getPhone());
 
-        setupComboBoxes();
-        countryComboBox.setItems(countries);
-        divisionComboBox.setItems(divisions);
-
         if (customer.getCustomerId() == -1) {
-            countryComboBox.setValue((Country) Lambdas.getCountryByName(countries, "USA")); //TODO
-            divisionComboBox.setValue(null);
-            return;
+            customerIdLabel.setVisible(false);
+            customerIdTextField.setVisible(false);
         }
 
-        countryComboBox.setValue(customer.getDivision().getCountry());
-        divisionComboBox.setValue(customer.getDivision());
+        configureComboBoxes();
+        setComboBoxValues();
     }
 
     @FXML
@@ -150,7 +162,7 @@ public class CustomersUpsertController {
 
     @FXML
     void handleCancelBtnAction(ActionEvent event) {
-        System.out.println("handleCancelBtnAction");
+        sceneManager.goToScene(SceneManager.CUSTOMERS_SCENE);
     }
 
     @FXML
