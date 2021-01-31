@@ -23,6 +23,10 @@ public class BaseEntity {
         this.createdBy = createdBy;
     }
 
+    public Calendar getLastUpdate() {
+        return lastUpdate;
+    }
+
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }

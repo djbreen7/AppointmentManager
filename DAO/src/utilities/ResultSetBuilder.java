@@ -5,6 +5,7 @@ import model.Customer;
 import model.FirstLevelDivision;
 
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 public class ResultSetBuilder {
 
@@ -13,15 +14,16 @@ public class ResultSetBuilder {
     }
 
     public Customer buildCustomerResult(ResultSet result, boolean includeAuditing) throws Exception {
+
         var customerId = result.getInt("Customer_ID");
         var divisionId = result.getInt("Division_ID");
         var name = result.getString("Customer_Name");
         var address = result.getString("Address");
         var postalCode = result.getString("Postal_Code");
         var phone = result.getString("Phone");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
+        var createDate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class)) : null;
         var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
+        var lastUpdate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class)) : null;
         var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
 
         return new Customer(
@@ -43,9 +45,9 @@ public class ResultSetBuilder {
         var divisionId = result.getInt("Division_ID");
         var countryId = result.getInt("Country_ID");
         var division = result.getString("Division");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
+        var createDate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class)) : null;
         var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
+        var lastUpdate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class)) : null;
         var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
 
         return new FirstLevelDivision(
@@ -63,9 +65,9 @@ public class ResultSetBuilder {
     public Country buildCountryResult(ResultSet result, boolean includeAuditing) throws Exception {
         var countryId = result.getInt("Country_ID");
         var country = result.getString("Country");
-        var createDate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Create_Date")) : null;
+        var createDate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class)) : null;
         var createdBy = includeAuditing ? result.getString("Created_By") : null;
-        var lastUpdate = includeAuditing ? CalendarUtils.toCalendar(result.getDate("Last_Update")) : null;
+        var lastUpdate = includeAuditing ? CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class)) : null;
         var lastUpdatedBy = includeAuditing ? result.getString("Last_Updated_By") : null;
 
         return new Country(

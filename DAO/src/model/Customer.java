@@ -4,7 +4,8 @@ import java.util.Calendar;
 
 public class Customer extends BaseEntity {
     private int customerId;
-    private int divisionId;    private FirstLevelDivision division;
+    private int divisionId;
+    private FirstLevelDivision division;
     private String name;
     private String address;
     private String postalCode;

@@ -5,6 +5,7 @@ import data.DatabaseConnection;
 import dao.UserDao;
 import model.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
@@ -25,9 +26,9 @@ public class UserDaoImpl implements UserDao {
             while(result.next()) {
                 var userId = result.getInt("User_ID");
                 var password = result.getString("Password");
-                var createDate = CalendarUtils.toCalendar(result.getDate("Create_Date"));
+                var createDate = CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class));
                 var createdBy = result.getString("Created_By");
-                var lastUpdate = CalendarUtils.toCalendar(result.getDate("Last_Update"));
+                var lastUpdate = CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class));
                 var lastUpdatedBy = result.getString("Last_Updated_By");
                 user = new User(userId, userName, password, createDate, createdBy, lastUpdate, lastUpdatedBy);
             }

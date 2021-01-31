@@ -1,11 +1,12 @@
 package implementations;
 
-import utilities.CalendarUtils;
-import data.DatabaseConnection;
 import dao.AppointmentDao;
+import data.DatabaseConnection;
 import model.Appointment;
+import utilities.CalendarUtils;
 
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,18 +71,21 @@ public class AppointmentDaoImpl implements AppointmentDao {
         var description = result.getString("Description");
         var location = result.getString("Location");
         var type = result.getString("Type");
-        var start = CalendarUtils.toCalendar(result.getDate("Start"));
-        var end = CalendarUtils.toCalendar(result.getDate("End"));
-        var createDate = CalendarUtils.toCalendar(result.getDate("Create_Date"));
+        var start = CalendarUtils.fromLocalDateTime(result.getObject("Start", LocalDateTime.class));
+        var end = CalendarUtils.fromLocalDateTime(result.getObject("End", LocalDateTime.class));
+        var createDate = CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class));
         var createdBy = result.getString("Created_By");
-        var lastUpdate = CalendarUtils.toCalendar(result.getDate("Last_Update"));
+        var lastUpdate = CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class));
         var lastUpdatedBy = result.getString("Last_Updated_By");
 
         return new Appointment(
                 appointmentId,
                 customerId,
+                null,
                 userId,
+                null,
                 contactId,
+                null,
                 title,
                 description,
                 location,

@@ -48,12 +48,17 @@ public class SceneManager {
     }
 
     public void goToScene(String fxml) {
-        goToScene(fxml, -1);
+        goToScene(fxml, -1, -1);
     }
 
-    public void goToScene(String fxml, int id) {
+    public void goToScene(String fxml, int customerId) {
+        goToScene(fxml, customerId, -1);
+    }
+
+    public void goToScene(String fxml, int customerId, int appointmentId) {
         try {
-            dataManager.setDataId(id);
+            dataManager.setCustomerId(customerId);
+            dataManager.setAppointmentId(appointmentId);
             var cls = getClass();
             var resource = cls.getResource(fxml);
             Parent main = FXMLLoader.load(resource);

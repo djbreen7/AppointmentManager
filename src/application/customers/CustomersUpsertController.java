@@ -22,6 +22,8 @@ import model.Customer;
 import model.FirstLevelDivision;
 import utilities.Lambdas;
 
+import java.util.Calendar;
+
 public class CustomersUpsertController {
     private CustomerDao customerDao;
     private CountryDao countryDao;
@@ -45,10 +47,16 @@ public class CustomersUpsertController {
         divisions = FXCollections.observableList(divisionDao.getAllDivisions());
 
         setupForm();
+        temp();
+    }
+
+    private void temp() {
+        var startDate = customer.getLastUpdate();
+        System.out.println(startDate.get(Calendar.HOUR_OF_DAY));
     }
 
     private Customer initializeCustomer() {
-        var customerId = dataManager.getAndClearDataId();
+        var customerId = dataManager.getAndClearCustomerId();
 
         if (customerId == -1) {
             return new Customer(-1, -1, null, null, null, null, null, null, null, null, null);
