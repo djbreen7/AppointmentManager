@@ -22,9 +22,9 @@ public class CustomerDaoImpl implements CustomerDao {
             return;
         }
         updateCustomer(customer);
-        }
+    }
 
-    public void addCustomer(Customer customer) {
+    private void addCustomer(Customer customer) {
         String query = String.format(
             "INSERT INTO customers " +
             "(Customer_Name, Phone, Address, Postal_Code, Division_ID, Created_By, Last_Updated_By) " +
@@ -49,7 +49,7 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    public void updateCustomer(Customer customer) {
+    private void updateCustomer(Customer customer) {
         String query = String.format(
                 "UPDATE customers " +
                 "SET Customer_Name = '%s', " +
@@ -82,15 +82,15 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public List<Customer> getAllCustomers() {
         String query = String.format(
-                "SELECT c.Customer_ID " +
-                        ",c.Customer_Name " +
-                        ",c.Address " +
-                        ",c.Postal_Code " +
-                        ",c.Phone " +
-                        ",d.Division_ID " +
-                        ",d.Division " +
-                        ",ctry.Country_ID " +
-                        ",ctry.Country " +
+                "SELECT c.Customer_ID, " +
+                        "c.Customer_Name, " +
+                        "c.Address, " +
+                        "c.Postal_Code, " +
+                        "c.Phone, " +
+                        "d.Division_ID, " +
+                        "d.Division, " +
+                        "ctry.Country_ID, " +
+                        "ctry.Country " +
                         "FROM customers c " +
                         "JOIN first_level_divisions d ON d.Division_ID = c.Division_ID " +
                         "JOIN countries ctry ON ctry.Country_ID = d.Country_ID;");

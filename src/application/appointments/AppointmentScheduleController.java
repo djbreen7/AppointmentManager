@@ -4,6 +4,8 @@ import dao.AppointmentDao;
 import dao.ContactDao;
 import dao.CustomerDao;
 import implementations.AppointmentDaoImpl;
+import implementations.ContactDaoImpl;
+import implementations.CustomerDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import managers.UserManager;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
+import utilities.CalendarUtils;
 
 import java.net.URL;
 import java.time.*;
@@ -40,12 +43,15 @@ public class AppointmentScheduleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
+        customerDao = new CustomerDaoImpl();
+        contactDao = new ContactDaoImpl();
+
         sceneManager = SceneManager.getInstance();
         dataManager = DataManager.getInstance();
         userManager = UserManager.getInstance();
 
         customers = FXCollections.observableList(customerDao.getAllCustomers());
-        contacts = FXCollections.observableList(contactDao.getAllContacts());
+//        contacts = FXCollections.observableList(contactDao.getAllContacts());
 
         initializeAppointment();
         initializeContacts();
@@ -122,6 +128,7 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private void setDateAndTime() {
+        // TODO: What if no appointment?
         var zid = ZoneId.systemDefault();
         var startDate = LocalDateTime.ofInstant(appointment.getStart().toInstant(), zid);
         var endDate = LocalDateTime.ofInstant(appointment.getEnd().toInstant(), zid);
@@ -218,28 +225,34 @@ public class AppointmentScheduleController implements Initializable {
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
+        var startDate = getCalendar(datePicker, startHourComboBox.getValue(), startMinuteComboBox.getValue());
+        var endDate = getCalendar(datePicker, endHourComboBox.getValue(), endMinuteComboBox.getValue());
+
         appointment.setAppointmentId(Integer.parseInt(appointmentIdTextField.getText()));
-        appointment.setCustomerId(customerComboBox.getValue().getCustomerId());
-        appointment.setUserId(userManager.getCurrentUser().getUserId());
-        appointment.setContactId(contactComboBox.getValue().getContactId());
         appointment.setTitle(titleTextField.getText());
         appointment.setType(typeTextField.getText());
         appointment.setDescription(descriptionTextArea.getText());
-        var startDate = getCalendar(datePicker, startHourComboBox.getValue(), startMinuteComboBox.getValue());
+        appointment.setStart(startDate);
+        appointment.setEnd(endDate);
+        appointment.setCustomerId(customerComboBox.getValue().getCustomerId());
+        appointment.setUserId(userManager.getCurrentUser().getUserId());
+        appointment.setContactId(contactComboBox.getValue().getContactId());
+        appointment.setLastUpdatedBy(userManager.getCurrentUser().getUserName());
 
         if (appointment.getAppointmentId() == -1)
             appointment.setCreatedBy(userManager.getCurrentUser().getUserName());
 
-//        appointment.upsertAppointment(appointment);
+        // TODO Needs to save in UTC
+        appointmentDao.upsertAppointment(appointment);
+
 
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
     private Calendar getCalendar(DatePicker dp, String startHour, String startMinute) {
-        // TODO
         LocalDate localDate = dp.getValue();
         LocalTime time = LocalTime.parse(startHour + ":" + startMinute);
-        Instant instant = Instant.from(localDate);
-        return Calendar.getInstance();
+        LocalDateTime ldt = LocalDateTime.of(localDate, time);
+        return CalendarUtils.fromLocalDateTime(ldt);
     }
 }

@@ -5,8 +5,8 @@ import model.Appointment;
 import java.util.List;
 
 public interface AppointmentDao {
-    public List<Appointment> getAllAppointments();
+    public void upsertAppointment(Appointment appointment);
+    public List<Appointment> getAllAppointments(int userId);
     public Appointment getAppointment(int appointmentId);
-    public void updateAppointment(Appointment appointment);
     public void deleteAppointment(int appointmentId);
 }

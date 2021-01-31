@@ -25,7 +25,7 @@ public class AppointmentsController implements Initializable {
         userManager = UserManager.getInstance();
         sceneManager = SceneManager.getInstance();
         dataManager = DataManager.getInstance();
-        appointments = appointmentDao.getAllAppointments();
+        appointments = appointmentDao.getAllAppointments(userManager.getCurrentUser().getUserId());
 
         System.out.println(dataManager.getAndClearCustomerId());
     }
