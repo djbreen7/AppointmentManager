@@ -74,12 +74,13 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 appointment.getDescription(),
                 appointment.getLocation(),
                 appointment.getType(),
-                appointment.getStart(),
-                appointment.getEnd(),
+                new Timestamp(appointment.getStart().getTime().getTime()),
+                new Timestamp(appointment.getEnd().getTime().getTime()),
                 appointment.getLastUpdatedBy(),
                 appointment.getCustomerId(),
                 appointment.getUserId(),
-                appointment.getContactId()
+                appointment.getContactId(),
+                appointment.getAppointmentId()
         );
         try {
             DatabaseConnection.makeConnection();
@@ -122,7 +123,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     @Override
     public Appointment getAppointment(int appointmentId) {
         String query = String.format(
-                "SELECT * FROM appointments " +
+                "SELECT * FROM appointments a " +
+                "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
+                "JOIN customers cust ON cust.Customer_ID = a.Customer_ID " +
                 "WHERE Appointment_ID = %s",
                 appointmentId
         );
@@ -134,6 +137,8 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
             while (result.next()) {
                 appointment = resultSetBuilder.buildAppointmentResult(result, true);
+                appointment.setContact(resultSetBuilder.buildContactResult(result));
+                appointment.setCustomer(resultSetBuilder.buildCustomerResult(result, false));
             }
         } catch (Exception e) {
             System.out.println(e);

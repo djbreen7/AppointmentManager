@@ -58,11 +58,10 @@ public class AppointmentScheduleController implements Initializable {
         initializeCustomers();
 
         setupForm();
+        disablePastDates();
         setDateAndTime();
         configureComboBoxes();
         setComboBoxItems();
-
-        System.out.println(dataManager.getAndClearCustomerId());
     }
 
     private void initializeAppointment() {
@@ -87,16 +86,16 @@ public class AppointmentScheduleController implements Initializable {
                     null,
                     -1,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    "",
+                    "",
+                    "",
+                    "",
                     start,
                     end,
                     null,
+                    "",
                     null,
-                    null,
-                    null
+                    ""
             );
             return;
         }
@@ -134,6 +133,18 @@ public class AppointmentScheduleController implements Initializable {
             appointmentIdLabel.setVisible(false);
             appointmentIdTextField.setVisible(false);
         }
+    }
+
+    private void disablePastDates() {
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                var today = LocalDate.now();
+
+                setDisable(empty || item.isBefore(today));
+            }
+        });
     }
 
     private void setDateAndTime() {
