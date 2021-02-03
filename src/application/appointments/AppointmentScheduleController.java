@@ -251,8 +251,8 @@ public class AppointmentScheduleController implements Initializable {
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
-        var startDate = getCalendar(datePicker, Integer.parseInt(startHourComboBox.getValue()), startMinuteComboBox.getValue(), startPeriodComboBox.getValue());
-        var endDate = getCalendar(datePicker, Integer.parseInt(endHourComboBox.getValue()), endMinuteComboBox.getValue(), endPeriodComboBox.getValue());
+        var startDate = getCalendar(datePicker, Integer.parseInt(startHourComboBox.getValue()), Integer.parseInt(startMinuteComboBox.getValue()), startPeriodComboBox.getValue());
+        var endDate = getCalendar(datePicker, Integer.parseInt(endHourComboBox.getValue()), Integer.parseInt(endMinuteComboBox.getValue()), endPeriodComboBox.getValue());
 
         appointment.setAppointmentId(Integer.parseInt(appointmentIdTextField.getText()));
         appointment.setTitle(titleTextField.getText());
@@ -276,13 +276,13 @@ public class AppointmentScheduleController implements Initializable {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
-    private Calendar getCalendar(DatePicker dp, int hour, String minute, String period) {
-        var additive = (period.equals("PM") && hour < 12) ? 12 : 0;
-        var formattedHour = String.valueOf(String.format("%02d", hour + additive));
-        var localDate = dp.getValue();
-        var time = LocalTime.parse(formattedHour + ":" + minute);
-        var ldt = LocalDateTime.of(localDate, time);
+    private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
+        var year = dp.getValue().getYear();
+        var month = dp.getValue().getMonthValue();
+        var day = dp.getValue().getDayOfMonth();
 
-        return CalendarUtils.fromLocalDateTime(ldt);
+        if (hour != 12 && period.equals("PM")) hour += 12;
+
+        return CalendarUtils.doStuff(year, month, day, hour, minute);
     }
 }

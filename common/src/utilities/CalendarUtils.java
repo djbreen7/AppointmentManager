@@ -16,4 +16,15 @@ public class CalendarUtils {
         System.out.println("Time: " + cal.getTime());
         return cal;
     }
+
+    public static Calendar doStuff(int year, int month, int day, int hour, int minute) {
+        var cal = Calendar.getInstance();
+        var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());
+        var indexedMonth = month - 1;
+
+        cal.set(year, indexedMonth, day, hour, minute);
+        cal.setTimeInMillis(cal.getTimeInMillis() - offset);
+
+        return cal;
+    }
 }
