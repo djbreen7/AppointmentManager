@@ -18,8 +18,9 @@
             <TableColumn fx:id="phoneCol" prefWidth="109.20001220703125" text="Phone" />
         </columns>
       </TableView>
-      <Button fx:id="modifyCustomerBtn" layoutX="144.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleModifyCustomerBtnAction" text="Modify Customer" />
-      <Button fx:id="deleteCustomerBtn" layoutX="24.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleDeleteCustomerBtnAction" style="-fx-background-color: #dc3545;" text="Delete Customer" />
-      <Button fx:id="addCustomerBtn" layoutX="663.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleAddCustomerBtnAction" text="Add Customer" />
+      <Button fx:id="modifyBtn" layoutX="87.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleModifyBtnAction" text="Modify" />
+      <Button fx:id="deleteBtn" layoutX="24.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleDeleteBtnAction" style="-fx-background-color: #dc3545;" text="Delete" />
+       <Button fx:id="scheduleAppointmentBtn" layoutX="321.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleScheduleAppointmentBtnAction" text="Schedule Appointment" />
+       <Button fx:id="addCustomerBtn" layoutX="663.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleAddCustomerBtnAction" text="Add Customer" />
    </children>
 </AnchorPane>

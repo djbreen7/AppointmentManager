@@ -26,8 +26,33 @@ public class CustomersController {
         sceneManager = SceneManager.getInstance();
         customers = FXCollections.observableList(customerDao.getAllCustomers());
 
-        configureCustomersTable();
         customersTable.setItems(customers);
+        configureCustomersTable();
+    }
+
+    private void configureCustomersTable() {
+        customersTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                var index = customersTable.getSelectionModel().getFocusedIndex();
+                var customerId = customersTable.getItems().get(index).getCustomerId();
+
+                sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE, customerId);
+            }
+        });
+
+        modifyBtn.disableProperty().bind(customersTable.getSelectionModel().selectedItemProperty().isNull());
+        deleteBtn.disableProperty().bind(customersTable.getSelectionModel().selectedItemProperty().isNull());
+        scheduleAppointmentBtn.disableProperty().bind(customersTable.getSelectionModel().selectedItemProperty().isNull());
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        divisionCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDivision().getDivision()));
+        countryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDivision().getCountry().getCountry()));
+        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+        customersTable.getSortOrder().add(customerIdCol);
+        customersTable.sort();
     }
 
     @FXML
@@ -55,16 +80,19 @@ public class CustomersController {
     private TableColumn<Customer,String> phoneCol;
 
     @FXML
-    private Button modifyCustomerBtn;
+    private Button deleteBtn;
 
     @FXML
-    private Button deleteCustomerBtn;
+    private Button modifyBtn;
+
+    @FXML
+    private Button scheduleAppointmentBtn;
 
     @FXML
     private Button addCustomerBtn;
 
     @FXML
-    void handleDeleteCustomerBtnAction(ActionEvent event) {
+    void handleDeleteBtnAction(ActionEvent event) {
         var index = customersTable.getSelectionModel().getFocusedIndex();
         var customer = customersTable.getItems().get(index);
 
@@ -81,35 +109,23 @@ public class CustomersController {
     }
 
     @FXML
-    public void handleModifyCustomerBtnAction(ActionEvent event) throws IOException {
+    private void handleModifyBtnAction(ActionEvent event) throws IOException {
         var index = customersTable.getSelectionModel().getFocusedIndex();
         var customerId = customersTable.getItems().get(index).getCustomerId();
 
         sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE, customerId);
     }
 
-    public void handleAddCustomerBtnAction(ActionEvent event) {
-        sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE);
+    @FXML
+    private void handleScheduleAppointmentBtnAction(ActionEvent event) {
+        var index = customersTable.getSelectionModel().getFocusedIndex();
+        var customerId = customersTable.getItems().get(index).getCustomerId();
+
+        sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customerId);
     }
 
-    private void configureCustomersTable() {
-        customersTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                var index = customersTable.getSelectionModel().getFocusedIndex();
-                var customerId = customersTable.getItems().get(index).getCustomerId();
-
-                sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE, customerId);
-            }
-        });
-
-        modifyCustomerBtn.disableProperty().bind(customersTable.getSelectionModel().selectedItemProperty().isNull());
-        deleteCustomerBtn.disableProperty().bind(customersTable.getSelectionModel().selectedItemProperty().isNull());
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        divisionCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDivision().getDivision()));
-        countryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDivision().getCountry().getCountry()));
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+    @FXML
+    private void handleAddCustomerBtnAction(ActionEvent event) {
+        sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE);
     }
 }

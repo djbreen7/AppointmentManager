@@ -150,11 +150,6 @@ public class CustomersUpsertController {
     private ComboBox<Country> countryComboBox;
 
     @FXML
-    private void handleScheduleAppointmentBtnAction(ActionEvent event) {
-        sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customer.getCustomerId());
-    }
-
-    @FXML
     private void handleCountryComboAction(ActionEvent event) {
         var newCountry = countryComboBox.getValue();
         var result = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions, newCountry.getCountryId()));

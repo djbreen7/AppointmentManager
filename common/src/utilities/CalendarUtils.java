@@ -13,6 +13,7 @@ public class CalendarUtils {
 
         GregorianCalendar cal = GregorianCalendar.from(zdt);
         cal.setTimeZone(TimeZone.getTimeZone(zoneId));
+        System.out.println("Time: " + cal.getTime());
         return cal;
     }
 }

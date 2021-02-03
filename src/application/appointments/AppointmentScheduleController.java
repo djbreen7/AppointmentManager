@@ -51,7 +51,7 @@ public class AppointmentScheduleController implements Initializable {
         userManager = UserManager.getInstance();
 
         customers = FXCollections.observableList(customerDao.getAllCustomers());
-//        contacts = FXCollections.observableList(contactDao.getAllContacts());
+        contacts = FXCollections.observableList(contactDao.getAllContacts());
 
         initializeAppointment();
         initializeContacts();
@@ -70,6 +70,15 @@ public class AppointmentScheduleController implements Initializable {
         var customerId = dataManager.getAndClearCustomerId();
 
         if (appointmentId == -1) {
+            var start = Calendar.getInstance();
+            var end = Calendar.getInstance();
+
+            start.set(Calendar.HOUR_OF_DAY, 12);
+            start.set(Calendar.MINUTE, 0);
+
+            end.set(Calendar.HOUR_OF_DAY, 13);
+            end.set(Calendar.MINUTE, 0);
+
             appointment = new Appointment(
                     appointmentId,
                     customerId,
@@ -82,8 +91,8 @@ public class AppointmentScheduleController implements Initializable {
                     null,
                     null,
                     null,
-                    null,
-                    null,
+                    start,
+                    end,
                     null,
                     null,
                     null,
@@ -128,18 +137,26 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private void setDateAndTime() {
-        // TODO: What if no appointment?
         var zid = ZoneId.systemDefault();
         var startDate = LocalDateTime.ofInstant(appointment.getStart().toInstant(), zid);
+        var startHour = startDate.getHour();
+        var startPeriod = startDate.getHour() >= 12 ? "PM" : "AM";
         var endDate = LocalDateTime.ofInstant(appointment.getEnd().toInstant(), zid);
+        var endHour = endDate.getHour();
+        var endPeriod = endDate.getHour() >= 12 ? "PM" : "AM";
+
+        if (startHour > 12) startHour -= 12;
+        if (endHour > 12) endHour -= 12;
 
         datePicker.setValue(LocalDate.from(startDate));
 
-        startHourComboBox.setValue(String.valueOf(startDate.getHour()));
-        startMinuteComboBox.setValue(String.valueOf(startDate.getMinute()));
+        startHourComboBox.setValue(String.valueOf(startHour));
+        startMinuteComboBox.setValue(String.valueOf(String.format("%02d", startDate.getMinute())));
+        startPeriodComboBox.setValue(startPeriod);
 
-        endHourComboBox.setValue(String.valueOf(endDate.getHour()));
-        endMinuteComboBox.setValue(String.valueOf(endDate.getMinute()));
+        endHourComboBox.setValue(String.valueOf(endHour));
+        endMinuteComboBox.setValue(String.valueOf(String.format("%02d", endDate.getMinute())));
+        endPeriodComboBox.setValue(endPeriod);
     }
 
     private void configureComboBoxes() {
@@ -201,16 +218,25 @@ public class AppointmentScheduleController implements Initializable {
     private TextField typeTextField;
 
     @FXML
+    private TextField locationTextField;
+
+    @FXML
     private ComboBox<String> startHourComboBox;
 
     @FXML
     private ComboBox<String> startMinuteComboBox;
 
     @FXML
+    private ComboBox<String> startPeriodComboBox;
+
+    @FXML
     private ComboBox<String> endHourComboBox;
 
     @FXML
     private ComboBox<String> endMinuteComboBox;
+
+    @FXML
+    private ComboBox<String> endPeriodComboBox;
 
     @FXML
     private ComboBox<Contact> contactComboBox;
@@ -225,13 +251,14 @@ public class AppointmentScheduleController implements Initializable {
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
-        var startDate = getCalendar(datePicker, startHourComboBox.getValue(), startMinuteComboBox.getValue());
-        var endDate = getCalendar(datePicker, endHourComboBox.getValue(), endMinuteComboBox.getValue());
+        var startDate = getCalendar(datePicker, Integer.parseInt(startHourComboBox.getValue()), startMinuteComboBox.getValue(), startPeriodComboBox.getValue());
+        var endDate = getCalendar(datePicker, Integer.parseInt(endHourComboBox.getValue()), endMinuteComboBox.getValue(), endPeriodComboBox.getValue());
 
         appointment.setAppointmentId(Integer.parseInt(appointmentIdTextField.getText()));
         appointment.setTitle(titleTextField.getText());
-        appointment.setType(typeTextField.getText());
         appointment.setDescription(descriptionTextArea.getText());
+        appointment.setLocation(locationTextField.getText());
+        appointment.setType(typeTextField.getText());
         appointment.setStart(startDate);
         appointment.setEnd(endDate);
         appointment.setCustomerId(customerComboBox.getValue().getCustomerId());
@@ -249,10 +276,13 @@ public class AppointmentScheduleController implements Initializable {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
-    private Calendar getCalendar(DatePicker dp, String startHour, String startMinute) {
-        LocalDate localDate = dp.getValue();
-        LocalTime time = LocalTime.parse(startHour + ":" + startMinute);
-        LocalDateTime ldt = LocalDateTime.of(localDate, time);
+    private Calendar getCalendar(DatePicker dp, int hour, String minute, String period) {
+        var additive = (period.equals("PM") && hour < 12) ? 12 : 0;
+        var formattedHour = String.valueOf(String.format("%02d", hour + additive));
+        var localDate = dp.getValue();
+        var time = LocalTime.parse(formattedHour + ":" + minute);
+        var ldt = LocalDateTime.of(localDate, time);
+
         return CalendarUtils.fromLocalDateTime(ldt);
     }
 }

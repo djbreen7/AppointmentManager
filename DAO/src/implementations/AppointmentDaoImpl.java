@@ -3,14 +3,19 @@ package implementations;
 import dao.AppointmentDao;
 import data.DatabaseConnection;
 import model.Appointment;
-import utilities.CalendarUtils;
+import utilities.ResultSetBuilder;
 
-import java.sql.ResultSet;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentDaoImpl implements AppointmentDao {
+
+    private ResultSetBuilder resultSetBuilder;
+
+    public AppointmentDaoImpl() {
+        resultSetBuilder = new ResultSetBuilder();
+    }
 
     @Override
     public void upsertAppointment(Appointment appointment) {
@@ -31,8 +36,8 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 appointment.getDescription(),
                 appointment.getLocation(),
                 appointment.getType(),
-                appointment.getStart(),
-                appointment.getEnd(),
+                new Timestamp(appointment.getStart().getTime().getTime()),
+                new Timestamp(appointment.getEnd().getTime().getTime()),
                 appointment.getCreatedBy(),
                 appointment.getLastUpdatedBy(),
                 appointment.getCustomerId(),
@@ -91,8 +96,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     @Override
     public List<Appointment> getAllAppointments(int userId) {
         String query = String.format(
-                "SELECT * FROM appointments " +
-                "WHERE User_ID = %s", userId
+                "SELECT * FROM appointments a " +
+                "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
+                "WHERE User_ID = %s ", userId
         );
         List<Appointment> appointments = new ArrayList();
         try {
@@ -101,7 +107,8 @@ public class AppointmentDaoImpl implements AppointmentDao {
             var result = statement.executeQuery(query);
 
             while (result.next()) {
-                var appointment = buildResult(result);
+                var appointment = resultSetBuilder.buildAppointmentResult(result, false);
+                appointment.setContact(resultSetBuilder.buildContactResult(result));
                 appointments.add(appointment);
             }
         } catch (Exception e) {
@@ -114,7 +121,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @Override
     public Appointment getAppointment(int appointmentId) {
-        String query = String.format("SELECT * FROM appointments WHERE Appointment_ID = %s", appointmentId);
+        String query = String.format(
+                "SELECT * FROM appointments " +
+                "WHERE Appointment_ID = %s",
+                appointmentId
+        );
         Appointment appointment = null;
         try {
             DatabaseConnection.makeConnection();
@@ -122,7 +133,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
             var result = statement.executeQuery(query);
 
             while (result.next()) {
-                appointment = buildResult(result);
+                appointment = resultSetBuilder.buildAppointmentResult(result, true);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -135,42 +146,5 @@ public class AppointmentDaoImpl implements AppointmentDao {
     @Override
     public void deleteAppointment(int appointmentId) {
 
-    }
-
-    private Appointment buildResult(ResultSet result) throws Exception {
-        var appointmentId = result.getInt("Appointment_ID");
-        var customerId = result.getInt("Customer_ID");
-        var userId = result.getInt("User_ID");
-        var contactId = result.getInt("Contact_ID");
-        var title = result.getString("Title");
-        var description = result.getString("Description");
-        var location = result.getString("Location");
-        var type = result.getString("Type");
-        var start = CalendarUtils.fromLocalDateTime(result.getObject("Start", LocalDateTime.class));
-        var end = CalendarUtils.fromLocalDateTime(result.getObject("End", LocalDateTime.class));
-        var createDate = CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class));
-        var createdBy = result.getString("Created_By");
-        var lastUpdate = CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class));
-        var lastUpdatedBy = result.getString("Last_Updated_By");
-
-        return new Appointment(
-                appointmentId,
-                customerId,
-                null,
-                userId,
-                null,
-                contactId,
-                null,
-                title,
-                description,
-                location,
-                type,
-                start,
-                end,
-                createDate,
-                createdBy,
-                lastUpdate,
-                lastUpdatedBy
-        );
     }
 }
