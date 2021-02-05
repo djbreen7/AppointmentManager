@@ -47,7 +47,7 @@ public class AppointmentsController implements Initializable {
         );
 
         activeCal = Calendar.getInstance();
-        updateAppointmentsTable(true, 0);
+        updateAppointmentsView(true, 0);
         configureAppointmentsTable();
     }
 
@@ -84,12 +84,27 @@ public class AppointmentsController implements Initializable {
         return formatter.format(cal.getTime());
     }
 
-    private void updateAppointmentsTable(boolean isMonth, int increment) {
-        if (isMonth) activeCal.set(Calendar.MONTH, activeCal.get(Calendar.MONTH) + increment);
-        if (!isMonth) activeCal.set(Calendar.WEEK_OF_YEAR, activeCal.get(Calendar.WEEK_OF_YEAR) + increment);
+    private void updateAppointmentsView(boolean isMonth, int increment) {
+        var endCal = Calendar.getInstance();
+        if (isMonth) {
+            activeCal.set(Calendar.MONTH, activeCal.get(Calendar.MONTH) + increment);
+            activeCal.set(Calendar.DAY_OF_MONTH, 1);
+            endCal.setTimeInMillis(activeCal.getTimeInMillis());
+            endCal.add(Calendar.MONTH, 1);
+            endCal.add(Calendar.DATE, -1);
+        } else {
+            activeCal.set(Calendar.DAY_OF_WEEK, activeCal.get(Calendar.DAY_OF_WEEK) - activeCal.get(Calendar.DAY_OF_WEEK) + 2);
+            activeCal.set(Calendar.WEEK_OF_YEAR, activeCal.get(Calendar.WEEK_OF_YEAR) + increment);
+            endCal.setTimeInMillis(activeCal.getTimeInMillis());
+            endCal.add(Calendar.DATE, 6);
+        }
 
-        activeWeek = activeCal.get(Calendar.WEEK_OF_YEAR);
+        var dateFrom = new SimpleDateFormat("MMM dd").format(activeCal.getTime());
+        var dateTo = new SimpleDateFormat("MMM dd").format(endCal.getTime());
+        dateRangeLabel.setText(MessageFormat.format("{0} - {1}", dateFrom, dateTo));
+
         activeMonth = activeCal.get(Calendar.MONTH);
+        activeWeek = activeCal.get(Calendar.WEEK_OF_YEAR);
         currentMonthAppointments = FXCollections.observableList(
                 Lambdas.getCurrentMonthAppointments(appointments, activeMonth)
         );
@@ -98,8 +113,6 @@ public class AppointmentsController implements Initializable {
         );
         appointmentsTable.setItems(isMonth ? currentMonthAppointments : currentWeekAppointments);
         appointmentsTable.refresh();
-
-        System.out.println(new SimpleDateFormat("MMM").format(activeCal.getTime()));
     }
 
     @FXML
@@ -139,6 +152,15 @@ public class AppointmentsController implements Initializable {
     private Button deleteBtn;
 
     @FXML
+    private RadioButton weekRadio;
+
+    @FXML
+    private RadioButton monthRadio;
+
+    @FXML
+    private Label dateRangeLabel;
+
+    @FXML
     void handleAddAppointmentBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE);
     }
@@ -162,7 +184,7 @@ public class AppointmentsController implements Initializable {
         var deleteSuccessful = appointmentDao.deleteAppointment(appointment.getAppointmentId());
         if (!deleteSuccessful) return;
 
-        appointments.remove(Lambdas.getAppointmentById(appointments,appointment.getAppointmentId()));
+        appointments.remove(Lambdas.getAppointmentById(appointments, appointment.getAppointmentId()));
     }
 
     @FXML
@@ -176,11 +198,21 @@ public class AppointmentsController implements Initializable {
 
     @FXML
     private void handleMonthRadioClick(ActionEvent event) {
-        updateAppointmentsTable(true, 0);
+        updateAppointmentsView(true, 0);
     }
 
     @FXML
     private void handleWeekRadioClick(ActionEvent event) {
-        updateAppointmentsTable(false, 0);
+        updateAppointmentsView(false, 0);
+    }
+
+    @FXML
+    private void handlePrevBtnAction(ActionEvent event) {
+        updateAppointmentsView(monthRadio.isSelected(), -1);
+    }
+
+    @FXML
+    private void handleNextBtnAction(ActionEvent event) {
+        updateAppointmentsView(monthRadio.isSelected(), 1);
     }
 }
