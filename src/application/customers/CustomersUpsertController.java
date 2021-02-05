@@ -22,8 +22,6 @@ import model.Customer;
 import model.FirstLevelDivision;
 import utilities.Lambdas;
 
-import java.util.Calendar;
-
 /**
  *
  * @author Daniel J Breen
@@ -53,12 +51,6 @@ public class CustomersUpsertController {
         divisions = FXCollections.observableList(divisionDao.getAllDivisions());
 
         setupForm();
-        temp();
-    }
-
-    private void temp() {
-        var startDate = customer.getLastUpdate();
-        System.out.println(startDate.get(Calendar.HOUR_OF_DAY));
     }
 
     private Customer initializeCustomer() {
