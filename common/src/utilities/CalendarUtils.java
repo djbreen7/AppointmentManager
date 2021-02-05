@@ -6,6 +6,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class CalendarUtils {
     public static Calendar fromLocalDateTime(LocalDateTime dateTime) {
         var zdt = ZonedDateTime.of(dateTime, TimeZone.getTimeZone("UTC").toZoneId());

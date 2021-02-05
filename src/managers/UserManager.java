@@ -2,6 +2,12 @@ package managers;
 
 import model.User;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class UserManager {
     private static UserManager instance = null;
     private User currentUser;

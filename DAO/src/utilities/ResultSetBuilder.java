@@ -5,6 +5,12 @@ import model.*;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class ResultSetBuilder {
 
     public ResultSetBuilder() {

@@ -8,6 +8,12 @@ import model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {

@@ -23,6 +23,12 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class AppointmentsController implements Initializable {
     private AppointmentDao appointmentDao;
     private UserManager userManager;

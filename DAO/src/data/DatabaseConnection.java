@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class DatabaseConnection {
     private static final String databaseName = "WJ07dC8";
     private static final String DB_URL = "jdbc:mysql://wgudb.ucertify.com/" + databaseName;

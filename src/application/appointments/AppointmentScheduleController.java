@@ -31,6 +31,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class AppointmentScheduleController implements Initializable {
     private AppointmentDao appointmentDao;
     private CustomerDao customerDao;

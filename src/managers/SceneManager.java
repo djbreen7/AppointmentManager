@@ -9,6 +9,12 @@ import javafx.stage.Stage;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class SceneManager {
     public static final String SIDEBAR = "../application/sidebar/sidebar.fxml";
     public static final String LOGIN_SCENE = "../application/login/login.fxml";

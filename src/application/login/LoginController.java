@@ -17,6 +17,12 @@ import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class LoginController implements Initializable {
     private UserDao userDao;
     private SceneManager sceneManager;

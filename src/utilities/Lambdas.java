@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class Lambdas {
     public static Country getCountryByName(List<Country> list, String str) {
         BiFunction<List<Country>, String, Country> func;

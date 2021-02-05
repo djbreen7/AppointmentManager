@@ -19,6 +19,12 @@ import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class CustomersController implements Initializable {
     private CustomerDao customerDao;
     private SceneManager sceneManager;

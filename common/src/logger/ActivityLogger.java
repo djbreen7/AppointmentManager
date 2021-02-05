@@ -5,6 +5,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * A wrapper for java.util.Logging to simplify logging to login_activity.txt.
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class ActivityLogger {
     private final Logger logger = Logger.getLogger("ActivityLog");
 
@@ -27,6 +34,12 @@ public class ActivityLogger {
         }
     }
 
+    /**
+     * Logs a message related to a user's activity such as log in attempts.
+     *
+     * @param userName The name of the user performing the activity.
+     * @param message  The message containing information about the activity.
+     */
     public void info(String userName, String message) {
         var sj = new StringJoiner(" ");
         sj.add(userName);

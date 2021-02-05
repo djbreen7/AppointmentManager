@@ -3,6 +3,12 @@ package utilities;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class BusinessHours {
     private int startHour;
     private int endHour;

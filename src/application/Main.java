@@ -4,6 +4,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import managers.SceneManager;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class Main extends Application {
 
     @Override

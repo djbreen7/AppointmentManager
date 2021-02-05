@@ -8,6 +8,12 @@ import utilities.ResultSetBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
     private ResultSetBuilder resultSetBuilder;
 

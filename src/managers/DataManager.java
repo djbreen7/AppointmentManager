@@ -1,5 +1,11 @@
 package managers;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class DataManager {
     private static DataManager instance = null;
     private int customerId;

@@ -8,6 +8,12 @@ import managers.SceneManager;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class SidebarController {
     private SceneManager sceneManager = SceneManager.getInstance();
     private List<Button> buttons;
