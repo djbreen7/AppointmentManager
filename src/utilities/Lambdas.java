@@ -93,6 +93,4 @@ public class Lambdas {
         });
         return func.apply(list, id);
     }
-
-
 }
