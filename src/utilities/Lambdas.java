@@ -1,8 +1,10 @@
 package utilities;
 
+import model.Appointment;
 import model.Country;
 import model.FirstLevelDivision;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -36,6 +38,37 @@ public class Lambdas {
             return a.stream()
                     .filter(x -> x.getCountryId() == b)
                     .collect(Collectors.toList());
+        });
+        return func.apply(list, id);
+    }
+
+    public static List<Appointment> getCurrentWeekAppointments(List<Appointment> list, int week) {
+        BiFunction<List<Appointment>, Integer, List<Appointment>> func;
+        func = ((List<Appointment> a, Integer b) -> {
+            return a.stream()
+                    .filter(x -> x.getStart().get(Calendar.WEEK_OF_YEAR) == b)
+                    .collect(Collectors.toList());
+        });
+        return func.apply(list, week);
+    }
+
+    public static List<Appointment> getCurrentMonthAppointments(List<Appointment> list, int month) {
+        BiFunction<List<Appointment>, Integer, List<Appointment>> func;
+        func = ((List<Appointment> a, Integer b) -> {
+            return a.stream()
+                    .filter(x -> x.getStart().get(Calendar.MONTH) == b)
+                    .collect(Collectors.toList());
+        });
+        return func.apply(list, month);
+    }
+
+    public static Appointment getAppointmentById(List<Appointment> list, int id) {
+        BiFunction<List<Appointment>, Integer, Appointment> func;
+        func = ((List<Appointment> a, Integer b) -> {
+            return a.stream()
+                    .filter(x -> x.getAppointmentId() == b)
+                    .collect(Collectors.toList())
+                    .get(0);
         });
         return func.apply(list, id);
     }

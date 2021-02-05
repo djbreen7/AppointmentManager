@@ -8,19 +8,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import managers.DataManager;
 import managers.SceneManager;
 import managers.UserManager;
 import model.Appointment;
+import utilities.Lambdas;
 
 import java.net.URL;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentsController implements Initializable {
@@ -28,7 +28,10 @@ public class AppointmentsController implements Initializable {
     private UserManager userManager;
     private SceneManager sceneManager;
     private DataManager dataManager;
+
     private ObservableList<Appointment> appointments;
+    private ObservableList<Appointment> currentMonthAppointments;
+    private ObservableList<Appointment> currentWeekAppointments;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,9 +39,11 @@ public class AppointmentsController implements Initializable {
         userManager = UserManager.getInstance();
         sceneManager = SceneManager.getInstance();
         dataManager = DataManager.getInstance();
-        appointments = FXCollections.observableList(appointmentDao.getAllAppointments(userManager.getCurrentUser().getUserId()));
+        appointments = FXCollections.observableList(
+                appointmentDao.getAllAppointments(userManager.getCurrentUser().getUserId())
+        );
 
-        appointmentsTable.setItems(appointments);
+        updateAppointmentsTable(true);
         configureAppointmentsTable();
     }
 
@@ -127,11 +132,42 @@ public class AppointmentsController implements Initializable {
 
     @FXML
     void handleDeleteBtnAction(ActionEvent event) {
+        var index = appointmentsTable.getSelectionModel().getFocusedIndex();
+        var appointment = appointmentsTable.getItems().get(index);
 
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                MessageFormat.format(
+                        "Are you sure you want to delete the following appointment?\n\nID:\t\t{0}\nTitle:\t\t{1}",
+                        appointment.getAppointmentId(), appointment.getTitle()
+                )
+        );
+
+        Optional<ButtonType> buttonType = alert.showAndWait();
+        if (buttonType.get() == ButtonType.CANCEL) return;
+
+        var deleteSuccessful = appointmentDao.deleteAppointment(appointment.getAppointmentId());
+        if (!deleteSuccessful) return;
+
+        appointments.remove(Lambdas.getAppointmentById(appointments,appointment.getAppointmentId()));
+    }
+
+    private void updateAppointmentsTable(boolean isMonth) {
+        var cal = Calendar.getInstance();
+        var week = cal.get(Calendar.WEEK_OF_YEAR);
+        var month = cal.get(Calendar.MONTH);
+        currentMonthAppointments = FXCollections.observableList(
+                Lambdas.getCurrentMonthAppointments(appointments, month)
+        );
+        currentWeekAppointments = FXCollections.observableList(
+                Lambdas.getCurrentWeekAppointments(appointments, week - 1)
+        );
+        appointmentsTable.setItems(isMonth ? currentMonthAppointments : currentWeekAppointments);
+        appointmentsTable.refresh();
     }
 
     @FXML
-    void handleModifyBtnAction(ActionEvent event) {
+    private void handleModifyBtnAction(ActionEvent event) {
         var index = appointmentsTable.getSelectionModel().getFocusedIndex();
         var customerId = appointmentsTable.getItems().get(index).getCustomerId();
         var appointmentId = appointmentsTable.getItems().get(index).getAppointmentId();
@@ -140,12 +176,12 @@ public class AppointmentsController implements Initializable {
     }
 
     @FXML
-    void handleMonthRadioClick(ActionEvent event) {
-
+    private void handleMonthRadioClick(ActionEvent event) {
+        updateAppointmentsTable(true);
     }
 
     @FXML
-    void handleWeekRadioClick(ActionEvent event) {
-
+    private void handleWeekRadioClick(ActionEvent event) {
+        updateAppointmentsTable(false);
     }
 }

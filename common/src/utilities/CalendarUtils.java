@@ -14,7 +14,7 @@ public class CalendarUtils {
         return cal;
     }
 
-    public static Calendar doStuff(int year, int month, int day, int hour, int minute) {
+    public static Calendar fromValues(int year, int month, int day, int hour, int minute) {
         var cal = Calendar.getInstance();
         var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());
         var indexedMonth = month - 1;

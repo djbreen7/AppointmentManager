@@ -19,13 +19,12 @@ public class SidebarController {
 
     private void setActiveButton(String activeButtonText) {
         buttons.forEach(button -> {
-            if (!button.getText().equals(activeButtonText)) {
-                button.getStyleClass().remove("active");
-                return;
+            button.getStyleClass().remove("active");
+            if (button.getText().equals(activeButtonText)) {
+                button.getStyleClass().add("active");
             }
-            button.getStyleClass().add("active");
         });
-    };
+    }
 
     @FXML
     private Button appointmentsBtn;
@@ -34,13 +33,13 @@ public class SidebarController {
     private Button customersBtn;
 
     @FXML
-    void handleAppointmentsBtnAction(ActionEvent event) {
+    private void handleAppointmentsBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
         setActiveButton(appointmentsBtn.getText());
     }
 
     @FXML
-    void handleCustomersBtnAction(ActionEvent event) {
+    private void handleCustomersBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
         setActiveButton(customersBtn.getText());
     }

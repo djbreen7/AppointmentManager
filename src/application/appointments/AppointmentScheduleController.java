@@ -19,13 +19,14 @@ import managers.UserManager;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
+import utilities.BusinessHours;
 import utilities.CalendarUtils;
 
 import java.net.URL;
-import java.time.*;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 public class AppointmentScheduleController implements Initializable {
     private AppointmentDao appointmentDao;
@@ -179,6 +180,7 @@ public class AppointmentScheduleController implements Initializable {
 
                 return null;
             }
+
             @Override
             public Contact fromString(final String string) {
                 return contactComboBox.getItems().stream().filter(x -> x.getName().equals(string)).findFirst().orElse(null);
@@ -193,6 +195,7 @@ public class AppointmentScheduleController implements Initializable {
 
                 return null;
             }
+
             @Override
             public Customer fromString(final String string) {
                 return customerComboBox.getItems().stream().filter(x -> x.getName().equals(string)).findFirst().orElse(null);
@@ -201,8 +204,8 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private void setComboBoxItems() {
-        var hours = FXCollections.observableList(Arrays.asList("12","1","2","3","4","5","6","7","8","9","10","11"));
-        var minutes = FXCollections.observableList(Arrays.asList("00","15","30","45"));
+        var hours = FXCollections.observableList(Arrays.asList("12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"));
+        var minutes = FXCollections.observableList(Arrays.asList("00", "15", "30", "45"));
 
         startHourComboBox.setItems(hours);
         startMinuteComboBox.setItems(minutes);
@@ -256,14 +259,36 @@ public class AppointmentScheduleController implements Initializable {
     private ComboBox<Customer> customerComboBox;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Label timeErrorLabel;
+
+    @FXML
     private void handleCancelBtnAction(ActionEvent event) {
-        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
+        sceneManager.goToPreviousScene();
     }
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
-        var startDate = getCalendar(datePicker, Integer.parseInt(startHourComboBox.getValue()), Integer.parseInt(startMinuteComboBox.getValue()), startPeriodComboBox.getValue());
-        var endDate = getCalendar(datePicker, Integer.parseInt(endHourComboBox.getValue()), Integer.parseInt(endMinuteComboBox.getValue()), endPeriodComboBox.getValue());
+        var startHour = Integer.parseInt(startHourComboBox.getValue());
+        var startMinute = Integer.parseInt(startMinuteComboBox.getValue());
+        var endHour = Integer.parseInt(endHourComboBox.getValue());
+        var endMinute = Integer.parseInt(endMinuteComboBox.getValue());
+        var startDate = getCalendar(datePicker, startHour, startMinute, startPeriodComboBox.getValue());
+        var endDate = getCalendar(datePicker, endHour, endMinute, endPeriodComboBox.getValue());
+        var hasErrors = false;
+        if (!formIsValid()) {
+            errorLabel.setVisible(true);
+            hasErrors = true;
+        }
+
+        if (!timeIsValid(startHour, endHour, endMinute)) {
+            timeErrorLabel.setVisible(true);
+            hasErrors = true;
+        }
+
+        if (hasErrors) return;
 
         appointment.setAppointmentId(Integer.parseInt(appointmentIdTextField.getText()));
         appointment.setTitle(titleTextField.getText());
@@ -280,11 +305,70 @@ public class AppointmentScheduleController implements Initializable {
         if (appointment.getAppointmentId() == -1)
             appointment.setCreatedBy(userManager.getCurrentUser().getUserName());
 
-        // TODO Needs to save in UTC
         appointmentDao.upsertAppointment(appointment);
 
+        sceneManager.goToPreviousScene();
+    }
 
-        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
+    private boolean formIsValid() {
+        errorLabel.setVisible(false);
+
+        var isValid = true;
+        var requiredItems = Arrays.asList(customerComboBox, contactComboBox);
+        for (var i = 0; i < requiredItems.stream().count(); i++) {
+            var current = requiredItems.get(i);
+            current.getStyleClass().remove("error");
+            if (current.getValue() == null) {
+                current.getStyleClass().add("error");
+                isValid = false;
+            }
+        }
+
+        titleTextField.getStyleClass().remove("error");
+        if (titleTextField.getText().isEmpty()) {
+            titleTextField.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private boolean timeIsValid(int startHour, int endHour, int endMinute) {
+        timeErrorLabel.setVisible(false);
+        startHourComboBox.getStyleClass().remove("error");
+        startMinuteComboBox.getStyleClass().remove("error");
+        startPeriodComboBox.getStyleClass().remove("error");
+        endHourComboBox.getStyleClass().remove("error");
+        endMinuteComboBox.getStyleClass().remove("error");
+        endPeriodComboBox.getStyleClass().remove("error");
+
+        var isValid = true;
+        var businessHours = new BusinessHours();
+        if (startHour != 12 && startPeriodComboBox.getValue().equals("PM")) startHour += 12;
+        if (endHour != 12 && startPeriodComboBox.getValue().equals("PM")) endHour += 12;
+
+        if (startHour < businessHours.getStartHour()) {
+            startHourComboBox.getStyleClass().add("error");
+            startMinuteComboBox.getStyleClass().add("error");
+            startPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        if (endHour > businessHours.getEndHour()) {
+            endHourComboBox.getStyleClass().add("error");
+            endMinuteComboBox.getStyleClass().add("error");
+            endPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        if (endHour == businessHours.getEndHour() && endMinute > 0) {
+            endHourComboBox.getStyleClass().add("error");
+            endMinuteComboBox.getStyleClass().add("error");
+            endPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
@@ -294,6 +378,6 @@ public class AppointmentScheduleController implements Initializable {
 
         if (hour != 12 && period.equals("PM")) hour += 12;
 
-        return CalendarUtils.doStuff(year, month, day, hour, minute);
+        return CalendarUtils.fromValues(year, month, day, hour, minute);
     }
 }

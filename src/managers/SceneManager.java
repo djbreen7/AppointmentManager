@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class SceneManager {
     public static final String SIDEBAR = "../application/sidebar/sidebar.fxml";
     public static final String LOGIN_SCENE = "../application/login/login.fxml";
@@ -15,6 +18,9 @@ public class SceneManager {
 
     public static final String CUSTOMERS_SCENE = "../application/customers/customers.fxml";
     public static final String CUSTOMER_UPSERT_SCENE = "../application/customers/customers-upsert.fxml";
+
+    private String previousScene;
+    private String currentScene;
 
     private static SceneManager instance = null;
     private DataManager dataManager;
@@ -35,11 +41,15 @@ public class SceneManager {
 
     public void initialize(Stage primaryStage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(LOGIN_SCENE));
+            var currentLocale = Locale.getDefault();
+            var loginResource = ResourceBundle.getBundle("i18n.Login", currentLocale);
+            var fxmlLoader = new FXMLLoader(getClass().getResource(LOGIN_SCENE));
+
+            fxmlLoader.setResources(loginResource);
+
             Parent root = fxmlLoader.load();
             this.setWindow(primaryStage);
-
-            primaryStage.setTitle("Appointment Manager");
+            primaryStage.setTitle(loginResource.getString("title"));
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -65,6 +75,9 @@ public class SceneManager {
 
             borderPane.setCenter(main);
             window.centerOnScreen();
+
+            previousScene = currentScene;
+            currentScene = fxml;
         } catch (Exception e) {
             System.out.print("An error occurred while attempting to initialize scenes" + System.lineSeparator() + e.getMessage());
         }
@@ -93,5 +106,9 @@ public class SceneManager {
 
     private void setWindow(Stage window) {
         this.window = window;
+    }
+
+    public void goToPreviousScene() {
+        goToScene(previousScene);
     }
 }

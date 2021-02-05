@@ -8,5 +8,5 @@ public interface AppointmentDao {
     public void upsertAppointment(Appointment appointment);
     public List<Appointment> getAllAppointments(int userId);
     public Appointment getAppointment(int appointmentId);
-    public void deleteAppointment(int appointmentId);
+    public boolean deleteAppointment(int appointmentId);
 }

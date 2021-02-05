@@ -29,9 +29,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     private void addAppointment(Appointment appointment) {
         String query = String.format(
                 "INSERT INTO appointments " +
-                "(Title, Description, Location, Type, Start, End, " +
-                "Created_By, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s)",
+                        "(Title, Description, Location, Type, Start, End, " +
+                        "Created_By, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
+                        "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s)",
                 appointment.getTitle(),
                 appointment.getDescription(),
                 appointment.getLocation(),
@@ -59,17 +59,17 @@ public class AppointmentDaoImpl implements AppointmentDao {
     private void updateAppointment(Appointment appointment) {
         String query = String.format(
                 "UPDATE appointments " +
-                "SET Title = '%s', " +
-                "Description = '%s', " +
-                "Location = '%s', " +
-                "Type = '%s', " +
-                "Start = '%s', " +
-                "End = '%s', " +
-                "Last_Updated_By = '%s', " +
-                "Customer_ID = %s, " +
-                "User_ID = %s, " +
-                "Contact_ID = %s " +
-                "WHERE Appointment_ID = %s",
+                        "SET Title = '%s', " +
+                        "Description = '%s', " +
+                        "Location = '%s', " +
+                        "Type = '%s', " +
+                        "Start = '%s', " +
+                        "End = '%s', " +
+                        "Last_Updated_By = '%s', " +
+                        "Customer_ID = %s, " +
+                        "User_ID = %s, " +
+                        "Contact_ID = %s " +
+                        "WHERE Appointment_ID = %s",
                 appointment.getTitle(),
                 appointment.getDescription(),
                 appointment.getLocation(),
@@ -98,8 +98,8 @@ public class AppointmentDaoImpl implements AppointmentDao {
     public List<Appointment> getAllAppointments(int userId) {
         String query = String.format(
                 "SELECT * FROM appointments a " +
-                "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
-                "WHERE User_ID = %s ", userId
+                        "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
+                        "WHERE User_ID = %s ", userId
         );
         List<Appointment> appointments = new ArrayList();
         try {
@@ -124,9 +124,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     public Appointment getAppointment(int appointmentId) {
         String query = String.format(
                 "SELECT * FROM appointments a " +
-                "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
-                "JOIN customers cust ON cust.Customer_ID = a.Customer_ID " +
-                "WHERE Appointment_ID = %s",
+                        "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
+                        "JOIN customers cust ON cust.Customer_ID = a.Customer_ID " +
+                        "WHERE Appointment_ID = %s",
                 appointmentId
         );
         Appointment appointment = null;
@@ -149,7 +149,22 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public void deleteAppointment(int appointmentId) {
-
+    public boolean deleteAppointment(int appointmentId) {
+        var isSuccess = false;
+        String query = String.format(
+                "DELETE FROM appointments where Appointment_ID = %s", appointmentId
+        );
+        try {
+            DatabaseConnection.makeConnection();
+            DatabaseConnection.connection
+                    .createStatement()
+                    .execute(query);
+            isSuccess = true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            DatabaseConnection.closeConnection();
+            return isSuccess;
+        }
     }
 }

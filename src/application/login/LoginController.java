@@ -4,7 +4,7 @@ import dao.UserDao;
 import implementations.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -12,15 +12,18 @@ import logger.ActivityLogger;
 import managers.SceneManager;
 import managers.UserManager;
 
+import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-public class LoginController {
+public class LoginController implements Initializable {
     private UserDao userDao;
     private SceneManager sceneManager;
     private ActivityLogger logger;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         userDao = new UserDaoImpl();
         logger = new ActivityLogger();
         sceneManager = SceneManager.getInstance();
@@ -44,9 +47,6 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private Button loginButton;
-
-    @FXML
     private Label errorLabel;
 
     @FXML
@@ -60,6 +60,7 @@ public class LoginController {
         var user = userDao.getUser(userName);
         var isSuccess = user != null && password.equals(user.getPassword());
         var message = isSuccess ? "logged in" : "failed login attempt";
+
         logger.info(userName, message);
 
         if (isSuccess) {

@@ -1,7 +1,7 @@
 package implementations;
 
-import data.DatabaseConnection;
 import dao.CustomerDao;
+import data.DatabaseConnection;
 import model.Customer;
 import utilities.ResultSetBuilder;
 
@@ -26,9 +26,9 @@ public class CustomerDaoImpl implements CustomerDao {
 
     private void addCustomer(Customer customer) {
         String query = String.format(
-            "INSERT INTO customers " +
-            "(Customer_Name, Phone, Address, Postal_Code, Division_ID, Created_By, Last_Updated_By) " +
-            "VALUES ('%s', '%s', '%s', '%s', %s, '%s', '%s')",
+                "INSERT INTO customers " +
+                        "(Customer_Name, Phone, Address, Postal_Code, Division_ID, Created_By, Last_Updated_By) " +
+                        "VALUES ('%s', '%s', '%s', '%s', %s, '%s', '%s')",
                 customer.getName(),
                 customer.getPhone(),
                 customer.getAddress(),
@@ -52,13 +52,13 @@ public class CustomerDaoImpl implements CustomerDao {
     private void updateCustomer(Customer customer) {
         String query = String.format(
                 "UPDATE customers " +
-                "SET Customer_Name = '%s', " +
-                "Phone = '%s', " +
-                "Address = '%s', " +
-                "Postal_Code = '%s', " +
-                "Division_ID = %s, " +
-                "Last_Updated_By = '%s' " +
-                "WHERE Customer_ID = %s",
+                        "SET Customer_Name = '%s', " +
+                        "Phone = '%s', " +
+                        "Address = '%s', " +
+                        "Postal_Code = '%s', " +
+                        "Division_ID = %s, " +
+                        "Last_Updated_By = '%s' " +
+                        "WHERE Customer_ID = %s",
                 customer.getName(),
                 customer.getPhone(),
                 customer.getAddress(),
@@ -155,6 +155,24 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public void deleteCustomer(int customerId) {
-
+        String appointmentsQuery = String.format(
+                "DELETE FROM appointments where Customer_ID = %s", customerId
+        );
+        String customerQuery = String.format(
+                "DELETE FROM customers where Customer_ID = %s", customerId
+        );
+        try {
+            DatabaseConnection.makeConnection();
+            DatabaseConnection.connection
+                    .createStatement()
+                    .execute(appointmentsQuery);
+            DatabaseConnection.connection
+                    .createStatement()
+                    .execute(customerQuery);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
     }
 }

@@ -7,21 +7,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import managers.SceneManager;
 import model.Customer;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class CustomersController {
+public class CustomersController implements Initializable {
     private CustomerDao customerDao;
     private SceneManager sceneManager;
     private ObservableList<Customer> customers;
 
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         customerDao = new CustomerDaoImpl();
         sceneManager = SceneManager.getInstance();
         customers = FXCollections.observableList(customerDao.getAllCustomers());
@@ -59,16 +62,16 @@ public class CustomersController {
     private TableView<Customer> customersTable;
 
     @FXML
-    private TableColumn<Customer,Integer> customerIdCol;
+    private TableColumn<Customer, Integer> customerIdCol;
 
     @FXML
-    private TableColumn<Customer,String> nameCol;
+    private TableColumn<Customer, String> nameCol;
 
     @FXML
-    private TableColumn<Customer,String> addressCol;
+    private TableColumn<Customer, String> addressCol;
 
     @FXML
-    private TableColumn<Customer,String> postalCodeCol;
+    private TableColumn<Customer, String> postalCodeCol;
 
     @FXML
     private TableColumn<Customer, String> divisionCol;
@@ -77,7 +80,7 @@ public class CustomersController {
     private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<Customer,String> phoneCol;
+    private TableColumn<Customer, String> phoneCol;
 
     @FXML
     private Button deleteBtn;
@@ -100,12 +103,15 @@ public class CustomersController {
                 Alert.AlertType.CONFIRMATION,
                 MessageFormat.format(
                         "Are you sure you want to delete the following customer?\n\nID:\t\t{0}\nName:\t{1}",
-                        customer.getCustomerId(), customer.getName()));
+                        customer.getCustomerId(), customer.getName()
+                )
+        );
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.CANCEL) return;
 
         customerDao.deleteCustomer(customer.getCustomerId());
+        initialize(null, null);
     }
 
     @FXML
