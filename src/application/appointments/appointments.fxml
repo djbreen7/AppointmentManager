@@ -8,7 +8,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/15.0.1"
+<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.appointments.AppointmentsController">
     <children>
         <TableView fx:id="appointmentsTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732">
@@ -36,7 +36,7 @@
         <RadioButton fx:id="weekRadio" layoutX="328.0" layoutY="351.0" mnemonicParsing="false"
                      onAction="#handleWeekRadioClick" text="Week">
             <toggleGroup>
-                <ToggleGroup fx:id="rangeGroup"/>
+                <fx:reference source="rangeGroup"/>
             </toggleGroup>
         </RadioButton>
         <RadioButton fx:id="monthRadio" layoutX="396.0" layoutY="351.0" mnemonicParsing="false"

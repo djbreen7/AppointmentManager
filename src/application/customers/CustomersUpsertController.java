@@ -74,9 +74,10 @@ public class CustomersUpsertController {
 
                 return null;
             }
+
             @Override
             public FirstLevelDivision fromString(final String string) {
-                return divisionComboBox.getItems().stream().filter(x -> x.getDivision().equals(string)).findFirst().orElse(null);
+                return Lambdas.getDivisionByName(divisionComboBox.getItems(), string);
             }
         });
 
@@ -85,9 +86,10 @@ public class CustomersUpsertController {
             public String toString(Country country) {
                 return country.getCountry();
             }
+
             @Override
             public Country fromString(final String string) {
-                return countryComboBox.getItems().stream().filter(x -> x.getCountry().equals(string)).findFirst().orElse(null);
+                return Lambdas.getCountryByName(countryComboBox.getItems(), string);
             }
         });
     }

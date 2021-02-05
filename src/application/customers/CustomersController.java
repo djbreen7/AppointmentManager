@@ -92,10 +92,7 @@ public class CustomersController implements Initializable {
     private Button scheduleAppointmentBtn;
 
     @FXML
-    private Button addCustomerBtn;
-
-    @FXML
-    void handleDeleteBtnAction(ActionEvent event) {
+    private void handleDeleteBtnAction(ActionEvent event) {
         var index = customersTable.getSelectionModel().getFocusedIndex();
         var customer = customersTable.getItems().get(index);
 

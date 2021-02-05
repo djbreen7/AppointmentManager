@@ -27,7 +27,6 @@ public class AppointmentsController implements Initializable {
     private AppointmentDao appointmentDao;
     private UserManager userManager;
     private SceneManager sceneManager;
-    private DataManager dataManager;
 
     private Calendar activeCal;
     private int activeWeek;
@@ -41,7 +40,6 @@ public class AppointmentsController implements Initializable {
         appointmentDao = new AppointmentDaoImpl();
         userManager = UserManager.getInstance();
         sceneManager = SceneManager.getInstance();
-        dataManager = DataManager.getInstance();
         appointments = FXCollections.observableList(
                 appointmentDao.getAllAppointments(userManager.getCurrentUser().getUserId())
         );
@@ -150,9 +148,6 @@ public class AppointmentsController implements Initializable {
 
     @FXML
     private Button deleteBtn;
-
-    @FXML
-    private RadioButton weekRadio;
 
     @FXML
     private RadioButton monthRadio;

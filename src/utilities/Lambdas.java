@@ -1,8 +1,7 @@
 package utilities;
 
-import model.Appointment;
-import model.Country;
-import model.FirstLevelDivision;
+import javafx.collections.ObservableList;
+import model.*;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +41,28 @@ public class Lambdas {
         return func.apply(list, id);
     }
 
+    public static Contact getContactByName(ObservableList<Contact> list, String name) {
+        BiFunction<List<Contact>, String, Contact> func;
+        func = (List<Contact> a, String b) -> {
+            return a.stream()
+                    .filter(x -> x.getName().equals(b))
+                    .findFirst()
+                    .orElse(null);
+        };
+        return func.apply(list, name);
+    }
+
+    public static Customer getCustomerByName(ObservableList<Customer> list, String name) {
+        BiFunction<List<Customer>, String, Customer> func;
+        func = (List<Customer> a, String b) -> {
+            return a.stream()
+                    .filter(x -> x.getName().equals(b))
+                    .findFirst()
+                    .orElse(null);
+        };
+        return func.apply(list, name);
+    }
+
     public static List<Appointment> getCurrentWeekAppointments(List<Appointment> list, int week) {
         BiFunction<List<Appointment>, Integer, List<Appointment>> func;
         func = ((List<Appointment> a, Integer b) -> {
@@ -72,4 +93,6 @@ public class Lambdas {
         });
         return func.apply(list, id);
     }
+
+
 }

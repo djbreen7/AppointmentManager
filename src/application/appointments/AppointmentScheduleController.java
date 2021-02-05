@@ -21,12 +21,15 @@ import model.Contact;
 import model.Customer;
 import utilities.BusinessHours;
 import utilities.CalendarUtils;
+import utilities.Lambdas;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.ResourceBundle;
 
 public class AppointmentScheduleController implements Initializable {
     private AppointmentDao appointmentDao;
@@ -183,7 +186,7 @@ public class AppointmentScheduleController implements Initializable {
 
             @Override
             public Contact fromString(final String string) {
-                return contactComboBox.getItems().stream().filter(x -> x.getName().equals(string)).findFirst().orElse(null);
+                return Lambdas.getContactByName(contactComboBox.getItems(), string);
             }
         });
 
@@ -198,7 +201,7 @@ public class AppointmentScheduleController implements Initializable {
 
             @Override
             public Customer fromString(final String string) {
-                return customerComboBox.getItems().stream().filter(x -> x.getName().equals(string)).findFirst().orElse(null);
+                return Lambdas.getCustomerByName(customerComboBox.getItems(), string);
             }
         });
     }
@@ -211,6 +214,77 @@ public class AppointmentScheduleController implements Initializable {
         startMinuteComboBox.setItems(minutes);
         endHourComboBox.setItems(hours);
         endMinuteComboBox.setItems(minutes);
+    }
+
+    private boolean formIsValid() {
+        errorLabel.setVisible(false);
+
+        var isValid = true;
+        var requiredItems = Arrays.asList(customerComboBox, contactComboBox);
+        for (var i = 0; i < requiredItems.stream().count(); i++) {
+            var current = requiredItems.get(i);
+            current.getStyleClass().remove("error");
+            if (current.getValue() == null) {
+                current.getStyleClass().add("error");
+                isValid = false;
+            }
+        }
+
+        titleTextField.getStyleClass().remove("error");
+        if (titleTextField.getText().isEmpty()) {
+            titleTextField.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private boolean timeIsValid(int startHour, int endHour, int endMinute) {
+        timeErrorLabel.setVisible(false);
+        startHourComboBox.getStyleClass().remove("error");
+        startMinuteComboBox.getStyleClass().remove("error");
+        startPeriodComboBox.getStyleClass().remove("error");
+        endHourComboBox.getStyleClass().remove("error");
+        endMinuteComboBox.getStyleClass().remove("error");
+        endPeriodComboBox.getStyleClass().remove("error");
+
+        var isValid = true;
+        var businessHours = new BusinessHours();
+        if (startHour != 12 && startPeriodComboBox.getValue().equals("PM")) startHour += 12;
+        if (endHour != 12 && startPeriodComboBox.getValue().equals("PM")) endHour += 12;
+
+        if (startHour < businessHours.getStartHour()) {
+            startHourComboBox.getStyleClass().add("error");
+            startMinuteComboBox.getStyleClass().add("error");
+            startPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        if (endHour > businessHours.getEndHour()) {
+            endHourComboBox.getStyleClass().add("error");
+            endMinuteComboBox.getStyleClass().add("error");
+            endPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        if (endHour == businessHours.getEndHour() && endMinute > 0) {
+            endHourComboBox.getStyleClass().add("error");
+            endMinuteComboBox.getStyleClass().add("error");
+            endPeriodComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
+        var year = dp.getValue().getYear();
+        var month = dp.getValue().getMonthValue();
+        var day = dp.getValue().getDayOfMonth();
+
+        if (hour != 12 && period.equals("PM")) hour += 12;
+
+        return CalendarUtils.fromValues(year, month, day, hour, minute);
     }
 
     @FXML
@@ -308,76 +382,5 @@ public class AppointmentScheduleController implements Initializable {
         appointmentDao.upsertAppointment(appointment);
 
         sceneManager.goToPreviousScene();
-    }
-
-    private boolean formIsValid() {
-        errorLabel.setVisible(false);
-
-        var isValid = true;
-        var requiredItems = Arrays.asList(customerComboBox, contactComboBox);
-        for (var i = 0; i < requiredItems.stream().count(); i++) {
-            var current = requiredItems.get(i);
-            current.getStyleClass().remove("error");
-            if (current.getValue() == null) {
-                current.getStyleClass().add("error");
-                isValid = false;
-            }
-        }
-
-        titleTextField.getStyleClass().remove("error");
-        if (titleTextField.getText().isEmpty()) {
-            titleTextField.getStyleClass().add("error");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    private boolean timeIsValid(int startHour, int endHour, int endMinute) {
-        timeErrorLabel.setVisible(false);
-        startHourComboBox.getStyleClass().remove("error");
-        startMinuteComboBox.getStyleClass().remove("error");
-        startPeriodComboBox.getStyleClass().remove("error");
-        endHourComboBox.getStyleClass().remove("error");
-        endMinuteComboBox.getStyleClass().remove("error");
-        endPeriodComboBox.getStyleClass().remove("error");
-
-        var isValid = true;
-        var businessHours = new BusinessHours();
-        if (startHour != 12 && startPeriodComboBox.getValue().equals("PM")) startHour += 12;
-        if (endHour != 12 && startPeriodComboBox.getValue().equals("PM")) endHour += 12;
-
-        if (startHour < businessHours.getStartHour()) {
-            startHourComboBox.getStyleClass().add("error");
-            startMinuteComboBox.getStyleClass().add("error");
-            startPeriodComboBox.getStyleClass().add("error");
-            isValid = false;
-        }
-
-        if (endHour > businessHours.getEndHour()) {
-            endHourComboBox.getStyleClass().add("error");
-            endMinuteComboBox.getStyleClass().add("error");
-            endPeriodComboBox.getStyleClass().add("error");
-            isValid = false;
-        }
-
-        if (endHour == businessHours.getEndHour() && endMinute > 0) {
-            endHourComboBox.getStyleClass().add("error");
-            endMinuteComboBox.getStyleClass().add("error");
-            endPeriodComboBox.getStyleClass().add("error");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
-        var year = dp.getValue().getYear();
-        var month = dp.getValue().getMonthValue();
-        var day = dp.getValue().getDayOfMonth();
-
-        if (hour != 12 && period.equals("PM")) hour += 12;
-
-        return CalendarUtils.fromValues(year, month, day, hour, minute);
     }
 }
