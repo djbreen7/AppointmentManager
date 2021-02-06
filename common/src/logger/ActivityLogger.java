@@ -24,7 +24,7 @@ public class ActivityLogger {
             sj.add(System.getProperty("user.dir"));
             sj.add("login_activity.txt");
 
-            fh = new FileHandler(sj.toString());
+            fh = new FileHandler(sj.toString(), true);
             fh.setFormatter(new SimpleFormatter());
 
             logger.setUseParentHandlers(false);
