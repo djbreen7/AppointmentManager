@@ -1,20 +1,24 @@
 package implementations;
 
-import utilities.CalendarUtils;
-import data.DatabaseConnection;
 import dao.UserDao;
+import data.DatabaseConnection;
 import model.User;
+import utilities.ResultSetBuilder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class UserDaoImpl implements UserDao {
+    ResultSetBuilder resultSetBuilder;
+
+    public UserDaoImpl() {
+        resultSetBuilder = new ResultSetBuilder();
+    }
+
     @Override
     public List<User> getAllUsers() {
         return null;
@@ -29,30 +33,14 @@ public class UserDaoImpl implements UserDao {
             var statement = DatabaseConnection.connection.createStatement();
             var result = statement.executeQuery(query);
 
-            while(result.next()) {
-                var userId = result.getInt("User_ID");
-                var password = result.getString("Password");
-                var createDate = CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class));
-                var createdBy = result.getString("Created_By");
-                var lastUpdate = CalendarUtils.fromLocalDateTime(result.getObject("Last_Update", LocalDateTime.class));
-                var lastUpdatedBy = result.getString("Last_Updated_By");
-                user = new User(userId, userName, password, createDate, createdBy, lastUpdate, lastUpdatedBy);
+            while (result.next()) {
+                user = resultSetBuilder.buildUserResult(result, true);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return user;
         }
-    }
-
-    @Override
-    public void updateUser(User user) {
-
-    }
-
-    @Override
-    public void deleteUser(int userId) {
-
     }
 }

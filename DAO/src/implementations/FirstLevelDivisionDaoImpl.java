@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
-    private ResultSetBuilder resultSetBuilder;
+    private final ResultSetBuilder resultSetBuilder;
 
     public FirstLevelDivisionDaoImpl() {
         resultSetBuilder = new ResultSetBuilder();
@@ -23,9 +22,8 @@ public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
 
     @Override
     public List<FirstLevelDivision> getAllDivisions() {
-        String query = String.format(
-                "SELECT * FROM first_level_divisions");
-        List<FirstLevelDivision> divisions = new ArrayList();
+        String query = "SELECT * FROM first_level_divisions";
+        List<FirstLevelDivision> divisions = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
@@ -36,25 +34,10 @@ public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
                 divisions.add(division);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return divisions;
         }
-    }
-
-    @Override
-    public FirstLevelDivision getDivision(int divisionId) {
-        return null;
-    }
-
-    @Override
-    public void updateDivision(FirstLevelDivision division) {
-
-    }
-
-    @Override
-    public void deleteDivision(int divisionId) {
-
     }
 }

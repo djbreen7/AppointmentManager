@@ -41,7 +41,6 @@ public class AppointmentsController implements Initializable {
     private int activeWeek;
     private int activeMonth;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();

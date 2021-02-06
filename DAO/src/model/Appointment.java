@@ -3,7 +3,6 @@ package model;
 import java.util.Calendar;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -23,40 +22,12 @@ public class Appointment extends BaseEntity {
     private Calendar start;
     private Calendar end;
 
-    public Appointment(
-        int appointmentId,
-        int customerId,
-        Customer customer,
-        int userId,
-        User user,
-        int contactId,
-        Contact contact,
-        String title,
-        String description,
-        String location,
-        String type,
-        Calendar start,
-        Calendar end,
-        Calendar createDate,
-        String createdBy,
-        Calendar lastUpdate,
-        String lastUpdatedBy
-    ) {
-        super(createDate, createdBy, lastUpdate, lastUpdatedBy);
-
-        this.appointmentId = appointmentId;
-        this.customerId = customerId;
-        this.customer = customer;
-        this.userId = userId;
-        this.user = user;
-        this.contactId = contactId;
-        this.contact = contact;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.type = type;
-        this.start = start;
-        this.end = end;
+    public Appointment() {
+        super();
+        title = "";
+        description = "";
+        location = "";
+        type = "";
     }
 
     public int getAppointmentId() {

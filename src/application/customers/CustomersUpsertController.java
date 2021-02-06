@@ -58,9 +58,8 @@ public class CustomersUpsertController {
     private Customer initializeCustomer() {
         var customerId = dataManager.getAndClearCustomerId();
 
-        if (customerId == -1) {
-            return new Customer(-1, -1, null, null, null, null, null, null, null, null, null);
-        }
+        if (customerId == 0)
+            return new Customer();
 
         return customerDao.getCustomer(customerId);
     }
@@ -95,7 +94,7 @@ public class CustomersUpsertController {
     }
 
     private void setComboBoxValues() {
-        var isNewCustomer = customer.getCustomerId() == -1;
+        var isNewCustomer = customer.getCustomerId() == 0;
         var activeCountry = isNewCustomer
                 ? Lambdas.getCountryByName(countries, "U.S")
                 : customer.getDivision().getCountry();
@@ -118,7 +117,7 @@ public class CustomersUpsertController {
         postalCodeTextField.setText(customer.getPostalCode());
         phoneTextField.setText(customer.getPhone());
 
-        if (customer.getCustomerId() == -1)
+        if (customer.getCustomerId() == 0)
             customerIdTextField.setText("N/A");
     }
 
@@ -170,7 +169,7 @@ public class CustomersUpsertController {
         customer.setDivisionId(divisionComboBox.getValue().getDivisionId());
         customer.setLastUpdatedBy(userManager.getCurrentUser().getUserName());
 
-        if (customer.getCustomerId() == -1)
+        if (customer.getCustomerId() == 0)
             customer.setCreatedBy(userManager.getCurrentUser().getUserName());
 
         customerDao.upsertCustomer(customer);

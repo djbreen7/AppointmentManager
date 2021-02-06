@@ -1,9 +1,6 @@
 package model;
 
-import java.util.Calendar;
-
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -16,30 +13,6 @@ public class Customer extends BaseEntity {
     private String address;
     private String postalCode;
     private String phone;
-
-    public Customer(
-        int customerId,
-        int divisionId,
-        FirstLevelDivision division,
-        String name,
-        String address,
-        String postalCode,
-        String phone,
-        Calendar createDate,
-        String createdBy,
-        Calendar lastUpdate,
-        String lastUpdatedBy
-    ) {
-        super(createDate, createdBy, lastUpdate, lastUpdatedBy);
-
-        this.customerId = customerId;
-        this.divisionId = divisionId;
-        this.division = division;
-        this.name = name;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.phone = phone;
-    }
 
     public int getCustomerId() {
         return customerId;
@@ -65,7 +38,9 @@ public class Customer extends BaseEntity {
         this.division = division;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;

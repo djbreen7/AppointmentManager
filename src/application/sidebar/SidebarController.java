@@ -19,7 +19,7 @@ public class SidebarController {
     private List<Button> buttons;
 
     public void initialize() {
-        buttons = Arrays.asList(appointmentsBtn, customersBtn);
+        buttons = Arrays.asList(appointmentsBtn, customersBtn, reportingBtn);
         appointmentsBtn.getStyleClass().add("active");
     }
 
@@ -39,6 +39,9 @@ public class SidebarController {
     private Button customersBtn;
 
     @FXML
+    private Button reportingBtn;
+
+    @FXML
     private void handleAppointmentsBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
         setActiveButton(appointmentsBtn.getText());
@@ -48,5 +51,11 @@ public class SidebarController {
     private void handleCustomersBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
         setActiveButton(customersBtn.getText());
+    }
+
+    @FXML
+    private void handleReportingBtnAction(ActionEvent event) {
+        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
+        setActiveButton(reportingBtn.getText());
     }
 }

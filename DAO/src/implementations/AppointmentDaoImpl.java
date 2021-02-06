@@ -10,14 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class AppointmentDaoImpl implements AppointmentDao {
-
-    private ResultSetBuilder resultSetBuilder;
+    private final ResultSetBuilder resultSetBuilder;
 
     public AppointmentDaoImpl() {
         resultSetBuilder = new ResultSetBuilder();
@@ -25,7 +23,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @Override
     public void upsertAppointment(Appointment appointment) {
-        if (appointment.getAppointmentId() == -1) {
+        if (appointment.getAppointmentId() == 0) {
             addAppointment(appointment);
             return;
         }
@@ -56,7 +54,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                     .createStatement()
                     .execute(query);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -94,7 +92,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                     .createStatement()
                     .execute(query);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -107,7 +105,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                         "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
                         "WHERE User_ID = %s ", userId
         );
-        List<Appointment> appointments = new ArrayList();
+        List<Appointment> appointments = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
@@ -119,7 +117,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 appointments.add(appointment);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return appointments;
@@ -130,9 +128,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     public List<Appointment> getAppointmentsByCustomerId(int customerId) {
         String query = String.format(
                 "SELECT * FROM appointments a " +
-                "WHERE Customer_ID = %s ", customerId
+                        "WHERE Customer_ID = %s ", customerId
         );
-        List<Appointment> appointments = new ArrayList();
+        List<Appointment> appointments = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
@@ -143,7 +141,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 appointments.add(appointment);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return appointments;
@@ -171,7 +169,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                 appointment.setCustomer(resultSetBuilder.buildCustomerResult(result, false));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return appointment;
@@ -191,7 +189,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
                     .execute(query);
             isSuccess = true;
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return isSuccess;

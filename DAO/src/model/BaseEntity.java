@@ -14,11 +14,12 @@ public class BaseEntity {
     private Calendar lastUpdate;
     private String lastUpdatedBy;
 
-    public BaseEntity(Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdatedBy) {
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public String getCreatedBy() {
@@ -33,6 +34,10 @@ public class BaseEntity {
         return lastUpdate;
     }
 
+    public void setLastUpdate(Calendar lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
@@ -40,4 +45,6 @@ public class BaseEntity {
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
+
+
 }

@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class ContactDaoImpl implements ContactDao {
-    private ResultSetBuilder resultSetBuilder;
+    private final ResultSetBuilder resultSetBuilder;
 
     public ContactDaoImpl() {
         resultSetBuilder = new ResultSetBuilder();
@@ -23,8 +22,8 @@ public class ContactDaoImpl implements ContactDao {
 
     @Override
     public List<Contact> getAllContacts() {
-        String query = String.format("SELECT * from contacts");
-        List<Contact> contacts = new ArrayList();
+        String query = "SELECT * from contacts";
+        List<Contact> contacts = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
@@ -35,7 +34,7 @@ public class ContactDaoImpl implements ContactDao {
                 contacts.add(contact);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return contacts;

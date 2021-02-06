@@ -11,11 +11,6 @@ public class DataManager {
     private int customerId;
     private int appointmentId;
 
-    private DataManager() {
-        customerId = -1;
-        appointmentId = -1;
-    }
-
     public static DataManager getInstance() {
         if (instance == null) {
             instance = new DataManager();
@@ -25,7 +20,7 @@ public class DataManager {
 
     public int getAndClearCustomerId() {
         var result = customerId;
-        this.customerId = -1;
+        this.customerId = 0;
         return result;
     }
 
@@ -35,7 +30,7 @@ public class DataManager {
 
     public int getAndClearAppointmentId() {
         var result = appointmentId;
-        this.appointmentId = -1;
+        this.appointmentId = 0;
         return result;
     }
 

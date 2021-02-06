@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0

@@ -1,7 +1,6 @@
 package model;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -10,12 +9,6 @@ public class Contact {
     private int contactId;
     private String name;
     private String email;
-
-    public Contact(int contactId, String name, String email) {
-        this.contactId = contactId;
-        this.name = name;
-        this.email = email;
-    }
 
     public int getContactId() {
         return contactId;

@@ -64,11 +64,11 @@ public class SceneManager {
     }
 
     public void goToScene(String fxml) {
-        goToScene(fxml, -1, -1);
+        goToScene(fxml, 0, 0);
     }
 
     public void goToScene(String fxml, int customerId) {
-        goToScene(fxml, customerId, -1);
+        goToScene(fxml, customerId, 0);
     }
 
     public void goToScene(String fxml, int customerId, int appointmentId) {

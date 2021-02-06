@@ -80,7 +80,7 @@ public class AppointmentScheduleController implements Initializable {
         var appointmentId = dataManager.getAndClearAppointmentId();
         var customerId = dataManager.getAndClearCustomerId();
 
-        if (appointmentId == -1) {
+        if (appointmentId == 0) {
             var start = Calendar.getInstance();
             var end = Calendar.getInstance();
 
@@ -90,25 +90,11 @@ public class AppointmentScheduleController implements Initializable {
             end.set(Calendar.HOUR_OF_DAY, 13);
             end.set(Calendar.MINUTE, 0);
 
-            appointment = new Appointment(
-                    appointmentId,
-                    customerId,
-                    null,
-                    -1,
-                    null,
-                    -1,
-                    null,
-                    "",
-                    "",
-                    "",
-                    "",
-                    start,
-                    end,
-                    null,
-                    "",
-                    null,
-                    ""
-            );
+            appointment = new Appointment();
+            appointment.setAppointmentId(appointmentId);
+            appointment.setCustomerId(customerId);
+            appointment.setStart(start);
+            appointment.setEnd(end);
             return;
         }
 
@@ -116,7 +102,7 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private void initializeCustomers() {
-        var isNewAppointment = appointment.getAppointmentId() == -1;
+        var isNewAppointment = appointment.getAppointmentId() == 0;
         var activeCustomer = isNewAppointment
                 ? null
                 : appointment.getCustomer();
@@ -126,7 +112,7 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private void initializeContacts() {
-        var isNewAppointment = appointment.getAppointmentId() == -1;
+        var isNewAppointment = appointment.getAppointmentId() == 0;
         var activeContact = isNewAppointment
                 ? null
                 : appointment.getContact();
@@ -142,10 +128,10 @@ public class AppointmentScheduleController implements Initializable {
         typeTextField.setText(appointment.getType());
         descriptionTextArea.setText(appointment.getDescription());
 
-        if (appointment.getAppointmentId() == -1)
+        if (appointment.getAppointmentId() == 0)
             appointmentIdTextField.setText("N/A");
 
-        if (appointment.getUserId() == -1) {
+        if (appointment.getUserId() == 0) {
             userIdIdTextField.setText(Integer.toString(userManager.getCurrentUser().getUserId()));
         }
     }
@@ -409,7 +395,7 @@ public class AppointmentScheduleController implements Initializable {
         if (hasErrors) return;
 
         var appointmentId = appointmentIdTextField.getText();
-        appointment.setAppointmentId(appointmentId.equals("N/A") ? -1 : Integer.parseInt(appointmentId));
+        appointment.setAppointmentId(appointmentId.equals("N/A") ? 0 : Integer.parseInt(appointmentId));
         appointment.setTitle(titleTextField.getText());
         appointment.setDescription(descriptionTextArea.getText());
         appointment.setLocation(locationTextField.getText());
@@ -421,7 +407,7 @@ public class AppointmentScheduleController implements Initializable {
         appointment.setContactId(contactComboBox.getValue().getContactId());
         appointment.setLastUpdatedBy(userManager.getCurrentUser().getUserName());
 
-        if (appointment.getAppointmentId() == -1)
+        if (appointment.getAppointmentId() == 0)
             appointment.setCreatedBy(userManager.getCurrentUser().getUserName());
 
         appointmentDao.upsertAppointment(appointment);

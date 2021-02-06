@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class CustomerDaoImpl implements CustomerDao {
-    private ResultSetBuilder resultSetBuilder;
+    private final ResultSetBuilder resultSetBuilder;
 
     public CustomerDaoImpl() {
         resultSetBuilder = new ResultSetBuilder();
@@ -23,7 +22,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public void upsertCustomer(Customer customer) {
-        if (customer.getCustomerId() == -1) {
+        if (customer.getCustomerId() == 0) {
             addCustomer(customer);
             return;
         }
@@ -49,7 +48,7 @@ public class CustomerDaoImpl implements CustomerDao {
                     .createStatement()
                     .execute(query);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -79,7 +78,7 @@ public class CustomerDaoImpl implements CustomerDao {
                     .createStatement()
                     .execute(query);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }
@@ -87,20 +86,19 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public List<Customer> getAllCustomers() {
-        String query = String.format(
-                "SELECT c.Customer_ID, " +
-                        "c.Customer_Name, " +
-                        "c.Address, " +
-                        "c.Postal_Code, " +
-                        "c.Phone, " +
-                        "d.Division_ID, " +
-                        "d.Division, " +
-                        "ctry.Country_ID, " +
-                        "ctry.Country " +
-                        "FROM customers c " +
-                        "JOIN first_level_divisions d ON d.Division_ID = c.Division_ID " +
-                        "JOIN countries ctry ON ctry.Country_ID = d.Country_ID;");
-        List<Customer> customers = new ArrayList();
+        String query = "SELECT c.Customer_ID, " +
+                "c.Customer_Name, " +
+                "c.Address, " +
+                "c.Postal_Code, " +
+                "c.Phone, " +
+                "d.Division_ID, " +
+                "d.Division, " +
+                "ctry.Country_ID, " +
+                "ctry.Country " +
+                "FROM customers c " +
+                "JOIN first_level_divisions d ON d.Division_ID = c.Division_ID " +
+                "JOIN countries ctry ON ctry.Country_ID = d.Country_ID;";
+        List<Customer> customers = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();
             var statement = DatabaseConnection.connection.createStatement();
@@ -113,7 +111,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 customers.add(customer);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return customers;
@@ -152,7 +150,7 @@ public class CustomerDaoImpl implements CustomerDao {
                 customer.getDivision().setCountry(resultSetBuilder.buildCountryResult(resultSet, false));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
             return customer;
@@ -176,7 +174,7 @@ public class CustomerDaoImpl implements CustomerDao {
                     .createStatement()
                     .execute(customerQuery);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
         }

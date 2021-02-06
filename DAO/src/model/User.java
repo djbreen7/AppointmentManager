@@ -1,9 +1,6 @@
 package model;
 
-import java.util.Calendar;
-
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -12,21 +9,6 @@ public class User extends BaseEntity {
     private int userId;
     private String userName;
     private String password;
-
-    public User(
-        int userId,
-        String userName,
-        String password,
-        Calendar createDate,
-        String createdBy,
-        Calendar lastUpdate,
-        String lastUpdatedBy
-    ) {
-        super(createDate, createdBy, lastUpdate, lastUpdatedBy);
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-    }
 
     public int getUserId() {
         return userId;

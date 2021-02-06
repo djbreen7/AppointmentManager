@@ -5,5 +5,5 @@ import model.Contact;
 import java.util.List;
 
 public interface ContactDao {
-    public List<Contact> getAllContacts();
+    List<Contact> getAllContacts();
 }
