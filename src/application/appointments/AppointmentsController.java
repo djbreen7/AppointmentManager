@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -52,8 +52,29 @@ public class AppointmentsController implements Initializable {
         );
 
         activeCal = Calendar.getInstance();
+        displayUpcomingAppointments();
+
         updateAppointmentsView(0);
         configureAppointmentsTable();
+    }
+
+    private void displayUpcomingAppointments() {
+        var upcomingAppointments = appointments.stream().filter(x -> {
+            var isAfterNow = x.getStart().getTimeInMillis() - activeCal.getTimeInMillis() > 0;
+            var isWithinFifteen = activeCal.getTimeInMillis() - x.getStart().getTimeInMillis() < 900000;
+            return isAfterNow && isWithinFifteen;
+        }).collect(Collectors.toList());
+
+        var message = upcomingAppointments.stream().count() > 0
+                ? MessageFormat.format(
+                "Upcoming Appointment\n\n" +
+                        "ID:\t\t{0}\n" +
+                        "Time:\t{1}",
+                upcomingAppointments.get(0).getAppointmentId(),
+                upcomingAppointments.get(0).getStart())
+                : "No upcoming appointments";
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
+        alert.show();
     }
 
     private void configureAppointmentsTable() {
