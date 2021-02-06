@@ -1,2 +1,2 @@
-Feb 05, 2021 1:18:50 PM logger.ActivityLogger info
+Feb 05, 2021 11:03:12 PM logger.ActivityLogger info
 INFO: test logged in

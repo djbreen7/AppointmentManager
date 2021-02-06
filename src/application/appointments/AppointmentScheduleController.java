@@ -30,6 +30,7 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,6 +48,7 @@ public class AppointmentScheduleController implements Initializable {
     private UserManager userManager;
 
     private Appointment appointment;
+    private ObservableList<Appointment> customerAppointments;
     private ObservableList<Contact> contacts;
     private ObservableList<Customer> customers;
 
@@ -92,7 +94,7 @@ public class AppointmentScheduleController implements Initializable {
                     appointmentId,
                     customerId,
                     null,
-                    userManager.getCurrentUser().getUserId(),
+                    -1,
                     null,
                     -1,
                     null,
@@ -135,13 +137,16 @@ public class AppointmentScheduleController implements Initializable {
 
     private void setupForm() {
         appointmentIdTextField.setText(Integer.toString(appointment.getAppointmentId()));
+        userIdIdTextField.setText(Integer.toString(appointment.getUserId()));
         titleTextField.setText(appointment.getTitle());
         typeTextField.setText(appointment.getType());
         descriptionTextArea.setText(appointment.getDescription());
 
-        if (appointment.getAppointmentId() == -1) {
-            appointmentIdLabel.setVisible(false);
-            appointmentIdTextField.setVisible(false);
+        if (appointment.getAppointmentId() == -1)
+            appointmentIdTextField.setText("N/A");
+
+        if (appointment.getUserId() == -1) {
+            userIdIdTextField.setText(Integer.toString(userManager.getCurrentUser().getUserId()));
         }
     }
 
@@ -222,21 +227,31 @@ public class AppointmentScheduleController implements Initializable {
         endMinuteComboBox.setItems(minutes);
     }
 
-    private boolean formIsValid() {
+    private void resetErrors() {
         errorLabel.setVisible(false);
+        timeErrorLabel.setVisible(false);
+        startHourComboBox.getStyleClass().remove("error");
+        startMinuteComboBox.getStyleClass().remove("error");
+        startPeriodComboBox.getStyleClass().remove("error");
+        endHourComboBox.getStyleClass().remove("error");
+        endMinuteComboBox.getStyleClass().remove("error");
+        endPeriodComboBox.getStyleClass().remove("error");
+        titleTextField.getStyleClass().remove("error");
+        contactComboBox.getStyleClass().remove("error");
+        customerComboBox.getStyleClass().remove("error");
+    }
 
+    private boolean formIsValid() {
         var isValid = true;
         var requiredItems = Arrays.asList(customerComboBox, contactComboBox);
         for (var i = 0; i < requiredItems.stream().count(); i++) {
             var current = requiredItems.get(i);
-            current.getStyleClass().remove("error");
             if (current.getValue() == null) {
                 current.getStyleClass().add("error");
                 isValid = false;
             }
         }
 
-        titleTextField.getStyleClass().remove("error");
         if (titleTextField.getText().isEmpty()) {
             titleTextField.getStyleClass().add("error");
             isValid = false;
@@ -246,18 +261,16 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     private boolean timeIsValid(int startHour, int endHour, int endMinute) {
-        timeErrorLabel.setVisible(false);
-        startHourComboBox.getStyleClass().remove("error");
-        startMinuteComboBox.getStyleClass().remove("error");
-        startPeriodComboBox.getStyleClass().remove("error");
-        endHourComboBox.getStyleClass().remove("error");
-        endMinuteComboBox.getStyleClass().remove("error");
-        endPeriodComboBox.getStyleClass().remove("error");
-
         var isValid = true;
         var businessHours = new BusinessHours();
         if (startHour != 12 && startPeriodComboBox.getValue().equals("PM")) startHour += 12;
-        if (endHour != 12 && startPeriodComboBox.getValue().equals("PM")) endHour += 12;
+        if (endHour != 12 && endPeriodComboBox.getValue().equals("PM")) endHour += 12;
+
+        if (startHour >= endHour) {
+            startHourComboBox.getStyleClass().add("error");
+            endHourComboBox.getStyleClass().add("error");
+            isValid = false;
+        }
 
         if (startHour < businessHours.getStartHour()) {
             startHourComboBox.getStyleClass().add("error");
@@ -283,6 +296,17 @@ public class AppointmentScheduleController implements Initializable {
         return isValid;
     }
 
+    private boolean hasTimeAvailable(int customerId, Calendar startDate, Calendar endDate) {
+        customerAppointments = FXCollections.observableList(appointmentDao.getAppointmentsByCustomerId(customerId));
+
+        var conflicts = customerAppointments.stream().filter(x -> {
+            return (x.getStart().compareTo(startDate) <= 0 && x.getEnd().compareTo(startDate) >= 0)
+                    || (x.getStart().compareTo(endDate) <= 0 && x.getEnd().compareTo(endDate) >= 0);
+        }).collect(Collectors.toList());
+
+        return conflicts.stream().count() == 0;
+    }
+
     private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
         var year = dp.getValue().getYear();
         var month = dp.getValue().getMonthValue();
@@ -298,6 +322,9 @@ public class AppointmentScheduleController implements Initializable {
 
     @FXML
     private TextField appointmentIdTextField;
+
+    @FXML
+    private TextField userIdIdTextField;
 
     @FXML
     private TextField titleTextField;
@@ -351,34 +378,46 @@ public class AppointmentScheduleController implements Initializable {
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
+        resetErrors();
         var startHour = Integer.parseInt(startHourComboBox.getValue());
         var startMinute = Integer.parseInt(startMinuteComboBox.getValue());
         var endHour = Integer.parseInt(endHourComboBox.getValue());
         var endMinute = Integer.parseInt(endMinuteComboBox.getValue());
         var startDate = getCalendar(datePicker, startHour, startMinute, startPeriodComboBox.getValue());
         var endDate = getCalendar(datePicker, endHour, endMinute, endPeriodComboBox.getValue());
+
         var hasErrors = false;
-        if (!formIsValid()) {
+        if (!timeIsValid(startHour, endHour, endMinute)) {
+            errorLabel.setText("Ensure the start time is before the end time.");
             errorLabel.setVisible(true);
+            timeErrorLabel.setText("Please select a time between 8 AM and 10 PM EST.");
+            timeErrorLabel.setVisible(true);
             hasErrors = true;
         }
 
-        if (!timeIsValid(startHour, endHour, endMinute)) {
+        if (!formIsValid()) {
+            errorLabel.setText("The highlighted items are required");
+            errorLabel.setVisible(true);
+            hasErrors = true;
+        } else if (!hasTimeAvailable(customerComboBox.getValue().getCustomerId(), startDate, endDate)) {
+            timeErrorLabel.setText("Appointment conflict. Please choose another time.");
             timeErrorLabel.setVisible(true);
+
             hasErrors = true;
         }
 
         if (hasErrors) return;
 
-        appointment.setAppointmentId(Integer.parseInt(appointmentIdTextField.getText()));
+        var appointmentId = appointmentIdTextField.getText();
+        appointment.setAppointmentId(appointmentId.equals("N/A") ? -1 : Integer.parseInt(appointmentId));
         appointment.setTitle(titleTextField.getText());
         appointment.setDescription(descriptionTextArea.getText());
         appointment.setLocation(locationTextField.getText());
         appointment.setType(typeTextField.getText());
-        appointment.setStart(startDate);
-        appointment.setEnd(endDate);
+        appointment.setStart(CalendarUtils.toUtc(startDate));
+        appointment.setEnd(CalendarUtils.toUtc(endDate));
         appointment.setCustomerId(customerComboBox.getValue().getCustomerId());
-        appointment.setUserId(userManager.getCurrentUser().getUserId());
+        appointment.setUserId(Integer.parseInt(userIdIdTextField.getText()));
         appointment.setContactId(contactComboBox.getValue().getContactId());
         appointment.setLastUpdatedBy(userManager.getCurrentUser().getUserName());
 

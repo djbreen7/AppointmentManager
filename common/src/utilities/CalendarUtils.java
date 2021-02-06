@@ -22,12 +22,16 @@ public class CalendarUtils {
 
     public static Calendar fromValues(int year, int month, int day, int hour, int minute) {
         var cal = Calendar.getInstance();
-        var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());
         var indexedMonth = month - 1;
 
         cal.set(year, indexedMonth, day, hour, minute);
-        cal.setTimeInMillis(cal.getTimeInMillis() - offset);
+        return cal;
+    }
 
+    public static Calendar toUtc(Calendar cal) {
+        var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());
+
+        cal.setTimeInMillis(cal.getTimeInMillis() - offset);
         return cal;
     }
 }

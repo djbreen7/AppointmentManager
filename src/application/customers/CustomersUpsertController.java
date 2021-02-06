@@ -51,6 +51,8 @@ public class CustomersUpsertController {
         divisions = FXCollections.observableList(divisionDao.getAllDivisions());
 
         setupForm();
+        configureComboBoxes();
+        setComboBoxValues();
     }
 
     private Customer initializeCustomer() {
@@ -116,13 +118,8 @@ public class CustomersUpsertController {
         postalCodeTextField.setText(customer.getPostalCode());
         phoneTextField.setText(customer.getPhone());
 
-        if (customer.getCustomerId() == -1) {
-            customerIdLabel.setVisible(false);
-            customerIdTextField.setVisible(false);
-        }
-
-        configureComboBoxes();
-        setComboBoxValues();
+        if (customer.getCustomerId() == -1)
+            customerIdTextField.setText("N/A");
     }
 
     @FXML

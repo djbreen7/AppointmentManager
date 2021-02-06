@@ -14,21 +14,25 @@ public class BusinessHours {
     private int endHour;
 
     public BusinessHours() {
+        System.out.println(endHour);
         var startOfDay = Calendar.getInstance();
         var endOfDay = Calendar.getInstance();
         var curr = TimeZone.getTimeZone(startOfDay.getTimeZone().getID()).getOffset(startOfDay.getTimeInMillis());
         var est = TimeZone.getTimeZone("EST").getOffset(startOfDay.getTimeInMillis());
 
-        startOfDay.set(Calendar.HOUR_OF_DAY, 9);
-        startOfDay.setTimeInMillis(startOfDay.getTimeInMillis() + est - curr);
+        startOfDay.set(Calendar.HOUR_OF_DAY, 8);
+        startOfDay.setTimeInMillis(startOfDay.getTimeInMillis() - est + curr);
 
-        endOfDay.set(Calendar.HOUR_OF_DAY, 17);
-        endOfDay.setTimeInMillis(endOfDay.getTimeInMillis() + est - curr);
+        endOfDay.set(Calendar.HOUR_OF_DAY, 22);
+        endOfDay.setTimeInMillis(endOfDay.getTimeInMillis() - est + curr);
 
         this.startHour = startOfDay.get(Calendar.HOUR_OF_DAY);
         this.endHour = endOfDay.get(Calendar.HOUR_OF_DAY);
     }
 
+    /**
+     * @return
+     */
     public int getStartHour() {
         return startHour;
     }

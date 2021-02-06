@@ -101,7 +101,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public List<Appointment> getAllAppointments(int userId) {
+    public List<Appointment> getAppointmentsByUserId(int userId) {
         String query = String.format(
                 "SELECT * FROM appointments a " +
                         "JOIN contacts c ON c.Contact_ID = a.Contact_ID " +
@@ -116,6 +116,30 @@ public class AppointmentDaoImpl implements AppointmentDao {
             while (result.next()) {
                 var appointment = resultSetBuilder.buildAppointmentResult(result, false);
                 appointment.setContact(resultSetBuilder.buildContactResult(result));
+                appointments.add(appointment);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            DatabaseConnection.closeConnection();
+            return appointments;
+        }
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByCustomerId(int customerId) {
+        String query = String.format(
+                "SELECT * FROM appointments a " +
+                "WHERE Customer_ID = %s ", customerId
+        );
+        List<Appointment> appointments = new ArrayList();
+        try {
+            DatabaseConnection.makeConnection();
+            var statement = DatabaseConnection.connection.createStatement();
+            var result = statement.executeQuery(query);
+
+            while (result.next()) {
+                var appointment = resultSetBuilder.buildAppointmentResult(result, false);
                 appointments.add(appointment);
             }
         } catch (Exception e) {

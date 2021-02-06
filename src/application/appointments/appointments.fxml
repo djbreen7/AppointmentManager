@@ -26,8 +26,8 @@
         </TableView>
         <Button fx:id="modifyBtn" layoutX="87.0" layoutY="347.0" mnemonicParsing="false"
                 onAction="#handleModifyBtnAction" text="Modify"/>
-        <Button fx:id="deleteBtn" layoutX="24.0" layoutY="347.0" mnemonicParsing="false"
-                onAction="#handleDeleteBtnAction" style="-fx-background-color: #dc3545;" text="Delete"/>
+        <Button fx:id="cancelBtn" layoutX="24.0" layoutY="347.0" mnemonicParsing="false"
+                onAction="#handleCancelBtnAction" style="-fx-background-color: #dc3545;" text="Cancel"/>
         <Button fx:id="addAppointmentBtn" layoutX="644.0" layoutY="347.0" mnemonicParsing="false"
                 onAction="#handleAddAppointmentBtnAction" text="Add Appointment"/>
         <fx:define>
