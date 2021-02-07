@@ -43,11 +43,6 @@ public class AppointmentsController implements Initializable {
     private int activeWeek;
     private int activeMonth;
 
-    
-    /** 
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
@@ -87,6 +82,10 @@ public class AppointmentsController implements Initializable {
         dataManager.setHasVisitedAppointments(true);
     }
 
+
+    /**
+     * Adds functionality to the Appointments Table and seeds the values.
+     */
     private void configureAppointmentsTable() {
         appointmentsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -116,8 +115,10 @@ public class AppointmentsController implements Initializable {
     }
 
     
-    /** 
-     * @param cal
+    /**
+     * Returns a human readable date.
+     *
+     * @param cal The date to format.
      * @return String
      */
     private String getFriendlyDate(Calendar cal) {
@@ -126,7 +127,9 @@ public class AppointmentsController implements Initializable {
     }
 
     
-    /** 
+    /**
+     * Updates the Appointments Table to match the criteria the user has selected.
+     *
      * @param increment
      */
     private void updateAppointmentsView(int increment) {
@@ -206,19 +209,11 @@ public class AppointmentsController implements Initializable {
     @FXML
     private Label dateRangeLabel;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     void handleAddAppointmentBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     void handleCancelBtnAction(ActionEvent event) {
         var index = appointmentsTable.getSelectionModel().getFocusedIndex();
@@ -250,10 +245,6 @@ public class AppointmentsController implements Initializable {
         updateAppointmentsView(0);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleModifyBtnAction(ActionEvent event) {
         var index = appointmentsTable.getSelectionModel().getFocusedIndex();
@@ -263,37 +254,21 @@ public class AppointmentsController implements Initializable {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customerId, appointmentId);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleMonthRadioClick(ActionEvent event) {
         updateAppointmentsView(0);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleWeekRadioClick(ActionEvent event) {
         updateAppointmentsView(0);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handlePrevBtnAction(ActionEvent event) {
         updateAppointmentsView(-1);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleNextBtnAction(ActionEvent event) {
         updateAppointmentsView(1);

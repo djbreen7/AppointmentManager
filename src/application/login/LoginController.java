@@ -28,11 +28,6 @@ public class LoginController implements Initializable {
     private SceneManager sceneManager;
     private ActivityLogger logger;
 
-    
-    /** 
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userDao = new UserDaoImpl();
@@ -42,6 +37,9 @@ public class LoginController implements Initializable {
         setTimezone();
     }
 
+    /**
+     * Sets the time zone on the login form to the user's current time zone.
+     */
     private void setTimezone() {
         var zdt = ZonedDateTime.now();
         var timeZone = TimeZone.getTimeZone(zdt.getZone());
@@ -63,10 +61,6 @@ public class LoginController implements Initializable {
     @FXML
     private Label timeZoneLabel;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleLoginBtnAction(ActionEvent event) {
         var userManager = UserManager.getInstance();

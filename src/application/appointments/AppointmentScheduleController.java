@@ -52,11 +52,6 @@ public class AppointmentScheduleController implements Initializable {
     private ObservableList<Contact> contacts;
     private ObservableList<Customer> customers;
 
-    
-    /** 
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
@@ -81,6 +76,9 @@ public class AppointmentScheduleController implements Initializable {
         setComboBoxItems();
     }
 
+    /**
+     * Creates or retrieves an appointment to use in the form.
+     */
     private void initializeAppointment() {
         var appointmentId = dataManager.getAndClearAppointmentId();
         var customerId = dataManager.getAndClearCustomerId();
@@ -106,6 +104,10 @@ public class AppointmentScheduleController implements Initializable {
         appointment = appointmentDao.getAppointment(appointmentId);
     }
 
+
+    /**
+     * Seeds the Customer Combo Box.
+     */
     private void initializeCustomers() {
         var isNewAppointment = appointment.getAppointmentId() == 0;
         var activeCustomer = isNewAppointment
@@ -116,6 +118,9 @@ public class AppointmentScheduleController implements Initializable {
         customerComboBox.setValue(activeCustomer);
     }
 
+    /**
+     * Seeds the Contact Combo Box.
+     */
     private void initializeContacts() {
         var isNewAppointment = appointment.getAppointmentId() == 0;
         var activeContact = isNewAppointment
@@ -126,6 +131,10 @@ public class AppointmentScheduleController implements Initializable {
         contactComboBox.setValue(activeContact);
     }
 
+
+    /**
+     * Seeds the appointment form.
+     */
     private void setupForm() {
         appointmentIdTextField.setText(Integer.toString(appointment.getAppointmentId()));
         userIdIdTextField.setText(Integer.toString(appointment.getUserId()));
@@ -141,6 +150,9 @@ public class AppointmentScheduleController implements Initializable {
         }
     }
 
+    /**
+     * Disables dates in the Date Picker that have passed.
+     */
     private void disablePastDates() {
         datePicker.setDayCellFactory(picker -> new DateCell() {
             @Override
@@ -153,6 +165,10 @@ public class AppointmentScheduleController implements Initializable {
         });
     }
 
+    /**
+     * Combines date, start/end hour, start/end minute, and start/end period
+     * to produce a date range.
+     */
     private void setDateAndTime() {
         var zid = ZoneId.systemDefault();
         var startDate = LocalDateTime.ofInstant(appointment.getStart().toInstant(), zid);
@@ -176,6 +192,9 @@ public class AppointmentScheduleController implements Initializable {
         endPeriodComboBox.setValue(endPeriod);
     }
 
+    /**
+     * Configures combo box mapping to/from.
+     */
     private void configureComboBoxes() {
         contactComboBox.setConverter(new StringConverter<Contact>() {
             @Override
@@ -210,6 +229,10 @@ public class AppointmentScheduleController implements Initializable {
         });
     }
 
+
+    /**
+     * Seeds the date and time combo boxes.
+     */
     private void setComboBoxItems() {
         var hours = FXCollections.observableList(Arrays.asList("12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"));
         var minutes = FXCollections.observableList(Arrays.asList("00", "15", "30", "45"));
@@ -235,7 +258,9 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     
-    /** 
+    /**
+     * Validates the appointment form.
+     *
      * @return boolean
      */
     private boolean formIsValid() {
@@ -258,10 +283,12 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     
-    /** 
-     * @param startHour
-     * @param endHour
-     * @param endMinute
+    /**
+     * Validates the date and time inputs are valid.
+     *
+     * @param startHour The meeting start hour.
+     * @param endHour The meeting end hour.
+     * @param endMinute The meeting end minute.
      * @return boolean
      */
     private boolean timeIsValid(int startHour, int endHour, int endMinute) {
@@ -301,10 +328,12 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     
-    /** 
-     * @param customerId
-     * @param startDate
-     * @param endDate
+    /**
+     * Verifies the customer is available for the requested time.
+     *
+     * @param customerId The ID of the customer being scheduled.
+     * @param startDate The meeting start time.
+     * @param endDate The meeting end time.
      * @return boolean
      */
     private boolean hasTimeAvailable(int customerId, Calendar startDate, Calendar endDate) {
@@ -319,11 +348,13 @@ public class AppointmentScheduleController implements Initializable {
     }
 
     
-    /** 
-     * @param dp
-     * @param hour
-     * @param minute
-     * @param period
+    /**
+     * Produces a Calendar from date and time inputs.
+     *
+     * @param dp The date picker.
+     * @param hour The hour.
+     * @param minute The minute.
+     * @param period The period.
      * @return Calendar
      */
     private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {

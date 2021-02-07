@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,13 +23,16 @@ import model.Customer;
 import model.FirstLevelDivision;
 import utilities.Lambdas;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
-public class CustomersUpsertController {
+public class CustomersUpsertController implements Initializable {
     private CustomerDao customerDao;
     private CountryDao countryDao;
     private FirstLevelDivisionDao divisionDao;
@@ -39,7 +43,8 @@ public class CustomersUpsertController {
     private ObservableList<Country> countries;
     private ObservableList<FirstLevelDivision> divisions;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         customerDao = new CustomerDaoImpl();
         countryDao = new CountryDaoImpl();
         divisionDao = new FirstLevelDivisionDaoImpl();
@@ -55,8 +60,9 @@ public class CustomersUpsertController {
         setComboBoxValues();
     }
 
-    
-    /** 
+    /**
+     * Creates or retrieves an appointment to use in the form.
+     *
      * @return Customer
      */
     private Customer initializeCustomer() {
@@ -68,6 +74,9 @@ public class CustomersUpsertController {
         return customerDao.getCustomer(customerId);
     }
 
+    /**
+     * Configures combo box mapping to/from.
+     */
     private void configureComboBoxes() {
         divisionComboBox.setConverter(new StringConverter<FirstLevelDivision>() {
             @Override
@@ -99,6 +108,9 @@ public class CustomersUpsertController {
         });
     }
 
+    /**
+     * Seeds combo boxes.
+     */
     private void setComboBoxValues() {
         var isNewCustomer = customer.getCustomerId() == 0;
 
@@ -118,6 +130,9 @@ public class CustomersUpsertController {
         divisionComboBox.setValue(activeDivision);
     }
 
+    /**
+     * Seeds the Customer Form.
+     */
     private void setupForm() {
         customerIdTextField.setText(Integer.toString(customer.getCustomerId()));
 
@@ -154,10 +169,6 @@ public class CustomersUpsertController {
     @FXML
     private ComboBox<Country> countryComboBox;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleCountryComboAction(ActionEvent event) {
         var newCountry = countryComboBox.getValue();
@@ -168,19 +179,11 @@ public class CustomersUpsertController {
         divisionComboBox.setValue(null);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleCancelBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
         customer.setCustomerId(Integer.parseInt(customerIdTextField.getText()));

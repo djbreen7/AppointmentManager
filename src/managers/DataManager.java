@@ -1,6 +1,7 @@
 package managers;
 
 /**
+ * A Singleton class for managing data between scenes.
  *
  * @author Daniel J Breen
  * @version 1.0
@@ -13,7 +14,9 @@ public class DataManager {
     private boolean hasVisitedAppointments;
 
     
-    /** 
+    /**
+     * Creates a DataManager instance if once doesn't exist, then returns the instance.
+     *
      * @return DataManager
      */
     public static DataManager getInstance() {
@@ -24,7 +27,9 @@ public class DataManager {
     }
 
     
-    /** 
+    /**
+     * A helper for retrieving a customer id from another scene. The ID is cleared after retrieval.
+     *
      * @return int
      */
     public int getAndClearCustomerId() {
@@ -34,15 +39,19 @@ public class DataManager {
     }
 
     
-    /** 
-     * @param id
+    /**
+     * A helper for passing a customer id to another scene.
+     *
+     * @param id The ID of the customer to store.
      */
     public void setCustomerId(int id) {
         this.customerId = id;
     }
 
     
-    /** 
+    /**
+     * A helper for retrieving an appointment id from another scene. The ID is cleared after retrieval.
+     *
      * @return int
      */
     public int getAndClearAppointmentId() {
@@ -52,15 +61,19 @@ public class DataManager {
     }
 
     
-    /** 
-     * @param id
+    /**
+     * A helper for passing an appointment id to another scene.
+     *
+     * @param id The ID of the appointment to store.
      */
     public void setAppointmentId(int id) {
         this.appointmentId = id;
     }
 
     
-    /** 
+    /**
+     * Checks to see if the user has already been notified of upcoming appointments upon login.
+     *
      * @return boolean
      */
     public boolean getHasVisitedAppointments() {
@@ -68,7 +81,9 @@ public class DataManager {
     }
 
     
-    /** 
+    /**
+     * Prevents the user from seeing a notification for upcoming appointments upon login.
+     *
      * @param hasVisitedAppointments
      */
     public void setHasVisitedAppointments(boolean hasVisitedAppointments) {

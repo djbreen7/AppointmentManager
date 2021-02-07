@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
+ * A helper class for establishing and retrieving business hours.
  *
  * @author Daniel J Breen
  * @version 1.0
@@ -31,6 +32,8 @@ public class BusinessHours {
     }
 
     /**
+     * Gets the beginning hour of business hours.
+     *
      * @return
      */
     public int getStartHour() {
@@ -38,7 +41,9 @@ public class BusinessHours {
     }
 
     
-    /** 
+    /**
+     * Gets the last hour of business hours.
+     *
      * @return int
      */
     public int getEndHour() {

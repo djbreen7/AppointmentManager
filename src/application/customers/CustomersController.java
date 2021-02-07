@@ -30,11 +30,6 @@ public class CustomersController implements Initializable {
     private SceneManager sceneManager;
     private ObservableList<Customer> customers;
 
-    
-    /** 
-     * @param url
-     * @param resourceBundle
-     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerDao = new CustomerDaoImpl();
         sceneManager = SceneManager.getInstance();
@@ -43,6 +38,9 @@ public class CustomersController implements Initializable {
         configureCustomersTable();
     }
 
+    /**
+     * Adds functionality to the Customers Table and seeds the values.
+     */
     private void configureCustomersTable() {
         customersTable.setItems(customers);
 
@@ -103,10 +101,6 @@ public class CustomersController implements Initializable {
     @FXML
     private Button scheduleAppointmentBtn;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleDeleteBtnAction(ActionEvent event) {
         var index = customersTable.getSelectionModel().getFocusedIndex();
@@ -127,11 +121,6 @@ public class CustomersController implements Initializable {
         initialize(null, null);
     }
 
-    
-    /** 
-     * @param event
-     * @throws IOException
-     */
     @FXML
     private void handleModifyBtnAction(ActionEvent event) throws IOException {
         var index = customersTable.getSelectionModel().getFocusedIndex();
@@ -140,10 +129,6 @@ public class CustomersController implements Initializable {
         sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE, customerId);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleScheduleAppointmentBtnAction(ActionEvent event) {
         var index = customersTable.getSelectionModel().getFocusedIndex();
@@ -152,10 +137,6 @@ public class CustomersController implements Initializable {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customerId);
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleAddCustomerBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMER_UPSERT_SCENE);

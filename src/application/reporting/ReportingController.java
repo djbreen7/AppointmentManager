@@ -38,11 +38,6 @@ public class ReportingController implements Initializable {
 
     private ObservableList<Contact> contacts;
 
-    
-    /** 
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reporter = new ReporterImpl();
@@ -60,6 +55,9 @@ public class ReportingController implements Initializable {
         configureContactScheduleReportTable();
     }
 
+    /**
+     * Adds report type options to Report Type Combo Box.
+     */
     private void configureReportTypeComboBox() {
         var reportTypes = FXCollections
                 .observableList(Arrays.asList("Appointment Summary", "Contact Schedule", "Customer Audit"));
@@ -68,6 +66,9 @@ public class ReportingController implements Initializable {
         reportTypeComboBox.setValue("Appointment Summary");
     }
 
+    /**
+     * Configures combo box mapping to/from and set values for Contact Combo Box.
+     */
     private void configureContactComboBox() {
         var contactId = contacts.get(0).getContactId();
         scheduleReport = FXCollections.observableList(reporter.getScheduleReport(contactId));
@@ -94,6 +95,9 @@ public class ReportingController implements Initializable {
         contactComboBox.setVisible(false);
     }
 
+    /**
+     * Seeds the Appointment Summary Table.
+     */
     private void configureSummaryReportTable() {
         summaryReportTable.setItems(summaryReport);
 
@@ -104,6 +108,9 @@ public class ReportingController implements Initializable {
         summaryReportTable.setVisible(true);
     }
 
+    /**
+     * Seeds the Customer Audit Report Table.
+     */
     private void configureCustomerAuditReportTable() {
         customerAuditTable.setItems(customerAuditReport);
 
@@ -115,6 +122,9 @@ public class ReportingController implements Initializable {
         auditCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
     }
 
+    /**
+     * Seeds the Contact Schedule Report Table
+     */
     private void configureContactScheduleReportTable() {
         scheduleTable.setItems(scheduleReport);
 
@@ -130,9 +140,10 @@ public class ReportingController implements Initializable {
         summaryReportTable.setVisible(true);
     }
 
-    
-    /** 
-     * @param cal
+    /**
+     * Returns a human readable date.
+     *
+     * @param cal The date to format.
      * @return String
      */
     private String getFriendlyDate(Calendar cal) {

@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
+ * A Singleton class for managing scene routing and navigation.
  *
  * @author Daniel J Breen
  * @version 1.0
@@ -41,7 +42,9 @@ public class SceneManager {
     }
 
     
-    /** 
+    /**
+     * Creates a SceneManager instance if once doesn't exist, then returns the instance.
+     *
      * @return SceneManager
      */
     public static SceneManager getInstance() {
@@ -52,7 +55,9 @@ public class SceneManager {
     }
 
     
-    /** 
+    /**
+     * Initializes the first scene;
+     *
      * @param primaryStage
      */
     public void initialize(Stage primaryStage) {
@@ -74,27 +79,33 @@ public class SceneManager {
     }
 
     
-    /** 
-     * @param fxml
+    /**
+     * Navigates to a scene without any data being shared.
+     *
+     * @param fxml The path to the scene file.
      */
     public void goToScene(String fxml) {
         goToScene(fxml, 0, 0);
     }
 
     
-    /** 
-     * @param fxml
-     * @param customerId
+    /**
+     * Navigates to a scene with customer data.
+     *
+     * @param fxml The path to the scene file.
+     * @param customerId The id of the customer being modified or scheduled.
      */
     public void goToScene(String fxml, int customerId) {
         goToScene(fxml, customerId, 0);
     }
 
     
-    /** 
-     * @param fxml
-     * @param customerId
-     * @param appointmentId
+    /**
+     * Navigates to a scene with customer and appointment data.
+     *
+     * @param fxml The path to the scene file.
+     * @param customerId The id of the customer being modified or scheduled.
+     * @param appointmentId THe id of the appointment being modified or scheduled.
      */
     public void goToScene(String fxml, int customerId, int appointmentId) {
         try {
@@ -114,6 +125,9 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Adds the sidebar to the application.
+     */
     public void setupBorderPane() {
         try {
             sidebar = FXMLLoader.load(getClass().getResource(SIDEBAR));
@@ -130,19 +144,21 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Configures the window size.
+     */
     public void setScreenSize() {
         window.setWidth(960);
         window.setHeight(540);
     }
 
-    
-    /** 
-     * @param window
-     */
     private void setWindow(Stage window) {
         this.window = window;
     }
 
+    /**
+     * Sends the user to the previous scene.
+     */
     public void goToPreviousScene() {
         goToScene(previousScene);
     }
