@@ -119,7 +119,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
      * Get appointments by FK User ID from the database.
      *
      * @param userId The User ID to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
@@ -151,7 +151,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
      * Get appointments by FK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     @Override
     public List<Appointment> getAppointmentsByCustomerId(int customerId) {

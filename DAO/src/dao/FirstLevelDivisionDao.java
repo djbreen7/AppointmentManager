@@ -16,7 +16,7 @@ public interface FirstLevelDivisionDao {
     /**
      * Get all divisions from the database.
      *
-     * @return List<FirstLevelDivision>
+     * @return List of FirstLevelDivision
      */
     List<FirstLevelDivision> getAllDivisions();
 }

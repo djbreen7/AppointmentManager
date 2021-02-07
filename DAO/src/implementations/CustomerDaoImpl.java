@@ -108,7 +108,7 @@ public class CustomerDaoImpl implements CustomerDao {
     /**
      * Get all customers from the database.
      *
-     * @return
+     * @return List of Customer
      */
     @Override
     public List<Customer> getAllCustomers() {
@@ -149,7 +149,7 @@ public class CustomerDaoImpl implements CustomerDao {
      * Get a customer by PK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return
+     * @return Customer
      */
     @Override
     public Customer getCustomer(int customerId) {

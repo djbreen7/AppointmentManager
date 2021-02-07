@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 public class ResultSetBuilder {
 
     
-    /** 
-     * @param result
-     * @param includeAuditing
+    /**
+     * Builds a Customer.
+     *
+     * @param result The result set to work from.
+     * @param includeAuditing Indicates if auditing columns should be included.
      * @return Customer
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public Customer buildCustomerResult(ResultSet result, boolean includeAuditing) throws Exception {
         var customer = new Customer();
@@ -35,11 +37,13 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
-     * @param includeAuditing
+    /**
+     * Builds a FirstLevelDivision.
+     *
+     * @param result The result set to work from.
+     * @param includeAuditing Indicates if auditing columns should be included.
      * @return FirstLevelDivision
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public FirstLevelDivision buildDivisionResult(ResultSet result, boolean includeAuditing) throws Exception {
         var division = new FirstLevelDivision();
@@ -54,11 +58,13 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
-     * @param includeAuditing
+    /**
+     * Builds a Country.
+     *
+     * @param result The result set to work from.
+     * @param includeAuditing Indicates if auditing columns should be included.
      * @return Country
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public Country buildCountryResult(ResultSet result, boolean includeAuditing) throws Exception {
         var country = new Country();
@@ -72,11 +78,13 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
-     * @param includeAuditing
+    /**
+     * Builds an Appointment.
+     *
+     * @param result The result set to work from.
+     * @param includeAuditing Indicates if auditing columns should be included.
      * @return Appointment
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public Appointment buildAppointmentResult(ResultSet result, boolean includeAuditing) throws Exception {
         var appointment = new Appointment();
@@ -98,10 +106,12 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
+    /**
+     * Builds a Contact.
+     *
+     * @param result The result set to work from.
      * @return Contact
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public Contact buildContactResult(ResultSet result) throws Exception {
         var contact = new Contact();
@@ -113,11 +123,13 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
-     * @param includeAuditing
+    /**
+     * Builds a User.
+     *
+     * @param result The result set to work from.
+     * @param includeAuditing Indicates if auditing columns should be included.
      * @return User
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public User buildUserResult(ResultSet result, boolean includeAuditing) throws Exception {
         var user = new User();
@@ -132,10 +144,12 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
+    /**
+     * Builds a Schedule Report
+     *
+     * @param result The result set to work from.
      * @return ScheduleReport
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public ScheduleReport buildScheduleReport(ResultSet result) throws Exception {
         var schedule = new ScheduleReport();
@@ -152,10 +166,12 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param result
+    /**
+     * Builds an Appointment Summary Report
+     *
+     * @param result The result set to work from.
      * @return AppointmentSummaryReport
-     * @throws Exception
+     * @throws Exception Throws an error in case of failure.
      */
     public AppointmentSummaryReport buildAppointmentSummaryReport(ResultSet result) throws Exception {
         var summary = new AppointmentSummaryReport();
@@ -167,10 +183,12 @@ public class ResultSetBuilder {
     }
 
     
-    /** 
-     * @param entity
-     * @param result
-     * @throws Exception
+    /**
+     * Helper for getting database auditing information.
+     *
+     * @param entity The entity to get auditing information for.
+     * @param result The result set to work from.
+     * @throws Exception Throws an error in case of failure.
      */
     private void getAuditing(BaseEntity entity, ResultSet result) throws Exception {
         entity.setCreateDate(

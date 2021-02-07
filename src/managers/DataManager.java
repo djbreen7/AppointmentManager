@@ -84,7 +84,7 @@ public class DataManager {
     /**
      * Prevents the user from seeing a notification for upcoming appointments upon login.
      *
-     * @param hasVisitedAppointments
+     * @param hasVisitedAppointments Boolean - true to disable alerts.
      */
     public void setHasVisitedAppointments(boolean hasVisitedAppointments) {
         this.hasVisitedAppointments = hasVisitedAppointments;

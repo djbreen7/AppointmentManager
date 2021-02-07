@@ -16,7 +16,7 @@ public interface CountryDao {
     /**
      * Get all countries from the database.
      *
-     * @return List<Country>
+     * @return List of Country
      */
     List<Country> getAllCountries();
 }

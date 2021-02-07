@@ -27,7 +27,7 @@ public class ReporterImpl implements Reporter {
      * Generates a Contact Schedule report.
      *
      * @param contactId The FK Contact ID to match.
-     * @return List<ScheduleReport>
+     * @return List of ScheduleReport
      */
     @Override
     public List<ScheduleReport> getScheduleReport(int contactId) {
@@ -56,7 +56,7 @@ public class ReporterImpl implements Reporter {
     /**
      * Generates a report with a summary of appointments grouped by month and type.
      *
-     * @return List<AppointmentSummaryReport>
+     * @return List of AppointmentSummaryReport
      */
     @Override
     public List<AppointmentSummaryReport> getSummaryReport() {
@@ -85,7 +85,7 @@ public class ReporterImpl implements Reporter {
      * Generates a report consisting of customers and information about the last user to update
      * or create them. Most recently updated customers will be first on the report.
      *
-     * @return List<Customer>
+     * @return List of Customer
      */
     @Override
     public List<Customer> getCustomerAuditReport() {

@@ -97,7 +97,7 @@ public class Lambdas {
     /**
      * @param list The list of appointments to filter.
      * @param week The week Integer to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     public static List<Appointment> getCurrentWeekAppointments(List<Appointment> list, int week) {
         BiFunction<List<Appointment>, Integer, List<Appointment>> func;
@@ -112,7 +112,7 @@ public class Lambdas {
     /**
      * @param list  The list of appointments to filter.
      * @param month The month Integer to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     public static List<Appointment> getCurrentMonthAppointments(List<Appointment> list, int month) {
         BiFunction<List<Appointment>, Integer, List<Appointment>> func;

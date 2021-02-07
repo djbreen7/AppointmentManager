@@ -43,7 +43,7 @@ public class UserManager {
     /**
      * Sets the current user to the user that has logged in.
      *
-     * @param currentUser
+     * @param currentUser User to be set.
      */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;

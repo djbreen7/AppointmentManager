@@ -54,12 +54,6 @@ public class SceneManager {
         return instance;
     }
 
-    
-    /**
-     * Initializes the first scene;
-     *
-     * @param primaryStage
-     */
     public void initialize(Stage primaryStage) {
         try {
             var currentLocale = Locale.getDefault();

@@ -18,7 +18,7 @@ public interface AppointmentDao {
      * Get appointments by FK User ID from the database.
      *
      * @param userId The User ID to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     List<Appointment> getAppointmentsByUserId(int userId);
 
@@ -26,7 +26,7 @@ public interface AppointmentDao {
      * Get appointments by FK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return List<Appointment>
+     * @return List of Appointment
      */
     List<Appointment> getAppointmentsByCustomerId(int customerId);
 

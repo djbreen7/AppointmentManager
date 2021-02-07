@@ -32,11 +32,11 @@ public class CalendarUtils {
     /**
      * Produces a Calendar from date fragments.
      *
-     * @param year
-     * @param month
-     * @param day
-     * @param hour
-     * @param minute
+     * @param year Year
+     * @param month Month
+     * @param day Day
+     * @param hour Hour
+     * @param minute Minute
      * @return Calendar
      */
     public static Calendar fromValues(int year, int month, int day, int hour, int minute) {

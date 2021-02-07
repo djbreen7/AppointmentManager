@@ -25,7 +25,7 @@ public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
     /**
      * Get all divisions from the database.
      *
-     * @return List<FirstLevelDivision>
+     * @return List of FirstLevelDivision
      */
     @Override
     public List<FirstLevelDivision> getAllDivisions() {

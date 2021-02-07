@@ -220,10 +220,6 @@ public class ReportingController implements Initializable {
     @FXML
     private ComboBox<Contact> contactComboBox;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     void handleReportTypeComboBoxAction(ActionEvent event) {
         summaryReportTable.setVisible(false);
@@ -248,10 +244,6 @@ public class ReportingController implements Initializable {
         }
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     void handleContactComboBoxAction(ActionEvent event) {
         var contactId = contactComboBox.getValue().getContactId();
