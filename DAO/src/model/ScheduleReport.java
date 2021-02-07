@@ -3,14 +3,22 @@ package model;
 import java.util.Calendar;
 
 public class ScheduleReport {
+    private int contactId;
     private int appointmentId;
     private int customerId;
-    private int contactId;
     private Calendar start;
     private Calendar end;
     private String title;
     private String type;
     private String description;
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
 
     public int getAppointmentId() {
         return appointmentId;
@@ -26,14 +34,6 @@ public class ScheduleReport {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
-    }
-
-    public int getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
     }
 
     public Calendar getStart() {

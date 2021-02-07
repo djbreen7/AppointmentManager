@@ -10,6 +10,7 @@ public class DataManager {
     private static DataManager instance = null;
     private int customerId;
     private int appointmentId;
+    private boolean hasVisitedAppointments;
 
     public static DataManager getInstance() {
         if (instance == null) {
@@ -36,5 +37,13 @@ public class DataManager {
 
     public void setAppointmentId(int id) {
         this.appointmentId = id;
+    }
+
+    public boolean getHasVisitedAppointments() {
+        return hasVisitedAppointments;
+    }
+
+    public void setHasVisitedAppointments(boolean hasVisitedAppointments) {
+        this.hasVisitedAppointments = hasVisitedAppointments;
     }
 }

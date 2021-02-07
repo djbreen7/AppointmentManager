@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import managers.DataManager;
 import managers.SceneManager;
 import managers.UserManager;
 import model.Appointment;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 public class AppointmentsController implements Initializable {
     private AppointmentDao appointmentDao;
     private UserManager userManager;
+    private DataManager dataManager;
     private SceneManager sceneManager;
 
     private ObservableList<Appointment> appointments;
@@ -45,19 +47,21 @@ public class AppointmentsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
         userManager = UserManager.getInstance();
+        dataManager = DataManager.getInstance();
         sceneManager = SceneManager.getInstance();
         appointments = FXCollections.observableList(
                 appointmentDao.getAppointmentsByUserId(userManager.getCurrentUser().getUserId())
         );
-
         activeCal = Calendar.getInstance();
-        displayUpcomingAppointments();
 
+        displayUpcomingAppointments();
         updateAppointmentsView(0);
         configureAppointmentsTable();
     }
 
     private void displayUpcomingAppointments() {
+        if (dataManager.getHasVisitedAppointments()) return;
+
         var upcomingAppointments = appointments.stream().filter(x -> {
             var isAfterNow = x.getStart().getTimeInMillis() - activeCal.getTimeInMillis() > 0;
             var isWithinFifteen = activeCal.getTimeInMillis() - x.getStart().getTimeInMillis() < 900000;
@@ -74,6 +78,8 @@ public class AppointmentsController implements Initializable {
                 : "No upcoming appointments";
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
         alert.show();
+
+        dataManager.setHasVisitedAppointments(true);
     }
 
     private void configureAppointmentsTable() {

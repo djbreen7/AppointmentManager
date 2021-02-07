@@ -19,7 +19,7 @@ public class ReporterImpl implements Reporter {
     @Override
     public List<ScheduleReport> getScheduleReport(int contactId) {
         var query = String.format(
-                "SELECT * FROM Appointments a " +
+                "SELECT * FROM appointments a " +
                         "WHERE a.Contact_ID = %s", contactId
         );
         List<ScheduleReport> scheduleReport = new ArrayList<>();

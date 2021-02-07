@@ -92,8 +92,8 @@ public class ResultSetBuilder {
 
     public ScheduleReport buildScheduleReport(ResultSet result) throws Exception {
         var schedule = new ScheduleReport();
-        schedule.setAppointmentId(result.getInt("Appointment_ID"));
         schedule.setContactId(result.getInt("Contact_ID"));
+        schedule.setAppointmentId(result.getInt("Appointment_ID"));
         schedule.setCustomerId(result.getInt("Customer_ID"));
         schedule.setStart(CalendarUtils.fromLocalDateTime(result.getObject("Start", LocalDateTime.class)));
         schedule.setEnd(CalendarUtils.fromLocalDateTime(result.getObject("End", LocalDateTime.class)));
@@ -106,9 +106,9 @@ public class ResultSetBuilder {
 
     public AppointmentSummaryReport buildAppointmentSummaryReport(ResultSet result) throws Exception {
         var summary = new AppointmentSummaryReport();
-        summary.setMonth(result.getString(0));
+        summary.setMonth(result.getString(1));
         summary.setType(result.getString("Type"));
-        summary.setTotal(result.getInt(2));
+        summary.setTotal(result.getInt(3));
 
         return summary;
     }

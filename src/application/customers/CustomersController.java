@@ -35,11 +35,12 @@ public class CustomersController implements Initializable {
         sceneManager = SceneManager.getInstance();
         customers = FXCollections.observableList(customerDao.getAllCustomers());
 
-        customersTable.setItems(customers);
         configureCustomersTable();
     }
 
     private void configureCustomersTable() {
+        customersTable.setItems(customers);
+
         customersTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 var index = customersTable.getSelectionModel().getFocusedIndex();

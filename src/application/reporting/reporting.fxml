@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.reporting.ReportingController">
+<AnchorPane prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.reporting.ReportingController">
     <children>
-        <TableView fx:id="appointmentsReportTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="736.0" visible="false">
+        <TableView fx:id="summaryReportTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="736.0"
+                   visible="false">
             <columns>
-                <TableColumn fx:id="apptMonthCol" prefWidth="300" text="Month" />
-                <TableColumn fx:id="apptTypeCol" prefWidth="300" text="Type" />
-                <TableColumn fx:id="apptTotalCol" prefWidth="134.800048828125" text="Total" />
+                <TableColumn fx:id="apptMonthCol" prefWidth="300" text="Month"/>
+                <TableColumn fx:id="apptTypeCol" prefWidth="300" text="Type"/>
+                <TableColumn fx:id="apptTotalCol" prefWidth="134.800048828125" text="Total"/>
             </columns>
         </TableView>
         <TableView fx:id="scheduleTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732" visible="false">
             <columns>
-                <TableColumn fx:id="scheduleAppointmentIdCol" prefWidth="36.40002250671387" text="ID" />
-                <TableColumn fx:id="scheduleCustomerIdCol" prefWidth="36.399993896484375" text="CID" />
-                <TableColumn fx:id="scheduleStartCol" prefWidth="108.79999542236328" text="Start" />
-                <TableColumn fx:id="scheduleEndCol" prefWidth="125.20001220703125" text="End" />
-                <TableColumn fx:id="scheduleTitleCol" prefWidth="93.20001220703125" text="Title" />
-                <TableColumn fx:id="scheduleTypeCol" prefWidth="111.19998168945312" text="Type" />
-                <TableColumn fx:id="scheduleDescriptionCol" prefWidth="218.800048828125" text="Description" />
+                <TableColumn fx:id="scheduleContactIdCol" prefWidth="36.40002250671387" text="ID"/>
+                <TableColumn fx:id="scheduleAppointmentIdCol" prefWidth="38.40002250671387" text="AID"/>
+                <TableColumn fx:id="scheduleCustomerIdCol" prefWidth="39.399993896484375" text="CID"/>
+                <TableColumn fx:id="scheduleStartCol" prefWidth="108.79999542236328" text="Start"/>
+                <TableColumn fx:id="scheduleEndCol" prefWidth="125.20001220703125" text="End"/>
+                <TableColumn fx:id="scheduleTitleCol" prefWidth="93.20001220703125" text="Title"/>
+                <TableColumn fx:id="scheduleTypeCol" prefWidth="111.19998168945312" text="Type"/>
+                <TableColumn fx:id="scheduleDescriptionCol" prefWidth="218.800048828125" text="Description"/>
             </columns>
         </TableView>
-        <TableView fx:id="customerAuditTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732">
+        <TableView fx:id="customerAuditTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732"
+                   visible="false">
             <columns>
-                <TableColumn fx:id="auditCustomerId" prefWidth="69.19997978210449" text="ID" />
-                <TableColumn fx:id="auditCustomerName" prefWidth="249.20001983642578" text="Name" />
-                <TableColumn fx:id="auditLastUpdate" prefWidth="108.40005493164062" text="Updated" />
-                <TableColumn fx:id="auditLastUpdatedBy" prefWidth="105.99996948242188" text="Updated By" />
-                <TableColumn fx:id="auditCreateDate" prefWidth="87.5999755859375" text="Created" />
-                <TableColumn fx:id="auditCreatedBy" prefWidth="111.60009765625" text="Created By" />
+                <TableColumn fx:id="auditCustomerId" prefWidth="69.19997978210449" text="ID"/>
+                <TableColumn fx:id="auditCustomerName" prefWidth="249.20001983642578" text="Name"/>
+                <TableColumn fx:id="auditLastUpdate" prefWidth="108.40005493164062" text="Updated"/>
+                <TableColumn fx:id="auditLastUpdatedBy" prefWidth="105.99996948242188" text="Updated By"/>
+                <TableColumn fx:id="auditCreateDate" prefWidth="87.5999755859375" text="Created"/>
+                <TableColumn fx:id="auditCreatedBy" prefWidth="111.60009765625" text="Created By"/>
             </columns>
         </TableView>
-        <ComboBox fx:id="reportTypeComboBox" layoutX="24.0" layoutY="346.0" onAction="#handleReportTypeComboBoxAction" prefWidth="150.0" />
-        <ComboBox fx:id="contactComboBox" layoutX="188.0" layoutY="346.0" onAction="#handleContactComboBoxAction" prefWidth="150.0" />
+        <Label layoutX="24.0" layoutY="350.0" text="Report Type"/>
+        <ComboBox fx:id="reportTypeComboBox" layoutX="107.0" layoutY="346.0" onAction="#handleReportTypeComboBoxAction"
+                  prefWidth="150.0"/>
+        <Label fx:id="contactLabel" layoutX="300.0" layoutY="350.0" text="Contact" visible="false"/>
+        <ComboBox fx:id="contactComboBox" layoutX="361.0" layoutY="346.0" onAction="#handleContactComboBoxAction"
+                  prefWidth="150.0" visible="false"/>
     </children>
 </AnchorPane>

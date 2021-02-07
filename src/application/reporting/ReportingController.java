@@ -2,23 +2,30 @@ package application.reporting;
 
 import dao.ContactDao;
 import implementations.ContactDaoImpl;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 import model.AppointmentSummaryReport;
 import model.Contact;
 import model.Customer;
 import model.ScheduleReport;
 import reporting.Reporter;
 import reporting.ReporterImpl;
+import utilities.Lambdas;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class ReportingController implements Initializable {
@@ -27,7 +34,7 @@ public class ReportingController implements Initializable {
 
     private ObservableList<AppointmentSummaryReport> summaryReport;
     private ObservableList<ScheduleReport> scheduleReport;
-    private ObservableList<Customer> customerReport;
+    private ObservableList<Customer> customerAuditReport;
 
     private ObservableList<Contact> contacts;
 
@@ -38,15 +45,14 @@ public class ReportingController implements Initializable {
 
         contacts = FXCollections.observableList(contactDao.getAllContacts());
         summaryReport = FXCollections.observableList(reporter.getSummaryReport());
-        customerReport = FXCollections.observableList(reporter.getCustomerAuditReport());
+        customerAuditReport = FXCollections.observableList(reporter.getCustomerAuditReport());
 
         configureReportTypeComboBox();
         configureContactComboBox();
 
-        configureAppointmentsReportTable();
+        configureSummaryReportTable();
         configureCustomerAuditReportTable();
         configureContactScheduleReportTable();
-//        summaryReport = FXCollections.observableList(reporter.getScheduleReport());
     }
 
     private void configureReportTypeComboBox() {
@@ -58,22 +64,73 @@ public class ReportingController implements Initializable {
     }
 
     private void configureContactComboBox() {
+        var contactId = contacts.get(0).getContactId();
+        scheduleReport = FXCollections.observableList(reporter.getScheduleReport(contactId));
+
+        contactComboBox.setConverter(new StringConverter<Contact>() {
+            @Override
+            public String toString(Contact contact) {
+                if (contact != null)
+                    return contact.getName();
+
+                return null;
+            }
+
+            @Override
+            public Contact fromString(final String string) {
+                return Lambdas.getContactByName(contactComboBox.getItems(), string);
+            }
+        });
+
         contactComboBox.setItems(contacts);
+        contactComboBox.setValue(contacts.get(0));
+        contactLabel.setVisible(false);
+        contactComboBox.setVisible(false);
     }
 
-    private void configureAppointmentsReportTable() {
+    private void configureSummaryReportTable() {
+        summaryReportTable.setItems(summaryReport);
 
-    }
+        apptMonthCol.setCellValueFactory(new PropertyValueFactory<>("month"));
+        apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        apptTotalCol.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-    private void configureContactScheduleReportTable() {
+        summaryReportTable.setVisible(true);
     }
 
     private void configureCustomerAuditReportTable() {
+        customerAuditTable.setItems(customerAuditReport);
 
+        auditCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        auditCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        auditLastUpdate.setCellValueFactory(cell -> new SimpleStringProperty(getFriendlyDate(cell.getValue().getLastUpdate())));
+        auditLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
+        auditCreateDate.setCellValueFactory(cell -> new SimpleStringProperty(getFriendlyDate(cell.getValue().getCreateDate())));
+        auditCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+    }
+
+    private void configureContactScheduleReportTable() {
+        scheduleTable.setItems(scheduleReport);
+
+        scheduleContactIdCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        scheduleAppointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        scheduleCustomerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        scheduleStartCol.setCellValueFactory(cell -> new SimpleStringProperty(getFriendlyDate(cell.getValue().getStart())));
+        scheduleEndCol.setCellValueFactory(cell -> new SimpleStringProperty(getFriendlyDate(cell.getValue().getEnd())));
+        scheduleTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        scheduleTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        scheduleDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        summaryReportTable.setVisible(true);
+    }
+
+    private String getFriendlyDate(Calendar cal) {
+        var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
+        return formatter.format(cal.getTime());
     }
 
     @FXML
-    private TableView<AppointmentSummaryReport> appointmentsReportTable;
+    private TableView<AppointmentSummaryReport> summaryReportTable;
 
     @FXML
     private TableColumn<AppointmentSummaryReport, String> apptMonthCol;
@@ -86,6 +143,9 @@ public class ReportingController implements Initializable {
 
     @FXML
     private TableView<ScheduleReport> scheduleTable;
+
+    @FXML
+    private TableColumn<ScheduleReport, Integer> scheduleContactIdCol;
 
     @FXML
     private TableColumn<ScheduleReport, Integer> scheduleAppointmentIdCol;
@@ -133,15 +193,41 @@ public class ReportingController implements Initializable {
     private ComboBox<String> reportTypeComboBox;
 
     @FXML
+    private Label contactLabel;
+
+    @FXML
     private ComboBox<Contact> contactComboBox;
 
     @FXML
-    void handleContactComboBoxAction(ActionEvent event) {
+    void handleReportTypeComboBoxAction(ActionEvent event) {
+        summaryReportTable.setVisible(false);
+        scheduleTable.setVisible(false);
+        customerAuditTable.setVisible(false);
+        contactLabel.setVisible(false);
+        contactComboBox.setVisible(false);
 
+        switch (reportTypeComboBox.getValue()) {
+            case "Contact Schedule":
+                scheduleTable.setVisible(true);
+                contactLabel.setVisible(true);
+                contactComboBox.setVisible(true);
+                break;
+            case "Customer Audit":
+                customerAuditTable.setVisible(true);
+                break;
+            case "Appointment Summary":
+            default:
+                summaryReportTable.setVisible(true);
+                break;
+        }
     }
 
     @FXML
-    void handleReportTypeComboBoxAction(ActionEvent event) {
+    void handleContactComboBoxAction(ActionEvent event) {
+        var contactId = contactComboBox.getValue().getContactId();
 
+        scheduleReport = FXCollections.observableList(reporter.getScheduleReport(contactId));
+        scheduleTable.setItems(scheduleReport);
+        scheduleTable.refresh();
     }
 }
