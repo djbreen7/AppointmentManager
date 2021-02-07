@@ -50,7 +50,7 @@ public class AppointmentsController implements Initializable {
         dataManager = DataManager.getInstance();
         sceneManager = SceneManager.getInstance();
         appointments = FXCollections.observableList(
-        appointmentDao.getAppointmentsByUserId(userManager.getCurrentUser().getUserId())
+                appointmentDao.getAppointmentsByUserId(userManager.getCurrentUser().getUserId())
         );
         activeCal = Calendar.getInstance();
 
@@ -66,8 +66,9 @@ public class AppointmentsController implements Initializable {
         if (dataManager.getHasVisitedAppointments()) return;
 
         var upcomingAppointments = appointments.stream().filter(x -> {
-            var isAfterNow = x.getStart().getTimeInMillis() - activeCal.getTimeInMillis() > 0;
-            var isWithinFifteen = activeCal.getTimeInMillis() - x.getStart().getTimeInMillis() < 900000;
+            var isAfterNow = (x.getStart().compareTo(activeCal) >= 0);
+            var isWithinFifteen = (x.getStart().getTimeInMillis() - activeCal.getTimeInMillis()) < 900000;
+
             return isAfterNow && isWithinFifteen;
         }).collect(Collectors.toList());
 

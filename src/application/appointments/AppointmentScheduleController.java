@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -51,6 +50,8 @@ public class AppointmentScheduleController implements Initializable {
     private ObservableList<Appointment> customerAppointments;
     private ObservableList<Contact> contacts;
     private ObservableList<Customer> customers;
+
+    private boolean hasErrors = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -261,7 +262,7 @@ public class AppointmentScheduleController implements Initializable {
         customerComboBox.getStyleClass().remove("error");
     }
 
-    
+
     /**
      * Validates the appointment form.
      *
@@ -286,20 +287,21 @@ public class AppointmentScheduleController implements Initializable {
         return isValid;
     }
 
-    
+
     /**
      * Validates the date and time inputs are valid.
      *
-     * @param startHour The meeting start hour.
-     * @param endHour The meeting end hour.
-     * @param endMinute The meeting end minute.
+     * @param startDate The meeting start date.
+     * @param endDate   The meeting end date.
      * @return A boolean indicating if the time is valid.
      */
-    private boolean timeIsValid(int startHour, int endHour, int endMinute) {
+    private boolean timeIsValid(Calendar startDate, Calendar endDate) {
         var isValid = true;
         var businessHours = new BusinessHours();
-        if (startHour != 12 && startPeriodComboBox.getValue().equals("PM")) startHour += 12;
-        if (endHour != 12 && endPeriodComboBox.getValue().equals("PM")) endHour += 12;
+        var now = Calendar.getInstance();
+        var startHour = startDate.get(Calendar.HOUR_OF_DAY);
+        var endHour = endDate.get(Calendar.HOUR_OF_DAY);
+        var endMinute = endDate.get(Calendar.MINUTE);
 
         if (startHour >= endHour) {
             startHourComboBox.getStyleClass().add("error");
@@ -307,7 +309,8 @@ public class AppointmentScheduleController implements Initializable {
             isValid = false;
         }
 
-        if (startHour < businessHours.getStartHour()) {
+        if (startHour < businessHours.getStartHour() || startDate.compareTo(now) < 0) {
+            datePicker.getStyleClass().add("error");
             startHourComboBox.getStyleClass().add("error");
             startMinuteComboBox.getStyleClass().add("error");
             startPeriodComboBox.getStyleClass().add("error");
@@ -331,32 +334,36 @@ public class AppointmentScheduleController implements Initializable {
         return isValid;
     }
 
-    
+
     /**
      * Verifies the customer is available for the requested time.
      *
-     * @param customerId The ID of the customer being scheduled.
      * @param startDate The meeting start time.
-     * @param endDate The meeting end time.
+     * @param endDate   The meeting end time.
      * @return A boolean indicating if the time is available.
      */
-    private boolean hasTimeAvailable(int customerId, Calendar startDate, Calendar endDate) {
+    private boolean hasTimeAvailable(Calendar startDate, Calendar endDate) {
+        var customerId = customerComboBox.getValue().getCustomerId();
+        var appointmentId = appointmentIdTextField.getText().equals("N/A") ? 0 : Integer.parseInt(appointmentIdTextField.getText());
         customerAppointments = FXCollections.observableList(appointmentDao.getAppointmentsByCustomerId(customerId));
 
-        var conflicts = customerAppointments.stream().filter(x -> {
-            return (x.getStart().compareTo(startDate) <= 0 && x.getEnd().compareTo(startDate) >= 0)
-                    || (x.getStart().compareTo(endDate) <= 0 && x.getEnd().compareTo(endDate) >= 0);
-        }).collect(Collectors.toList());
+        var conflicts = customerAppointments
+                .stream()
+                .filter(x -> {
+                    if (x.getAppointmentId() == appointmentId) return false;
+                    return (x.getStart().compareTo(startDate) <= 0 && x.getEnd().compareTo(startDate) >= 0)
+                            || (x.getStart().compareTo(endDate) <= 0 && x.getEnd().compareTo(endDate) >= 0);
+                }).collect(Collectors.toList());
 
         return conflicts.stream().count() == 0;
     }
 
-    
+
     /**
      * Produces a Calendar from date and time inputs.
      *
-     * @param dp The date picker.
-     * @param hour The hour.
+     * @param dp     The date picker.
+     * @param hour   The hour.
      * @param minute The minute.
      * @param period The period.
      * @return A Calendar object.
@@ -439,10 +446,10 @@ public class AppointmentScheduleController implements Initializable {
         var endMinute = Integer.parseInt(endMinuteComboBox.getValue());
         var startDate = getCalendar(datePicker, startHour, startMinute, startPeriodComboBox.getValue());
         var endDate = getCalendar(datePicker, endHour, endMinute, endPeriodComboBox.getValue());
-
+        
         var hasErrors = false;
-        if (!timeIsValid(startHour, endHour, endMinute)) {
-            errorLabel.setText("Ensure the start time is before the end time.");
+        if (!timeIsValid(startDate, endDate)) {
+            errorLabel.setText("Ensure the start time is before the end time and after the current time");
             errorLabel.setVisible(true);
             timeErrorLabel.setText("Please select a time between 8 AM and 10 PM EST.");
             timeErrorLabel.setVisible(true);
@@ -453,7 +460,7 @@ public class AppointmentScheduleController implements Initializable {
             errorLabel.setText("The highlighted items are required");
             errorLabel.setVisible(true);
             hasErrors = true;
-        } else if (!hasTimeAvailable(customerComboBox.getValue().getCustomerId(), startDate, endDate)) {
+        } else if (!hasTimeAvailable(startDate, endDate)) {
             timeErrorLabel.setText("Appointment conflict. Please choose another time.");
             timeErrorLabel.setVisible(true);
 
