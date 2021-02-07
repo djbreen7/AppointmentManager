@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO implementation for working with Customers in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -20,9 +22,11 @@ public class CustomerDaoImpl implements CustomerDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
-    
-    /** 
-     * @param customer
+
+    /**
+     * Update or insert a customer into the database.
+     *
+     * @param customer The customer to update or insert.
      */
     @Override
     public void upsertCustomer(Customer customer) {
@@ -34,8 +38,10 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     
-    /** 
-     * @param customer
+    /**
+     * Add a customer into the database.
+     *
+     * @param customer The customer to add.
      */
     private void addCustomer(Customer customer) {
         String query = String.format(
@@ -63,8 +69,10 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     
-    /** 
-     * @param customer
+    /**
+     * Update a customer in the database.
+     *
+     * @param customer The customer to update.
      */
     private void updateCustomer(Customer customer) {
         String query = String.format(
@@ -96,9 +104,11 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    
-    /** 
-     * @return List<Customer>
+
+    /**
+     * Get all customers from the database.
+     *
+     * @return
      */
     @Override
     public List<Customer> getAllCustomers() {
@@ -134,10 +144,12 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    
-    /** 
-     * @param customerId
-     * @return Customer
+
+    /**
+     * Get a customer by PK Customer ID from the database.
+     *
+     * @param customerId The Customer ID to match.
+     * @return
      */
     @Override
     public Customer getCustomer(int customerId) {
@@ -178,9 +190,11 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
-    
-    /** 
-     * @param customerId
+
+    /**
+     * Delete a customer by PK Customer ID from the database.
+     *
+     * @param customerId The Customer ID to match.
      */
     @Override
     public void deleteCustomer(int customerId) {

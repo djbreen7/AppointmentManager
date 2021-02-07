@@ -3,6 +3,8 @@ package model;
 import java.util.Calendar;
 
 /**
+ * A report container for contact schedules.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0

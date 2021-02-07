@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO implementation for working with Countries in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -20,8 +22,9 @@ public class CountryDaoImpl implements CountryDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
-    
-    /** 
+    /**
+     * Get all countries from the database.
+     *
      * @return List<Country>
      */
     @Override

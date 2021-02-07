@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO implementation for working with Divisions in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -20,6 +22,11 @@ public class FirstLevelDivisionDaoImpl implements FirstLevelDivisionDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    /**
+     * Get all divisions from the database.
+     *
+     * @return List<FirstLevelDivision>
+     */
     @Override
     public List<FirstLevelDivision> getAllDivisions() {
         String query = "SELECT * FROM first_level_divisions";

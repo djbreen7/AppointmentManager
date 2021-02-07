@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO implementation for working with Contacts in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -20,8 +22,9 @@ public class ContactDaoImpl implements ContactDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
-    
-    /** 
+    /**
+     * Get all contacts from the database.
+     *
      * @return List<Contact>
      */
     @Override

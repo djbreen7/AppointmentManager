@@ -3,6 +3,8 @@ package model;
 import java.util.Calendar;
 
 /**
+ * A class for entities to extend when they require create/update information.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0

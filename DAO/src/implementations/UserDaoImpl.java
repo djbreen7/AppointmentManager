@@ -6,6 +6,8 @@ import model.User;
 import utilities.ResultSetBuilder;
 
 /**
+ * DAO implementation for working with Users in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -17,9 +19,11 @@ public class UserDaoImpl implements UserDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
-    
-    /** 
-     * @param userName
+
+    /**
+     * Get a user by User Name from the database.
+     *
+     * @param userName The User Name to match.
      * @return User
      */
     @Override

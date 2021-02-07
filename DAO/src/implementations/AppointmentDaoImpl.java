@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO implementation for working with Appointments in the database.
+ *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
@@ -21,9 +23,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
-    
-    /** 
-     * @param appointment
+    /**
+     * Insert or update an appointment in the database.
+     *
+     * @param appointment Appointment to be updated or inserted.
      */
     @Override
     public void upsertAppointment(Appointment appointment) {
@@ -34,9 +37,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         updateAppointment(appointment);
     }
 
-    
-    /** 
-     * @param appointment
+    /**
+     * Insert an appointment into the database.
+     *
+     * @param appointment Appointment to be inserted.
      */
     private void addAppointment(Appointment appointment) {
         String query = String.format(
@@ -68,9 +72,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    
-    /** 
-     * @param appointment
+    /**
+     * Update an appointment in the database.
+     *
+     * @param appointment The appointment to be updated.
      */
     private void updateAppointment(Appointment appointment) {
         String query = String.format(
@@ -110,9 +115,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    
-    /** 
-     * @param userId
+    /**
+     * Get appointments by FK User ID from the database.
+     *
+     * @param userId The User ID to match.
      * @return List<Appointment>
      */
     @Override
@@ -141,9 +147,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    
-    /** 
-     * @param customerId
+    /**
+     * Get appointments by FK Customer ID from the database.
+     *
+     * @param customerId The Customer ID to match.
      * @return List<Appointment>
      */
     @Override
@@ -170,9 +177,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    
-    /** 
-     * @param appointmentId
+    /**
+     * Get appointment by PK Appointment ID from the database.
+     *
+     * @param appointmentId The ID of the appointment to get.
      * @return Appointment
      */
     @Override
@@ -203,9 +211,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    
-    /** 
-     * @param appointmentId
+    /**
+     * Delete appointment by PK Appointment ID from the database.
+     *
+     * @param appointmentId The ID of the appointment to delete.
      * @return boolean
      */
     @Override

@@ -7,15 +7,18 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
+ * A tool for handling date manipulation with Calendar.
  *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0
  */
 public class CalendarUtils {
-    
-    /** 
-     * @param dateTime
+
+    /**
+     * Produces a Calendar from LocalDateTime.
+     *
+     * @param dateTime The date to be converted to Calendar.
      * @return Calendar
      */
     public static Calendar fromLocalDateTime(LocalDateTime dateTime) {
@@ -25,8 +28,10 @@ public class CalendarUtils {
         return cal;
     }
 
-    
-    /** 
+
+    /**
+     * Produces a Calendar from date fragments.
+     *
      * @param year
      * @param month
      * @param day
@@ -42,9 +47,11 @@ public class CalendarUtils {
         return cal;
     }
 
-    
-    /** 
-     * @param cal
+
+    /**
+     * Reverse the offset of the provided Calendar to convert the time to UTC.
+     *
+     * @param cal The Calendar date to be adjusted.
      * @return Calendar
      */
     public static Calendar toUtc(Calendar cal) {

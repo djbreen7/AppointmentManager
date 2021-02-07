@@ -55,7 +55,7 @@ public class AppointmentsController implements Initializable {
         dataManager = DataManager.getInstance();
         sceneManager = SceneManager.getInstance();
         appointments = FXCollections.observableList(
-                appointmentDao.getAppointmentsByUserId(userManager.getCurrentUser().getUserId())
+        appointmentDao.getAppointmentsByUserId(userManager.getCurrentUser().getUserId())
         );
         activeCal = Calendar.getInstance();
 
