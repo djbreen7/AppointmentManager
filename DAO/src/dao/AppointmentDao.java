@@ -18,7 +18,7 @@ public interface AppointmentDao {
      * Get appointments by FK User ID from the database.
      *
      * @param userId The User ID to match.
-     * @return List of Appointment
+     * @return Appointments with the User ID.
      */
     List<Appointment> getAppointmentsByUserId(int userId);
 
@@ -26,7 +26,7 @@ public interface AppointmentDao {
      * Get appointments by FK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return List of Appointment
+     * @return Appointments with the Customer ID.
      */
     List<Appointment> getAppointmentsByCustomerId(int customerId);
 
@@ -34,7 +34,7 @@ public interface AppointmentDao {
      * Get appointment by PK Appointment ID from the database.
      *
      * @param appointmentId The ID of the appointment to get.
-     * @return Appointment
+     * @return The appointment with the provided ID.
      */
     Appointment getAppointment(int appointmentId);
 
@@ -42,7 +42,7 @@ public interface AppointmentDao {
      * Delete appointment by PK Appointment ID from the database.
      *
      * @param appointmentId The ID of the appointment to delete.
-     * @return boolean
+     * @return A boolean indicating if the deletion was successful or not.
      */
     boolean deleteAppointment(int appointmentId);
 }

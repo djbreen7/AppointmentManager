@@ -18,7 +18,7 @@ public class ResultSetBuilder {
      *
      * @param result The result set to work from.
      * @param includeAuditing Indicates if auditing columns should be included.
-     * @return Customer
+     * @return A customer object.
      * @throws Exception Throws an error in case of failure.
      */
     public Customer buildCustomerResult(ResultSet result, boolean includeAuditing) throws Exception {
@@ -42,7 +42,7 @@ public class ResultSetBuilder {
      *
      * @param result The result set to work from.
      * @param includeAuditing Indicates if auditing columns should be included.
-     * @return FirstLevelDivision
+     * @return A FirstLevelDivision object.
      * @throws Exception Throws an error in case of failure.
      */
     public FirstLevelDivision buildDivisionResult(ResultSet result, boolean includeAuditing) throws Exception {
@@ -63,7 +63,7 @@ public class ResultSetBuilder {
      *
      * @param result The result set to work from.
      * @param includeAuditing Indicates if auditing columns should be included.
-     * @return Country
+     * @return A Country object.
      * @throws Exception Throws an error in case of failure.
      */
     public Country buildCountryResult(ResultSet result, boolean includeAuditing) throws Exception {
@@ -83,7 +83,7 @@ public class ResultSetBuilder {
      *
      * @param result The result set to work from.
      * @param includeAuditing Indicates if auditing columns should be included.
-     * @return Appointment
+     * @return An Appointment object.
      * @throws Exception Throws an error in case of failure.
      */
     public Appointment buildAppointmentResult(ResultSet result, boolean includeAuditing) throws Exception {
@@ -110,7 +110,7 @@ public class ResultSetBuilder {
      * Builds a Contact.
      *
      * @param result The result set to work from.
-     * @return Contact
+     * @return A Contact object.
      * @throws Exception Throws an error in case of failure.
      */
     public Contact buildContactResult(ResultSet result) throws Exception {
@@ -128,7 +128,7 @@ public class ResultSetBuilder {
      *
      * @param result The result set to work from.
      * @param includeAuditing Indicates if auditing columns should be included.
-     * @return User
+     * @return A User object.
      * @throws Exception Throws an error in case of failure.
      */
     public User buildUserResult(ResultSet result, boolean includeAuditing) throws Exception {
@@ -148,7 +148,7 @@ public class ResultSetBuilder {
      * Builds a Schedule Report
      *
      * @param result The result set to work from.
-     * @return ScheduleReport
+     * @return A ScheduleReport object.
      * @throws Exception Throws an error in case of failure.
      */
     public ScheduleReport buildScheduleReport(ResultSet result) throws Exception {
@@ -170,7 +170,7 @@ public class ResultSetBuilder {
      * Builds an Appointment Summary Report
      *
      * @param result The result set to work from.
-     * @return AppointmentSummaryReport
+     * @return An AppointmentSummaryReport object.
      * @throws Exception Throws an error in case of failure.
      */
     public AppointmentSummaryReport buildAppointmentSummaryReport(ResultSet result) throws Exception {

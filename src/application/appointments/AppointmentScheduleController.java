@@ -243,6 +243,10 @@ public class AppointmentScheduleController implements Initializable {
         endMinuteComboBox.setItems(minutes);
     }
 
+
+    /**
+     * Resets any errors on the form.
+     */
     private void resetErrors() {
         errorLabel.setVisible(false);
         timeErrorLabel.setVisible(false);
@@ -261,7 +265,7 @@ public class AppointmentScheduleController implements Initializable {
     /**
      * Validates the appointment form.
      *
-     * @return boolean
+     * @return A boolean indicating if the form is valid.
      */
     private boolean formIsValid() {
         var isValid = true;
@@ -289,7 +293,7 @@ public class AppointmentScheduleController implements Initializable {
      * @param startHour The meeting start hour.
      * @param endHour The meeting end hour.
      * @param endMinute The meeting end minute.
-     * @return boolean
+     * @return A boolean indicating if the time is valid.
      */
     private boolean timeIsValid(int startHour, int endHour, int endMinute) {
         var isValid = true;
@@ -334,7 +338,7 @@ public class AppointmentScheduleController implements Initializable {
      * @param customerId The ID of the customer being scheduled.
      * @param startDate The meeting start time.
      * @param endDate The meeting end time.
-     * @return boolean
+     * @return A boolean indicating if the time is available.
      */
     private boolean hasTimeAvailable(int customerId, Calendar startDate, Calendar endDate) {
         customerAppointments = FXCollections.observableList(appointmentDao.getAppointmentsByCustomerId(customerId));
@@ -355,7 +359,7 @@ public class AppointmentScheduleController implements Initializable {
      * @param hour The hour.
      * @param minute The minute.
      * @param period The period.
-     * @return Calendar
+     * @return A Calendar object.
      */
     private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
         var year = dp.getValue().getYear();
@@ -421,19 +425,11 @@ public class AppointmentScheduleController implements Initializable {
     @FXML
     private Label timeErrorLabel;
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleCancelBtnAction(ActionEvent event) {
         sceneManager.goToPreviousScene();
     }
 
-    
-    /** 
-     * @param event
-     */
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
         resetErrors();

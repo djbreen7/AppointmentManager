@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
      * Get a user by User Name from the database.
      *
      * @param userName The User Name to match.
-     * @return User
+     * @return The user with the provided User Name.
      */
     @Override
     public User getUser(String userName) {

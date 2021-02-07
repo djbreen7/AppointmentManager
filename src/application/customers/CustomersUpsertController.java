@@ -63,7 +63,7 @@ public class CustomersUpsertController implements Initializable {
     /**
      * Creates or retrieves an appointment to use in the form.
      *
-     * @return Customer
+     * @return A Customer object.
      */
     private Customer initializeCustomer() {
         var customerId = dataManager.getAndClearCustomerId();

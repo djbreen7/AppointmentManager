@@ -19,7 +19,7 @@ public class CalendarUtils {
      * Produces a Calendar from LocalDateTime.
      *
      * @param dateTime The date to be converted to Calendar.
-     * @return Calendar
+     * @return A Calender in the UTC Time Zone.
      */
     public static Calendar fromLocalDateTime(LocalDateTime dateTime) {
         var zdt = ZonedDateTime.of(dateTime, TimeZone.getTimeZone("UTC").toZoneId());
@@ -37,7 +37,7 @@ public class CalendarUtils {
      * @param day Day
      * @param hour Hour
      * @param minute Minute
-     * @return Calendar
+     * @return A Calendar object.
      */
     public static Calendar fromValues(int year, int month, int day, int hour, int minute) {
         var cal = Calendar.getInstance();
@@ -52,7 +52,7 @@ public class CalendarUtils {
      * Reverse the offset of the provided Calendar to convert the time to UTC.
      *
      * @param cal The Calendar date to be adjusted.
-     * @return Calendar
+     * @return A Calender in the UTC Time Zone.
      */
     public static Calendar toUtc(Calendar cal) {
         var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());

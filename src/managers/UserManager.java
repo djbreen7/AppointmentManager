@@ -20,7 +20,7 @@ public class UserManager {
     /**
      * Creates a UserManager instance if once doesn't exist, then returns the instance.
      *
-     * @return UserManager
+     * @return The instance of UserManager.
      */
     public static UserManager getInstance() {
         if (instance == null) {
@@ -33,7 +33,7 @@ public class UserManager {
     /**
      * Gets the current user.
      *
-     * @return User
+     * @return The current user.
      */
     public User getCurrentUser() {
         return currentUser;

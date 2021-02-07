@@ -17,7 +17,7 @@ public class DataManager {
     /**
      * Creates a DataManager instance if once doesn't exist, then returns the instance.
      *
-     * @return DataManager
+     * @return The instance of DataManager.
      */
     public static DataManager getInstance() {
         if (instance == null) {
@@ -30,7 +30,7 @@ public class DataManager {
     /**
      * A helper for retrieving a customer id from another scene. The ID is cleared after retrieval.
      *
-     * @return int
+     * @return The customer id for the current scene.
      */
     public int getAndClearCustomerId() {
         var result = customerId;
@@ -52,7 +52,7 @@ public class DataManager {
     /**
      * A helper for retrieving an appointment id from another scene. The ID is cleared after retrieval.
      *
-     * @return int
+     * @return The appointment id for the current scene.
      */
     public int getAndClearAppointmentId() {
         var result = appointmentId;
@@ -74,7 +74,7 @@ public class DataManager {
     /**
      * Checks to see if the user has already been notified of upcoming appointments upon login.
      *
-     * @return boolean
+     * @return A boolean indicating if the user has been notified of upcoming appointments.
      */
     public boolean getHasVisitedAppointments() {
         return hasVisitedAppointments;

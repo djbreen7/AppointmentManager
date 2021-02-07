@@ -16,7 +16,7 @@ public interface ContactDao {
     /**
      * Get all contacts from the database.
      *
-     * @return List of Contact
+     * @return All contacts in the database.
      */
     List<Contact> getAllContacts();
 }

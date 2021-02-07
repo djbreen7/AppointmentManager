@@ -25,7 +25,7 @@ public class ContactDaoImpl implements ContactDao {
     /**
      * Get all contacts from the database.
      *
-     * @return List of Contact
+     * @return All contacts in the database.
      */
     @Override
     public List<Contact> getAllContacts() {

@@ -18,14 +18,14 @@ public interface Reporter {
      * Generates a Contact Schedule report.
      *
      * @param contactId The FK Contact ID to match.
-     * @return List of ScheduleReport
+     * @return The schedule for the contact with the provided Contact ID
      */
     List<ScheduleReport> getScheduleReport(int contactId);
 
     /**
      * Generates a report with a summary of appointments grouped by month and type.
      *
-     * @return List of AppointmentSummaryReport
+     * @return Appointments grouped by month and type with a total for each group.
      */
     List<AppointmentSummaryReport> getSummaryReport();
 
@@ -33,7 +33,7 @@ public interface Reporter {
      * Generates a report consisting of customers and information about the last user to update
      * or create them. Most recently updated customers will be first on the report.
      *
-     * @return List of Customer
+     * @return All customers including audit properties.
      */
     List<Customer> getCustomerAuditReport();
 }

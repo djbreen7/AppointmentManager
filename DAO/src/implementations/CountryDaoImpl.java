@@ -25,7 +25,7 @@ public class CountryDaoImpl implements CountryDao {
     /**
      * Get all countries from the database.
      *
-     * @return List of Country
+     * @return All countries in the database.
      */
     @Override
     public List<Country> getAllCountries() {

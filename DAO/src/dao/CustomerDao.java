@@ -23,7 +23,7 @@ public interface CustomerDao {
     /**
      * Get all customers from the database.
      *
-     * @return
+     * @return All customers in the database.
      */
     List<Customer> getAllCustomers();
 
@@ -31,7 +31,7 @@ public interface CustomerDao {
      * Get a customer by PK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return
+     * @return The customer with the provided ID.
      */
     Customer getCustomer(int customerId);
 
@@ -39,6 +39,7 @@ public interface CustomerDao {
      * Delete a customer by PK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
+     * @return TODO
      */
     void deleteCustomer(int customerId);
 }

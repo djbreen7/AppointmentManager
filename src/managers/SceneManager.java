@@ -45,7 +45,7 @@ public class SceneManager {
     /**
      * Creates a SceneManager instance if once doesn't exist, then returns the instance.
      *
-     * @return SceneManager
+     * @return The instance of SceneManager.
      */
     public static SceneManager getInstance() {
         if (instance == null) {

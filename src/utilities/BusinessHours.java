@@ -34,7 +34,7 @@ public class BusinessHours {
     /**
      * Gets the beginning hour of business hours.
      *
-     * @return int
+     * @return A number representing the opening business hour.
      */
     public int getStartHour() {
         return startHour;
@@ -44,7 +44,7 @@ public class BusinessHours {
     /**
      * Gets the last hour of business hours.
      *
-     * @return int
+     * @return A number representing the closing business hour.
      */
     public int getEndHour() {
         return endHour;

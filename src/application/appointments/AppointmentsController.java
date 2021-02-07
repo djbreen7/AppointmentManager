@@ -119,7 +119,7 @@ public class AppointmentsController implements Initializable {
      * Returns a human readable date.
      *
      * @param cal The date to format.
-     * @return String
+     * @return A date in "yyy-MM-dd hh:mm aa" format.
      */
     private String getFriendlyDate(Calendar cal) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
@@ -130,7 +130,7 @@ public class AppointmentsController implements Initializable {
     /**
      * Updates the Appointments Table to match the criteria the user has selected.
      *
-     * @param increment
+     * @param increment An integer representing the number of weeks/months to go forward/backward.
      */
     private void updateAppointmentsView(int increment) {
         var endCal = Calendar.getInstance();

@@ -144,7 +144,7 @@ public class ReportingController implements Initializable {
      * Returns a human readable date.
      *
      * @param cal The date to format.
-     * @return String
+     * @return A date in "yyy-MM-dd hh:mm aa" format.
      */
     private String getFriendlyDate(Calendar cal) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
