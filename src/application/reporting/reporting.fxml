@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/15.0.1"
+<AnchorPane prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.reporting.ReportingController">
     <children>
         <TableView fx:id="summaryReportTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="736.0"
@@ -32,11 +32,11 @@
         <TableView fx:id="customerAuditTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732"
                    visible="false">
             <columns>
-                <TableColumn fx:id="auditCustomerId" prefWidth="69.19997978210449" text="ID"/>
-                <TableColumn fx:id="auditCustomerName" prefWidth="249.20001983642578" text="Name"/>
-                <TableColumn fx:id="auditLastUpdate" prefWidth="108.40005493164062" text="Updated"/>
-                <TableColumn fx:id="auditLastUpdatedBy" prefWidth="105.99996948242188" text="Updated By"/>
-                <TableColumn fx:id="auditCreateDate" prefWidth="87.5999755859375" text="Created"/>
+                <TableColumn fx:id="auditCustomerId" prefWidth="41.19997978210449" text="ID"/>
+                <TableColumn fx:id="auditCustomerName" prefWidth="168.00000762939453" text="Name"/>
+                <TableColumn fx:id="auditLastUpdate" prefWidth="139.20001220703125" text="Updated"/>
+                <TableColumn fx:id="auditLastUpdatedBy" prefWidth="96.0" text="Updated By"/>
+                <TableColumn fx:id="auditCreateDate" prefWidth="178.39993286132812" text="Created"/>
                 <TableColumn fx:id="auditCreatedBy" prefWidth="111.60009765625" text="Created By"/>
             </columns>
         </TableView>

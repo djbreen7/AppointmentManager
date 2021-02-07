@@ -3,10 +3,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="160.0" style="-fx-border-color: #aaa; -fx-border-width: 0 1 0 0;" stylesheets="@sidebar.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.sidebar.SidebarController">
+<AnchorPane prefHeight="400.0" prefWidth="160.0" style="-fx-border-color: #aaa; -fx-border-width: 0 1 0 0;"
+            stylesheets="@sidebar.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="application.sidebar.SidebarController">
     <children>
-        <Button fx:id="appointmentsBtn" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleAppointmentsBtnAction" prefHeight="25.0" prefWidth="132.0" style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;" text="Appointments" />
-        <Button fx:id="customersBtn" layoutX="14.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleCustomersBtnAction" prefHeight="25.0" prefWidth="132.0" style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;" text="Customers" />
-      <Button fx:id="reportingBtn" layoutX="14.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleReportingBtnAction" prefHeight="25.0" prefWidth="132.0" style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;" text="Reporting" />
+        <Button fx:id="appointmentsBtn" layoutX="14.0" layoutY="27.0" mnemonicParsing="false"
+                onAction="#handleAppointmentsBtnAction" prefHeight="25.0" prefWidth="132.0"
+                style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;"
+                text="Appointments"/>
+        <Button fx:id="customersBtn" layoutX="14.0" layoutY="60.0" mnemonicParsing="false"
+                onAction="#handleCustomersBtnAction" prefHeight="25.0" prefWidth="132.0"
+                style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;"
+                text="Customers"/>
+        <Button fx:id="reportingBtn" layoutX="14.0" layoutY="92.0" mnemonicParsing="false"
+                onAction="#handleReportingBtnAction" prefHeight="25.0" prefWidth="132.0"
+                style="-fx-border-width: 0; -fx-background-color: none; -fx-alignment: center-left; -fx-cursor: hand;"
+                text="Reporting"/>
     </children>
 </AnchorPane>

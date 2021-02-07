@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="780.0" stylesheets="@appointments.css" xmlns="http://javafx.com/javafx/15.0.1"
+<AnchorPane prefHeight="400.0" prefWidth="780.0" stylesheets="@appointments.css" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.appointments.AppointmentScheduleController">
     <children>
         <Label fx:id="appointmentIdLabel" layoutX="33.0" layoutY="34.0" text="Appt ID"/>
