@@ -20,6 +20,10 @@ public class CustomerDaoImpl implements CustomerDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @param customer
+     */
     @Override
     public void upsertCustomer(Customer customer) {
         if (customer.getCustomerId() == 0) {
@@ -29,6 +33,10 @@ public class CustomerDaoImpl implements CustomerDao {
         updateCustomer(customer);
     }
 
+    
+    /** 
+     * @param customer
+     */
     private void addCustomer(Customer customer) {
         String query = String.format(
                 "INSERT INTO customers " +
@@ -54,6 +62,10 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
+    
+    /** 
+     * @param customer
+     */
     private void updateCustomer(Customer customer) {
         String query = String.format(
                 "UPDATE customers " +
@@ -84,6 +96,10 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
+    
+    /** 
+     * @return List<Customer>
+     */
     @Override
     public List<Customer> getAllCustomers() {
         String query = "SELECT c.Customer_ID, " +
@@ -118,6 +134,11 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
+    
+    /** 
+     * @param customerId
+     * @return Customer
+     */
     @Override
     public Customer getCustomer(int customerId) {
         String query = String.format(
@@ -157,6 +178,10 @@ public class CustomerDaoImpl implements CustomerDao {
         }
     }
 
+    
+    /** 
+     * @param customerId
+     */
     @Override
     public void deleteCustomer(int customerId) {
         String appointmentsQuery = String.format(

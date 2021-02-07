@@ -23,6 +23,10 @@ public class SidebarController {
         appointmentsBtn.getStyleClass().add("active");
     }
 
+    
+    /** 
+     * @param activeButtonText
+     */
     private void setActiveButton(String activeButtonText) {
         buttons.forEach(button -> {
             button.getStyleClass().remove("active");
@@ -41,18 +45,30 @@ public class SidebarController {
     @FXML
     private Button reportingBtn;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleAppointmentsBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENTS_SCENE);
         setActiveButton(appointmentsBtn.getText());
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleCustomersBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
         setActiveButton(customersBtn.getText());
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleReportingBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.REPORTING_SCENE);

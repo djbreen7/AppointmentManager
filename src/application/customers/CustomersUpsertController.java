@@ -55,6 +55,10 @@ public class CustomersUpsertController {
         setComboBoxValues();
     }
 
+    
+    /** 
+     * @return Customer
+     */
     private Customer initializeCustomer() {
         var customerId = dataManager.getAndClearCustomerId();
 
@@ -76,6 +80,7 @@ public class CustomersUpsertController {
 
             @Override
             public FirstLevelDivision fromString(final String string) {
+                // Justification: Clean combo box data mapping / Reusable code
                 return Lambdas.getDivisionByName(divisionComboBox.getItems(), string);
             }
         });
@@ -88,6 +93,7 @@ public class CustomersUpsertController {
 
             @Override
             public Country fromString(final String string) {
+                // Justification: Clean combo box data mapping / Reusable code
                 return Lambdas.getCountryByName(countryComboBox.getItems(), string);
             }
         });
@@ -95,12 +101,15 @@ public class CustomersUpsertController {
 
     private void setComboBoxValues() {
         var isNewCustomer = customer.getCustomerId() == 0;
+
+        // Justification: Keeps the ternary easy to read
         var activeCountry = isNewCustomer
                 ? Lambdas.getCountryByName(countries, "U.S")
                 : customer.getDivision().getCountry();
         var activeDivision = isNewCustomer
                 ? null
                 : customer.getDivision();
+        // Justification: Reusable code
         var activeDivisions = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions, activeCountry.getCountryId()));
 
         countryComboBox.setItems(countries);
@@ -145,20 +154,33 @@ public class CustomersUpsertController {
     @FXML
     private ComboBox<Country> countryComboBox;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleCountryComboAction(ActionEvent event) {
         var newCountry = countryComboBox.getValue();
+        // Justification: Reusable code
         var result = FXCollections.observableList(Lambdas.getDivisionsByCountryId(divisions, newCountry.getCountryId()));
 
         divisionComboBox.setItems(result);
         divisionComboBox.setValue(null);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleCancelBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
         customer.setCustomerId(Integer.parseInt(customerIdTextField.getText()));

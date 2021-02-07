@@ -38,6 +38,11 @@ public class ReportingController implements Initializable {
 
     private ObservableList<Contact> contacts;
 
+    
+    /** 
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reporter = new ReporterImpl();
@@ -78,6 +83,7 @@ public class ReportingController implements Initializable {
 
             @Override
             public Contact fromString(final String string) {
+                // Justification: Clean combo box data mapping / Reusable code
                 return Lambdas.getContactByName(contactComboBox.getItems(), string);
             }
         });
@@ -124,6 +130,11 @@ public class ReportingController implements Initializable {
         summaryReportTable.setVisible(true);
     }
 
+    
+    /** 
+     * @param cal
+     * @return String
+     */
     private String getFriendlyDate(Calendar cal) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
         return formatter.format(cal.getTime());
@@ -198,6 +209,10 @@ public class ReportingController implements Initializable {
     @FXML
     private ComboBox<Contact> contactComboBox;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void handleReportTypeComboBoxAction(ActionEvent event) {
         summaryReportTable.setVisible(false);
@@ -222,6 +237,10 @@ public class ReportingController implements Initializable {
         }
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void handleContactComboBoxAction(ActionEvent event) {
         var contactId = contactComboBox.getValue().getContactId();

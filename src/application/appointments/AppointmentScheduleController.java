@@ -52,6 +52,11 @@ public class AppointmentScheduleController implements Initializable {
     private ObservableList<Contact> contacts;
     private ObservableList<Customer> customers;
 
+    
+    /** 
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
@@ -183,6 +188,7 @@ public class AppointmentScheduleController implements Initializable {
 
             @Override
             public Contact fromString(final String string) {
+                // Justification: Clean combo box data mapping / Reusable code
                 return Lambdas.getContactByName(contactComboBox.getItems(), string);
             }
         });
@@ -198,6 +204,7 @@ public class AppointmentScheduleController implements Initializable {
 
             @Override
             public Customer fromString(final String string) {
+                // Justification: Clean combo box data mapping / Reusable code
                 return Lambdas.getCustomerByName(customerComboBox.getItems(), string);
             }
         });
@@ -227,6 +234,10 @@ public class AppointmentScheduleController implements Initializable {
         customerComboBox.getStyleClass().remove("error");
     }
 
+    
+    /** 
+     * @return boolean
+     */
     private boolean formIsValid() {
         var isValid = true;
         var requiredItems = Arrays.asList(customerComboBox, contactComboBox);
@@ -246,6 +257,13 @@ public class AppointmentScheduleController implements Initializable {
         return isValid;
     }
 
+    
+    /** 
+     * @param startHour
+     * @param endHour
+     * @param endMinute
+     * @return boolean
+     */
     private boolean timeIsValid(int startHour, int endHour, int endMinute) {
         var isValid = true;
         var businessHours = new BusinessHours();
@@ -282,6 +300,13 @@ public class AppointmentScheduleController implements Initializable {
         return isValid;
     }
 
+    
+    /** 
+     * @param customerId
+     * @param startDate
+     * @param endDate
+     * @return boolean
+     */
     private boolean hasTimeAvailable(int customerId, Calendar startDate, Calendar endDate) {
         customerAppointments = FXCollections.observableList(appointmentDao.getAppointmentsByCustomerId(customerId));
 
@@ -293,6 +318,14 @@ public class AppointmentScheduleController implements Initializable {
         return conflicts.stream().count() == 0;
     }
 
+    
+    /** 
+     * @param dp
+     * @param hour
+     * @param minute
+     * @param period
+     * @return Calendar
+     */
     private Calendar getCalendar(DatePicker dp, int hour, int minute, String period) {
         var year = dp.getValue().getYear();
         var month = dp.getValue().getMonthValue();
@@ -357,11 +390,19 @@ public class AppointmentScheduleController implements Initializable {
     @FXML
     private Label timeErrorLabel;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleCancelBtnAction(ActionEvent event) {
         sceneManager.goToPreviousScene();
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
         resetErrors();

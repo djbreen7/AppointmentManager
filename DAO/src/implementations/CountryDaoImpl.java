@@ -20,6 +20,10 @@ public class CountryDaoImpl implements CountryDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @return List<Country>
+     */
     @Override
     public List<Country> getAllCountries() {
         String query = String.format("SELECT * FROM countries");

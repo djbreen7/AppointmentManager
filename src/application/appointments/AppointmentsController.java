@@ -43,6 +43,11 @@ public class AppointmentsController implements Initializable {
     private int activeWeek;
     private int activeMonth;
 
+    
+    /** 
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentDao = new AppointmentDaoImpl();
@@ -110,11 +115,20 @@ public class AppointmentsController implements Initializable {
         appointmentsTable.sort();
     }
 
+    
+    /** 
+     * @param cal
+     * @return String
+     */
     private String getFriendlyDate(Calendar cal) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
         return formatter.format(cal.getTime());
     }
 
+    
+    /** 
+     * @param increment
+     */
     private void updateAppointmentsView(int increment) {
         var endCal = Calendar.getInstance();
         var isMonth = monthRadio.isSelected();
@@ -139,9 +153,11 @@ public class AppointmentsController implements Initializable {
         activeMonth = activeCal.get(Calendar.MONTH);
         activeWeek = activeCal.get(Calendar.WEEK_OF_YEAR);
         currentMonthAppointments = FXCollections.observableList(
+                // Justification: Easier to read solution for performing a somewhat complex task
                 Lambdas.getCurrentMonthAppointments(appointments, activeMonth)
         );
         currentWeekAppointments = FXCollections.observableList(
+                // Justification: Easier to read solution for performing a somewhat complex task
                 Lambdas.getCurrentWeekAppointments(appointments, activeWeek - 1)
         );
         appointmentsTable.setItems(isMonth ? currentMonthAppointments : currentWeekAppointments);
@@ -190,11 +206,19 @@ public class AppointmentsController implements Initializable {
     @FXML
     private Label dateRangeLabel;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void handleAddAppointmentBtnAction(ActionEvent event) {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void handleCancelBtnAction(ActionEvent event) {
         var index = appointmentsTable.getSelectionModel().getFocusedIndex();
@@ -221,10 +245,15 @@ public class AppointmentsController implements Initializable {
         var deleteSuccessful = appointmentDao.deleteAppointment(appointment.getAppointmentId());
         if (!deleteSuccessful) return;
 
+        // Justification: Reusable code
         appointments.remove(Lambdas.getAppointmentById(appointments, appointment.getAppointmentId()));
         updateAppointmentsView(0);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleModifyBtnAction(ActionEvent event) {
         var index = appointmentsTable.getSelectionModel().getFocusedIndex();
@@ -234,21 +263,37 @@ public class AppointmentsController implements Initializable {
         sceneManager.goToScene(sceneManager.APPOINTMENT_SCHEDULE_SCENE, customerId, appointmentId);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleMonthRadioClick(ActionEvent event) {
         updateAppointmentsView(0);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleWeekRadioClick(ActionEvent event) {
         updateAppointmentsView(0);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handlePrevBtnAction(ActionEvent event) {
         updateAppointmentsView(-1);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleNextBtnAction(ActionEvent event) {
         updateAppointmentsView(1);

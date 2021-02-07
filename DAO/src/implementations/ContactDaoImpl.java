@@ -20,6 +20,10 @@ public class ContactDaoImpl implements ContactDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @return List<Contact>
+     */
     @Override
     public List<Contact> getAllContacts() {
         String query = "SELECT * from contacts";

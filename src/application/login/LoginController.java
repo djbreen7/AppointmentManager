@@ -28,6 +28,11 @@ public class LoginController implements Initializable {
     private SceneManager sceneManager;
     private ActivityLogger logger;
 
+    
+    /** 
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userDao = new UserDaoImpl();
@@ -58,6 +63,10 @@ public class LoginController implements Initializable {
     @FXML
     private Label timeZoneLabel;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     private void handleLoginBtnAction(ActionEvent event) {
         var userManager = UserManager.getInstance();

@@ -21,6 +21,11 @@ public class ReporterImpl implements Reporter {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @param contactId
+     * @return List<ScheduleReport>
+     */
     @Override
     public List<ScheduleReport> getScheduleReport(int contactId) {
         var query = String.format(
@@ -45,6 +50,10 @@ public class ReporterImpl implements Reporter {
         }
     }
 
+    
+    /** 
+     * @return List<AppointmentSummaryReport>
+     */
     @Override
     public List<AppointmentSummaryReport> getSummaryReport() {
         var query = "SELECT MONTHNAME(Start), Type, count(*) " +
@@ -68,6 +77,10 @@ public class ReporterImpl implements Reporter {
         }
     }
 
+    
+    /** 
+     * @return List<Customer>
+     */
     @Override
     public List<Customer> getCustomerAuditReport() {
         var query = "SELECT * FROM customers ORDER BY Last_Update desc";

@@ -16,6 +16,10 @@ public class UserManager {
 
     }
 
+    
+    /** 
+     * @return UserManager
+     */
     public static UserManager getInstance() {
         if (instance == null) {
             instance = new UserManager();
@@ -23,10 +27,18 @@ public class UserManager {
         return instance;
     }
 
+    
+    /** 
+     * @return User
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    
+    /** 
+     * @param currentUser
+     */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }

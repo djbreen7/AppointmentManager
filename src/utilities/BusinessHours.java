@@ -37,6 +37,10 @@ public class BusinessHours {
         return startHour;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getEndHour() {
         return endHour;
     }

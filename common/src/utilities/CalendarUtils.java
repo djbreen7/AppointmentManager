@@ -13,6 +13,11 @@ import java.util.TimeZone;
  * @since 1.0
  */
 public class CalendarUtils {
+    
+    /** 
+     * @param dateTime
+     * @return Calendar
+     */
     public static Calendar fromLocalDateTime(LocalDateTime dateTime) {
         var zdt = ZonedDateTime.of(dateTime, TimeZone.getTimeZone("UTC").toZoneId());
         var cal = GregorianCalendar.from(zdt);
@@ -20,6 +25,15 @@ public class CalendarUtils {
         return cal;
     }
 
+    
+    /** 
+     * @param year
+     * @param month
+     * @param day
+     * @param hour
+     * @param minute
+     * @return Calendar
+     */
     public static Calendar fromValues(int year, int month, int day, int hour, int minute) {
         var cal = Calendar.getInstance();
         var indexedMonth = month - 1;
@@ -28,6 +42,11 @@ public class CalendarUtils {
         return cal;
     }
 
+    
+    /** 
+     * @param cal
+     * @return Calendar
+     */
     public static Calendar toUtc(Calendar cal) {
         var offset = TimeZone.getTimeZone(cal.getTimeZone().getID()).getOffset(cal.getTimeInMillis());
 

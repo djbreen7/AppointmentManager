@@ -12,12 +12,21 @@ import managers.SceneManager;
  */
 public class Main extends Application {
 
+    
+    /** 
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
       var sceneManager =  SceneManager.getInstance();
       sceneManager.initialize(primaryStage);
     }
 
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

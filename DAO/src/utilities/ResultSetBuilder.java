@@ -6,12 +6,19 @@ import java.sql.ResultSet;
 import java.time.LocalDateTime;
 
 /**
- * @author Daniel J Breen
+ * @author Daniel J BreenL
  * @version 1.0
  * @since 1.0
  */
 public class ResultSetBuilder {
 
+    
+    /** 
+     * @param result
+     * @param includeAuditing
+     * @return Customer
+     * @throws Exception
+     */
     public Customer buildCustomerResult(ResultSet result, boolean includeAuditing) throws Exception {
         var customer = new Customer();
         customer.setCustomerId(result.getInt("Customer_ID"));
@@ -27,6 +34,13 @@ public class ResultSetBuilder {
         return customer;
     }
 
+    
+    /** 
+     * @param result
+     * @param includeAuditing
+     * @return FirstLevelDivision
+     * @throws Exception
+     */
     public FirstLevelDivision buildDivisionResult(ResultSet result, boolean includeAuditing) throws Exception {
         var division = new FirstLevelDivision();
         division.setDivisionId(result.getInt("Division_ID"));
@@ -39,6 +53,13 @@ public class ResultSetBuilder {
         return division;
     }
 
+    
+    /** 
+     * @param result
+     * @param includeAuditing
+     * @return Country
+     * @throws Exception
+     */
     public Country buildCountryResult(ResultSet result, boolean includeAuditing) throws Exception {
         var country = new Country();
         country.setCountryId(result.getInt("Country_ID"));
@@ -50,6 +71,13 @@ public class ResultSetBuilder {
         return country;
     }
 
+    
+    /** 
+     * @param result
+     * @param includeAuditing
+     * @return Appointment
+     * @throws Exception
+     */
     public Appointment buildAppointmentResult(ResultSet result, boolean includeAuditing) throws Exception {
         var appointment = new Appointment();
         appointment.setAppointmentId(result.getInt("Appointment_ID"));
@@ -69,6 +97,12 @@ public class ResultSetBuilder {
         return appointment;
     }
 
+    
+    /** 
+     * @param result
+     * @return Contact
+     * @throws Exception
+     */
     public Contact buildContactResult(ResultSet result) throws Exception {
         var contact = new Contact();
         contact.setContactId(result.getInt("Contact_ID"));
@@ -78,6 +112,13 @@ public class ResultSetBuilder {
         return contact;
     }
 
+    
+    /** 
+     * @param result
+     * @param includeAuditing
+     * @return User
+     * @throws Exception
+     */
     public User buildUserResult(ResultSet result, boolean includeAuditing) throws Exception {
         var user = new User();
         user.setUserId(result.getInt("User_ID"));
@@ -90,6 +131,12 @@ public class ResultSetBuilder {
         return user;
     }
 
+    
+    /** 
+     * @param result
+     * @return ScheduleReport
+     * @throws Exception
+     */
     public ScheduleReport buildScheduleReport(ResultSet result) throws Exception {
         var schedule = new ScheduleReport();
         schedule.setContactId(result.getInt("Contact_ID"));
@@ -104,6 +151,12 @@ public class ResultSetBuilder {
         return schedule;
     }
 
+    
+    /** 
+     * @param result
+     * @return AppointmentSummaryReport
+     * @throws Exception
+     */
     public AppointmentSummaryReport buildAppointmentSummaryReport(ResultSet result) throws Exception {
         var summary = new AppointmentSummaryReport();
         summary.setMonth(result.getString(1));
@@ -113,6 +166,12 @@ public class ResultSetBuilder {
         return summary;
     }
 
+    
+    /** 
+     * @param entity
+     * @param result
+     * @throws Exception
+     */
     private void getAuditing(BaseEntity entity, ResultSet result) throws Exception {
         entity.setCreateDate(
                 CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class))

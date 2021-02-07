@@ -40,6 +40,10 @@ public class SceneManager {
         dataManager = DataManager.getInstance();
     }
 
+    
+    /** 
+     * @return SceneManager
+     */
     public static SceneManager getInstance() {
         if (instance == null) {
             instance = new SceneManager();
@@ -47,6 +51,10 @@ public class SceneManager {
         return instance;
     }
 
+    
+    /** 
+     * @param primaryStage
+     */
     public void initialize(Stage primaryStage) {
         try {
             var currentLocale = Locale.getDefault();
@@ -65,14 +73,29 @@ public class SceneManager {
         }
     }
 
+    
+    /** 
+     * @param fxml
+     */
     public void goToScene(String fxml) {
         goToScene(fxml, 0, 0);
     }
 
+    
+    /** 
+     * @param fxml
+     * @param customerId
+     */
     public void goToScene(String fxml, int customerId) {
         goToScene(fxml, customerId, 0);
     }
 
+    
+    /** 
+     * @param fxml
+     * @param customerId
+     * @param appointmentId
+     */
     public void goToScene(String fxml, int customerId, int appointmentId) {
         try {
             dataManager.setCustomerId(customerId);
@@ -112,6 +135,10 @@ public class SceneManager {
         window.setHeight(540);
     }
 
+    
+    /** 
+     * @param window
+     */
     private void setWindow(Stage window) {
         this.window = window;
     }

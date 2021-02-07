@@ -21,6 +21,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @param appointment
+     */
     @Override
     public void upsertAppointment(Appointment appointment) {
         if (appointment.getAppointmentId() == 0) {
@@ -30,6 +34,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         updateAppointment(appointment);
     }
 
+    
+    /** 
+     * @param appointment
+     */
     private void addAppointment(Appointment appointment) {
         String query = String.format(
                 "INSERT INTO appointments " +
@@ -60,6 +68,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
+    
+    /** 
+     * @param appointment
+     */
     private void updateAppointment(Appointment appointment) {
         String query = String.format(
                 "UPDATE appointments " +
@@ -98,6 +110,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
+    
+    /** 
+     * @param userId
+     * @return List<Appointment>
+     */
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
         String query = String.format(
@@ -124,6 +141,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
+    
+    /** 
+     * @param customerId
+     * @return List<Appointment>
+     */
     @Override
     public List<Appointment> getAppointmentsByCustomerId(int customerId) {
         String query = String.format(
@@ -148,6 +170,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
+    
+    /** 
+     * @param appointmentId
+     * @return Appointment
+     */
     @Override
     public Appointment getAppointment(int appointmentId) {
         String query = String.format(
@@ -176,6 +203,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
+    
+    /** 
+     * @param appointmentId
+     * @return boolean
+     */
     @Override
     public boolean deleteAppointment(int appointmentId) {
         var isSuccess = false;

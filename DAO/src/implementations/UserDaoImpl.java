@@ -17,6 +17,11 @@ public class UserDaoImpl implements UserDao {
         resultSetBuilder = new ResultSetBuilder();
     }
 
+    
+    /** 
+     * @param userName
+     * @return User
+     */
     @Override
     public User getUser(String userName) {
         String query = String.format("SELECT * FROM users WHERE User_Name = '%s'", userName);
