@@ -446,7 +446,7 @@ public class AppointmentScheduleController implements Initializable {
         var endMinute = Integer.parseInt(endMinuteComboBox.getValue());
         var startDate = getCalendar(datePicker, startHour, startMinute, startPeriodComboBox.getValue());
         var endDate = getCalendar(datePicker, endHour, endMinute, endPeriodComboBox.getValue());
-        
+
         var hasErrors = false;
         if (!timeIsValid(startDate, endDate)) {
             errorLabel.setText("Ensure the start time is before the end time and after the current time");
