@@ -3,7 +3,6 @@ package model;
 import java.util.Calendar;
 
 /**
- *
  * @author Daniel J Breen
  * @version 1.0
  * @since 1.0

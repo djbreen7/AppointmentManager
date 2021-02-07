@@ -5,8 +5,6 @@ import data.DatabaseConnection;
 import model.User;
 import utilities.ResultSetBuilder;
 
-import java.util.List;
-
 /**
  * @author Daniel J Breen
  * @version 1.0
@@ -17,11 +15,6 @@ public class UserDaoImpl implements UserDao {
 
     public UserDaoImpl() {
         resultSetBuilder = new ResultSetBuilder();
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return null;
     }
 
     @Override

@@ -9,6 +9,11 @@ import utilities.ResultSetBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class ReporterImpl implements Reporter {
     private final ResultSetBuilder resultSetBuilder;
 
@@ -65,7 +70,7 @@ public class ReporterImpl implements Reporter {
 
     @Override
     public List<Customer> getCustomerAuditReport() {
-        var query = "SELECT * FROM customers";
+        var query = "SELECT * FROM customers ORDER BY Last_Update desc";
         List<Customer> report = new ArrayList<>();
         try {
             DatabaseConnection.makeConnection();

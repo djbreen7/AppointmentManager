@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * @author Daniel J Breen
+ * @version 1.0
+ * @since 1.0
+ */
 public class AppointmentSummaryReport {
     private String month;
     private String type;
