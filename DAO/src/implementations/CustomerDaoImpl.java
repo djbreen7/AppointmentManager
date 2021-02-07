@@ -197,7 +197,8 @@ public class CustomerDaoImpl implements CustomerDao {
      * @param customerId The Customer ID to match.
      */
     @Override
-    public void deleteCustomer(int customerId) {
+    public boolean deleteCustomer(int customerId) {
+        var isSuccess = false;
         String appointmentsQuery = String.format(
                 "DELETE FROM appointments where Customer_ID = %s", customerId
         );
@@ -212,10 +213,12 @@ public class CustomerDaoImpl implements CustomerDao {
             DatabaseConnection.connection
                     .createStatement()
                     .execute(customerQuery);
+            isSuccess = true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
             DatabaseConnection.closeConnection();
+            return isSuccess;
         }
     }
 }

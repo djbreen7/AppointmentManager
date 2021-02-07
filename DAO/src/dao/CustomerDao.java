@@ -39,7 +39,7 @@ public interface CustomerDao {
      * Delete a customer by PK Customer ID from the database.
      *
      * @param customerId The Customer ID to match.
-     * @return TODO
+     * @return A boolean indicating if the deletion was successful or not.
      */
-    void deleteCustomer(int customerId);
+    boolean deleteCustomer(int customerId);
 }

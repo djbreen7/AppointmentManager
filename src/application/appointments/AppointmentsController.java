@@ -59,6 +59,9 @@ public class AppointmentsController implements Initializable {
         configureAppointmentsTable();
     }
 
+    /**
+     * Displays an Alert with information about the first upcoming appointment within 15 minutes from the current time.
+     */
     private void displayUpcomingAppointments() {
         if (dataManager.getHasVisitedAppointments()) return;
 
@@ -74,7 +77,7 @@ public class AppointmentsController implements Initializable {
                         "ID:\t\t{0}\n" +
                         "Time:\t{1}",
                 upcomingAppointments.get(0).getAppointmentId(),
-                upcomingAppointments.get(0).getStart())
+                getFriendlyTime(upcomingAppointments.get(0).getStart()))
                 : "No upcoming appointments";
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
         alert.show();
@@ -119,13 +122,23 @@ public class AppointmentsController implements Initializable {
      * Returns a human readable date.
      *
      * @param cal The date to format.
-     * @return A date in "yyy-MM-dd hh:mm aa" format.
+     * @return A date in "yyyy-MM-dd hh:mm aa" format.
      */
     private String getFriendlyDate(Calendar cal) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
         return formatter.format(cal.getTime());
     }
 
+    /**
+     * Returns a human readable date.
+     *
+     * @param cal The date to format.
+     * @return A time in "hh:mm aa" format.
+     */
+    private String getFriendlyTime(Calendar cal) {
+        var formatter = new SimpleDateFormat("hh:mm aa");
+        return formatter.format(cal.getTime());
+    }
     
     /**
      * Updates the Appointments Table to match the criteria the user has selected.
@@ -240,8 +253,7 @@ public class AppointmentsController implements Initializable {
         var deleteSuccessful = appointmentDao.deleteAppointment(appointment.getAppointmentId());
         if (!deleteSuccessful) return;
 
-        // Justification: Reusable code
-        appointments.remove(Lambdas.getAppointmentById(appointments, appointment.getAppointmentId()));
+        appointments.remove(appointment);
         updateAppointmentsView(0);
     }
 

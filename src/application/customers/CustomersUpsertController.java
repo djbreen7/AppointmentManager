@@ -24,6 +24,7 @@ import model.FirstLevelDivision;
 import utilities.Lambdas;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -145,6 +146,32 @@ public class CustomersUpsertController implements Initializable {
             customerIdTextField.setText("N/A");
     }
 
+    private void resetErrors() {
+        divisionComboBox.getStyleClass().remove("error");
+        countryComboBox.getStyleClass().remove("error");
+        nameTextField.getStyleClass().remove("error");
+        errorLabel.setVisible(false);
+    }
+
+    private boolean formIsValid() {
+        var isValid = true;
+        var requiredItems = Arrays.asList(divisionComboBox, countryComboBox);
+        for (var i = 0; i < requiredItems.stream().count(); i++) {
+            var current = requiredItems.get(i);
+            if (current.getValue() == null) {
+                current.getStyleClass().add("error");
+                isValid = false;
+            }
+        }
+
+        if (nameTextField.getText().isEmpty()) {
+            nameTextField.getStyleClass().add("error");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     @FXML
     private Label customerIdLabel;
 
@@ -170,6 +197,9 @@ public class CustomersUpsertController implements Initializable {
     private ComboBox<Country> countryComboBox;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private void handleCountryComboAction(ActionEvent event) {
         var newCountry = countryComboBox.getValue();
         // Justification: Reusable code
@@ -186,7 +216,15 @@ public class CustomersUpsertController implements Initializable {
 
     @FXML
     private void handleSaveBtnAction(ActionEvent event) {
-        customer.setCustomerId(Integer.parseInt(customerIdTextField.getText()));
+        resetErrors();
+        if (!formIsValid()) {
+            errorLabel.setText("The highlighted items are required");
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        var customerId = customerIdTextField.getText();
+        customer.setCustomerId(customerId.equals("N/A") ? 0 : Integer.parseInt(customerId));
         customer.setName(nameTextField.getText());
         customer.setPhone(phoneTextField.getText());
         customer.setAddress(addressTextField.getText());

@@ -1,7 +1,7 @@
 package application.customers;
 
-import implementations.CustomerDaoImpl;
 import dao.CustomerDao;
+import implementations.CustomerDaoImpl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -117,8 +117,12 @@ public class CustomersController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.CANCEL) return;
 
-        customerDao.deleteCustomer(customer.getCustomerId());
-        initialize(null, null);
+        var deleteSuccessful = customerDao.deleteCustomer(customer.getCustomerId());
+        if (!deleteSuccessful) return;
+
+        customers.remove(customer);
+        customersTable.setItems(customers);
+        customersTable.refresh();
     }
 
     @FXML

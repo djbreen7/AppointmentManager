@@ -14,6 +14,14 @@ public class Customer extends BaseEntity {
     private String postalCode;
     private String phone;
 
+    public Customer() {
+        super();
+        name = "";
+        address = "";
+        postalCode = "";
+        phone = "";
+    }
+
     public int getCustomerId() {
         return customerId;
     }
