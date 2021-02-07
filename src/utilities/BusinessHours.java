@@ -15,7 +15,6 @@ public class BusinessHours {
     private int endHour;
 
     public BusinessHours() {
-        System.out.println(endHour);
         var startOfDay = Calendar.getInstance();
         var endOfDay = Calendar.getInstance();
         var curr = TimeZone.getTimeZone(startOfDay.getTimeZone().getID()).getOffset(startOfDay.getTimeInMillis());
