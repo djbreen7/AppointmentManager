@@ -25,6 +25,8 @@ public class SceneManager {
     public static final String CUSTOMERS_SCENE = "../application/customers/customers.fxml";
     public static final String CUSTOMER_UPSERT_SCENE = "../application/customers/customers-upsert.fxml";
 
+    public static final String REPORTING_SCENE = "../application/reporting/reporting.fxml";
+
     private String previousScene;
     private String currentScene;
 

@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public class Schedule {
+public class ScheduleReport {
     private int appointmentId;
     private int customerId;
     private int contactId;

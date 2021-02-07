@@ -15,7 +15,6 @@ public class DatabaseConnection {
     private static final String username = "U07dC8";
     private static final String password = "53688996744";
     private static final String driver = "com.mysql.cj.jdbc.Driver";
-
     public static Connection connection;
 
     public static void makeConnection() {

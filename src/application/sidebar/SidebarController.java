@@ -55,7 +55,7 @@ public class SidebarController {
 
     @FXML
     private void handleReportingBtnAction(ActionEvent event) {
-        sceneManager.goToScene(sceneManager.CUSTOMERS_SCENE);
+        sceneManager.goToScene(sceneManager.REPORTING_SCENE);
         setActiveButton(reportingBtn.getText());
     }
 }

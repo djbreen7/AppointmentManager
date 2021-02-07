@@ -14,7 +14,7 @@
                 <TableColumn fx:id="apptTotalCol" prefWidth="134.800048828125" text="Total" />
             </columns>
         </TableView>
-        <TableView fx:id="scheduleTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732">
+        <TableView fx:id="scheduleTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732" visible="false">
             <columns>
                 <TableColumn fx:id="scheduleAppointmentIdCol" prefWidth="36.40002250671387" text="ID" />
                 <TableColumn fx:id="scheduleCustomerIdCol" prefWidth="36.399993896484375" text="CID" />
@@ -25,7 +25,17 @@
                 <TableColumn fx:id="scheduleDescriptionCol" prefWidth="218.800048828125" text="Description" />
             </columns>
         </TableView>
-      <ComboBox fx:id="reportTypeComboBox" layoutX="24.0" layoutY="346.0" onAction="#handleReportTypeComboBoxAction" prefWidth="150.0" />
-      <ComboBox fx:id="contactComboBox" layoutX="188.0" layoutY="346.0" onAction="#handleContactComboBoxAction" prefWidth="150.0" />
+        <TableView fx:id="customerAuditTable" layoutX="24.0" layoutY="30.0" prefHeight="300" prefWidth="732">
+            <columns>
+                <TableColumn fx:id="auditCustomerId" prefWidth="69.19997978210449" text="ID" />
+                <TableColumn fx:id="auditCustomerName" prefWidth="249.20001983642578" text="Name" />
+                <TableColumn fx:id="auditLastUpdate" prefWidth="108.40005493164062" text="Updated" />
+                <TableColumn fx:id="auditLastUpdatedBy" prefWidth="105.99996948242188" text="Updated By" />
+                <TableColumn fx:id="auditCreateDate" prefWidth="87.5999755859375" text="Created" />
+                <TableColumn fx:id="auditCreatedBy" prefWidth="111.60009765625" text="Created By" />
+            </columns>
+        </TableView>
+        <ComboBox fx:id="reportTypeComboBox" layoutX="24.0" layoutY="346.0" onAction="#handleReportTypeComboBoxAction" prefWidth="150.0" />
+        <ComboBox fx:id="contactComboBox" layoutX="188.0" layoutY="346.0" onAction="#handleContactComboBoxAction" prefWidth="150.0" />
     </children>
 </AnchorPane>

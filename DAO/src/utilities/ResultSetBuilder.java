@@ -90,6 +90,29 @@ public class ResultSetBuilder {
         return user;
     }
 
+    public ScheduleReport buildScheduleReport(ResultSet result) throws Exception {
+        var schedule = new ScheduleReport();
+        schedule.setAppointmentId(result.getInt("Appointment_ID"));
+        schedule.setContactId(result.getInt("Contact_ID"));
+        schedule.setCustomerId(result.getInt("Customer_ID"));
+        schedule.setStart(CalendarUtils.fromLocalDateTime(result.getObject("Start", LocalDateTime.class)));
+        schedule.setEnd(CalendarUtils.fromLocalDateTime(result.getObject("End", LocalDateTime.class)));
+        schedule.setTitle(result.getString("Title"));
+        schedule.setType(result.getString("Type"));
+        schedule.setDescription(result.getString("Description"));
+
+        return schedule;
+    }
+
+    public AppointmentSummaryReport buildAppointmentSummaryReport(ResultSet result) throws Exception {
+        var summary = new AppointmentSummaryReport();
+        summary.setMonth(result.getString(0));
+        summary.setType(result.getString("Type"));
+        summary.setTotal(result.getInt(2));
+
+        return summary;
+    }
+
     private void getAuditing(BaseEntity entity, ResultSet result) throws Exception {
         entity.setCreateDate(
                 CalendarUtils.fromLocalDateTime(result.getObject("Create_Date", LocalDateTime.class))
